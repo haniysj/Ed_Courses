@@ -8,6 +8,12 @@ import { getSettings } from "@/lib/settings";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
+// The layout reads platform settings from the database on every request
+// (header/footer branding), so nothing under it can be statically prerendered
+// at build time -- that would run a DB query before a database even exists
+// in the build environment.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: {
     default: "EduSphere | Online Educational Courses",

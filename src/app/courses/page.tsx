@@ -18,8 +18,8 @@ export default async function CoursesPage({
 
   if (q) {
     where.OR = [
-      { title: { contains: q } },
-      { description: { contains: q } },
+      { title: { contains: q, mode: "insensitive" } },
+      { description: { contains: q, mode: "insensitive" } },
     ];
   }
   if (category) where.category = { slug: category };

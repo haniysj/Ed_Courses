@@ -21,8 +21,8 @@ export default async function AdminBookingsPage({
   if (instructorId) where.instructorId = instructorId;
   if (learner) {
     where.OR = [
-      { learnerName: { contains: learner } },
-      { learnerEmail: { contains: learner } },
+      { learnerName: { contains: learner, mode: "insensitive" } },
+      { learnerEmail: { contains: learner, mode: "insensitive" } },
     ];
   }
 

@@ -3,12 +3,13 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// SQLite has no native enum type, so enums below are represented as
-// validated strings (see src/lib/enums.ts for the canonical value lists).
+// Enums are kept as plain strings (rather than native Prisma enums) so this
+// schema stays portable across providers; see src/lib/enums.ts for the
+// canonical value lists.
 // Role: ADMIN | LEARNER
 // CourseLevel: BEGINNER | INTERMEDIATE | ADVANCED
 // CourseFormat: ONLINE_LIVE | SELF_PACED | HYBRID
