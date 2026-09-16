@@ -2,12 +2,16 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { calculateTotalPrice } from "../src/lib/pricing";
 import { slugify } from "../src/lib/utils";
+import { placementQuestions } from "./placement-questions";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log("Seeding database...");
 
+  await prisma.placementAttempt.deleteMany();
+  await prisma.placementQuestion.deleteMany();
+  await prisma.placementVersion.deleteMany();
   await prisma.booking.deleteMany();
   await prisma.review.deleteMany();
   await prisma.courseSchedule.deleteMany();
@@ -348,6 +352,32 @@ async function main() {
       `Created course: ${course.title} (${seed.hourlyRate} x ${seed.durationHours} = ${calculateTotalPrice(seed.hourlyRate, seed.durationHours)} OMR)`
     );
   }
+
+  await prisma.placementQuestion.createMany({
+    data: placementQuestions.map((q) => ({
+      cefrLevel: q.cefrLevel,
+      skill: q.skill,
+      difficulty: q.difficulty,
+      topic: q.topic,
+      prompt: q.prompt,
+      options: JSON.stringify(q.options),
+      correctIndex: q.correctIndex,
+      explanation: q.explanation ?? null,
+      audioText: q.audioText ?? null,
+    })),
+  });
+  console.log(`Created ${placementQuestions.length} placement questions.`);
+
+  await prisma.placementVersion.createMany({
+    data: [
+      { name: "A", timeLimitMinutes: 30, questionCount: 24 },
+      { name: "B", timeLimitMinutes: 30, questionCount: 24 },
+      { name: "C", timeLimitMinutes: 30, questionCount: 24 },
+      { name: "D", timeLimitMinutes: 35, questionCount: 28 },
+      { name: "E", timeLimitMinutes: 35, questionCount: 28 },
+    ],
+  });
+  console.log("Created 5 placement test versions (A-E).");
 
   console.log("Seeding complete.");
   console.log("Admin login: admin@edusphere.om / Admin@123");

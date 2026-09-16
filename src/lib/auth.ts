@@ -26,15 +26,28 @@ export const authOptions: NextAuthOptions = {
         const valid = await bcrypt.compare(credentials.password, user.passwordHash);
         if (!valid) return null;
 
-        return { id: user.id, name: user.name, email: user.email, role: user.role };
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          locale: user.locale,
+          theme: user.theme,
+        };
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
         token.role = (user as { role: string }).role;
+        token.locale = (user as { locale: string }).locale;
+        token.theme = (user as { theme: string }).theme;
+      }
+      if (trigger === "update" && session) {
+        if (session.locale) token.locale = session.locale;
+        if (session.theme) token.theme = session.theme;
       }
       return token;
     },
@@ -42,6 +55,8 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
+        session.user.locale = token.locale as string;
+        session.user.theme = token.theme as string;
       }
       return session;
     },

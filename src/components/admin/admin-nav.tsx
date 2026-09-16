@@ -12,6 +12,7 @@ const LINKS = [
   { href: "/admin/instructors", label: "Instructors", icon: "\u{1F468}‍\u{1F3EB}" },
   { href: "/admin/schedules", label: "Schedules", icon: "\u{1F4C5}" },
   { href: "/admin/bookings", label: "Bookings", icon: "\u{1F4CB}" },
+  { href: "/admin/placement", label: "Placement Tests", icon: "\u{1F393}" },
   { href: "/admin/learners", label: "Learners", icon: "\u{1F465}" },
   { href: "/admin/settings", label: "Settings", icon: "⚙️" },
 ];

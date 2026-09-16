@@ -20,15 +20,18 @@ datasource db {
 // ContactMethod: EMAIL | PHONE | WHATSAPP
 
 model User {
-  id           String    @id @default(cuid())
-  name         String
-  email        String    @unique
-  passwordHash String
-  role         String    @default("LEARNER")
-  phone        String?
-  country      String?
-  createdAt    DateTime  @default(now())
-  bookings     Booking[]
+  id                String             @id @default(cuid())
+  name              String
+  email             String             @unique
+  passwordHash      String
+  role              String             @default("LEARNER")
+  phone             String?
+  country           String?
+  locale            String             @default("ar")
+  theme             String             @default("light")
+  createdAt         DateTime           @default(now())
+  bookings          Booking[]
+  placementAttempts PlacementAttempt[]
 }
 
 model Instructor {
@@ -170,15 +173,95 @@ model Review {
 }
 
 model PlatformSettings {
-  id                    String   @id @default(cuid())
-  platformName          String   @default("EduSphere")
-  logoUrl               String?
-  contactEmail          String   @default("hello@edusphere.om")
-  contactPhone          String   @default("+968 9000 0000")
-  currency              String   @default("OMR")
-  timezone              String   @default("Asia/Muscat")
-  cancellationPolicy    String   @default("Cancellations made more than 48 hours before the session start are eligible for a full refund.")
-  minBookingNoticeHours Int      @default(24)
-  maxBookingPeriodDays  Int      @default(180)
-  updatedAt             DateTime @updatedAt
+  id                          String   @id @default(cuid())
+  platformName                String   @default("EduSphere")
+  logoUrl                     String?
+  contactEmail                String   @default("hello@edusphere.om")
+  contactPhone                String   @default("+968 9000 0000")
+  currency                    String   @default("OMR")
+  timezone                    String   @default("Asia/Muscat")
+  cancellationPolicy          String   @default("Cancellations made more than 48 hours before the session start are eligible for a full refund.")
+  minBookingNoticeHours       Int      @default(24)
+  maxBookingPeriodDays        Int      @default(180)
+  placementRetakeCooldownDays Int      @default(7)
+  placementListeningReplays   Int      @default(2)
+  updatedAt                   DateTime @updatedAt
+}
+
+// -----------------------------------------------------------------------
+// English Placement Test
+//
+// CEFR: PRE_A1 | A1 | A2 | B1 | B2 | C1
+// Skill: GRAMMAR | VOCABULARY | READING | LISTENING
+// Difficulty: VERY_EASY | EASY | MEDIUM | DIFFICULT | VERY_DIFFICULT
+// AttemptStatus: IN_PROGRESS | COMPLETED | ABANDONED
+// -----------------------------------------------------------------------
+
+model PlacementQuestion {
+  id           String   @id @default(cuid())
+  cefrLevel    String
+  skill        String
+  difficulty   String
+  topic        String
+  prompt       String
+  // Array of option strings, e.g. ["go", "goes", "going", "gone"]
+  options      String
+  // Index (0-based) into `options` of the correct answer
+  correctIndex Int
+  explanation  String?
+  audioText    String? // read aloud client-side via the Web Speech API
+  imageUrl     String?
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([cefrLevel])
+  @@index([skill])
+  @@index([active])
+}
+
+model PlacementVersion {
+  id               String   @id @default(cuid())
+  name             String   @unique // "A", "B", "C", "D", "E"
+  active           Boolean  @default(true)
+  timeLimitMinutes Int      @default(30)
+  questionCount    Int      @default(30)
+  cefrRangeMin     String   @default("PRE_A1")
+  cefrRangeMax     String   @default("C1")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  attempts PlacementAttempt[]
+}
+
+model PlacementAttempt {
+  id        String  @id @default(cuid())
+  versionId String
+  userId    String?
+
+  // Anonymous test-takers are fully supported -- no account required.
+  learnerName  String?
+  learnerEmail String?
+
+  status              String @default("IN_PROGRESS")
+  selectedQuestionIds String // JSON array, order = presentation order
+  answers             String @default("{}") // JSON: { [questionId]: { selectedIndex, correct, timeMs } }
+  currentIndex        Int    @default(0)
+
+  scoreOverall          Int? // 0-100
+  cefrOverall           String?
+  cefrOverallLabel      String? // e.g. "Strong A2" / "A2 approaching B1"
+  skillScores           String? // JSON: { grammar: "A2", vocabulary: "A2", reading: "B1", listening: "A2" }
+  headwayRecommendation String?
+  resultReference       String? @unique // e.g. EPR-2026-000123
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  version PlacementVersion @relation(fields: [versionId], references: [id])
+  user    User?            @relation(fields: [userId], references: [id])
+
+  @@index([versionId])
+  @@index([userId])
+  @@index([status])
 }

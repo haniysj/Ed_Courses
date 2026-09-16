@@ -1,11 +1,14 @@
 import { z } from "zod";
 import {
   BOOKING_STATUSES,
+  CEFR_LEVELS,
   CONTACT_METHODS,
   COURSE_FORMATS,
   COURSE_LEVELS,
   COURSE_STATUSES,
   PAYMENT_STATUSES,
+  PLACEMENT_DIFFICULTIES,
+  PLACEMENT_SKILLS,
   SCHEDULE_STATUSES,
 } from "@/lib/enums";
 
@@ -100,4 +103,27 @@ export const registerInputSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
   phone: z.string().trim().optional().or(z.literal("")),
   country: z.string().trim().optional().or(z.literal("")),
+});
+
+export const placementQuestionInputSchema = z.object({
+  cefrLevel: z.enum(CEFR_LEVELS),
+  skill: z.enum(PLACEMENT_SKILLS),
+  difficulty: z.enum(PLACEMENT_DIFFICULTIES),
+  topic: z.string().trim().min(2, "Topic is required"),
+  prompt: z.string().trim().min(5, "Prompt is required"),
+  options: z.array(z.string().trim().min(1)).min(2, "Add at least two options"),
+  correctIndex: z.coerce.number().int().min(0),
+  explanation: z.string().trim().optional().or(z.literal("")),
+  audioText: z.string().trim().optional().or(z.literal("")),
+  imageUrl: z.string().trim().url().optional().or(z.literal("")),
+  active: z.boolean().default(true),
+});
+
+export const placementVersionInputSchema = z.object({
+  name: z.string().trim().min(1, "Name is required"),
+  active: z.boolean().default(true),
+  timeLimitMinutes: z.coerce.number().int().positive(),
+  questionCount: z.coerce.number().int().min(6).max(60),
+  cefrRangeMin: z.enum(CEFR_LEVELS),
+  cefrRangeMax: z.enum(CEFR_LEVELS),
 });

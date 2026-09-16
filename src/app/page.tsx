@@ -1,10 +1,16 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { CourseCard } from "@/components/course-card";
+import { HeroCarousel } from "@/components/hero-carousel";
+import { getServerLocale } from "@/lib/i18n/server";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  const locale = getServerLocale();
+  const t = getDictionary(locale);
+
   const [courses, instructorCount, categories] = await Promise.all([
     prisma.course.findMany({
       where: { status: "PUBLISHED" },
@@ -20,52 +26,35 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="relative overflow-hidden bg-gradient-to-b from-brand-950 via-brand-900 to-brand-800 text-white">
-        <div className="container-page grid gap-10 py-20 md:grid-cols-2 md:items-center md:py-28">
-          <div>
-            <span className="badge bg-white/10 text-brand-100">Trusted by learners across Oman</span>
-            <h1 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">
-              Learn. Develop. Achieve.
-            </h1>
-            <p className="mt-4 max-w-lg text-lg text-brand-100">
-              Book professional online courses with qualified instructors at flexible times.
-            </p>
+      <section className="relative isolate min-h-[560px] overflow-hidden text-white sm:min-h-[620px]">
+        <HeroCarousel />
+        <div className="container-page relative z-10 grid gap-10 py-20 sm:py-28">
+          <div className="max-w-2xl">
+            <span className="badge bg-white/10 text-brand-100">{t.home.badge}</span>
+            <h1 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">{t.home.heroTitle}</h1>
+            <p className="mt-4 max-w-lg text-lg text-brand-100">{t.home.heroSubtitle}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/courses" className="btn-primary bg-white text-brand-800 hover:bg-brand-50">
-                Browse Courses
+                {t.home.browseCourses}
               </Link>
-              <Link href="/instructors" className="btn-outline border-white/30 bg-transparent text-white hover:bg-white/10">
-                Meet Our Instructors
+              <Link href="/placement" className="btn-outline border-white/40 bg-white/10 text-white hover:bg-white/20">
+                {t.home.testYourLevel}
               </Link>
             </div>
-            <dl className="mt-10 grid grid-cols-3 gap-6 border-t border-white/10 pt-6 text-sm">
+            <dl className="mt-10 grid max-w-md grid-cols-3 gap-6 border-t border-white/20 pt-6 text-sm">
               <div>
-                <dt className="text-brand-200">Courses</dt>
+                <dt className="text-brand-200">{t.home.statsCourses}</dt>
                 <dd className="text-2xl font-bold">{courses.length > 0 ? "6+" : "0"}</dd>
               </div>
               <div>
-                <dt className="text-brand-200">Instructors</dt>
+                <dt className="text-brand-200">{t.home.statsInstructors}</dt>
                 <dd className="text-2xl font-bold">{instructorCount}</dd>
               </div>
               <div>
-                <dt className="text-brand-200">Learners</dt>
+                <dt className="text-brand-200">{t.home.statsLearners}</dt>
                 <dd className="text-2xl font-bold">{learnerCount}+</dd>
               </div>
             </dl>
-          </div>
-          <div className="hidden md:block">
-            <div className="ml-auto flex max-w-sm flex-col gap-4 rounded-2xl bg-white p-6 text-ink-900 shadow-soft">
-              <p className="text-xs font-semibold uppercase tracking-wide text-brand-600">Sample Pricing</p>
-              <div>
-                <p className="font-bold">English Communication Skills</p>
-                <p className="text-sm text-ink-500">12 hours &middot; Ahmed Al Habsi</p>
-              </div>
-              <div className="flex items-center justify-between rounded-lg bg-brand-50 p-4">
-                <span className="text-sm text-ink-600">OMR 10/hr &times; 12h</span>
-                <span className="text-2xl font-extrabold text-brand-700">OMR 120</span>
-              </div>
-              <p className="text-xs text-ink-400">Pricing updates automatically as duration or rate changes.</p>
-            </div>
           </div>
         </div>
       </section>
@@ -76,10 +65,10 @@ export default async function HomePage() {
             <Link
               key={c.id}
               href={`/courses?category=${c.slug}`}
-              className="card flex items-center justify-between p-4 text-sm font-medium text-ink-700 hover:border-brand-300 hover:text-brand-700"
+              className="card flex items-center justify-between p-4 text-sm font-medium text-ink-700 hover:border-brand-300 hover:text-brand-700 dark:text-ink-200"
             >
               {c.name}
-              <span className="badge bg-ink-100 text-ink-500">{c._count.courses}</span>
+              <span className="badge bg-ink-100 text-ink-500 dark:bg-ink-800 dark:text-ink-300">{c._count.courses}</span>
             </Link>
           ))}
         </div>
@@ -88,11 +77,11 @@ export default async function HomePage() {
       <section className="container-page pb-20">
         <div className="mb-8 flex items-end justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-ink-900">Featured Courses</h2>
-            <p className="mt-1 text-ink-500">Hand-picked courses to help you get started</p>
+            <h2 className="text-2xl font-bold text-ink-900 dark:text-white">{t.home.featuredCourses}</h2>
+            <p className="mt-1 text-ink-500 dark:text-ink-400">{t.home.featuredCoursesSubtitle}</p>
           </div>
-          <Link href="/courses" className="hidden text-sm font-semibold text-brand-700 hover:underline sm:block">
-            View all courses &rarr;
+          <Link href="/courses" className="hidden text-sm font-semibold text-brand-700 hover:underline dark:text-brand-400 sm:block">
+            {t.common.viewAll}
           </Link>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -101,20 +90,32 @@ export default async function HomePage() {
           ))}
         </div>
         {courses.length === 0 && (
-          <p className="text-center text-ink-500">No published courses yet. Check back soon.</p>
+          <p className="text-center text-ink-500 dark:text-ink-400">No published courses yet. Check back soon.</p>
         )}
       </section>
 
-      <section className="bg-ink-50 py-16">
+      <section className="bg-gradient-to-br from-brand-700 to-brand-900 py-16 text-white dark:from-brand-950 dark:to-black">
+        <div className="container-page flex flex-col items-center gap-6 text-center">
+          <span className="text-4xl">🎓</span>
+          <h2 className="max-w-2xl text-2xl font-bold sm:text-3xl">{t.home.placementPromoTitle}</h2>
+          <p className="max-w-2xl text-brand-100">{t.home.placementPromoBody}</p>
+          <Link href="/placement" className="btn-primary bg-white text-brand-800 hover:bg-brand-50">
+            {t.home.placementPromoCta}
+          </Link>
+          <p className="text-xs text-brand-200">{t.home.placementPromoNoLogin}</p>
+        </div>
+      </section>
+
+      <section className="bg-ink-50 py-16 dark:bg-ink-900">
         <div className="container-page grid gap-8 md:grid-cols-3">
           {[
-            { title: "Qualified Instructors", body: "Every instructor is vetted for real-world expertise and teaching credentials." },
-            { title: "Transparent Pricing", body: "See exactly how your total price is calculated — hourly rate × duration, no surprises." },
-            { title: "Flexible Scheduling", body: "Choose from multiple available dates and times that fit your routine." },
+            { title: t.home.featureQualified, body: t.home.featureQualifiedBody },
+            { title: t.home.featureTransparent, body: t.home.featureTransparentBody },
+            { title: t.home.featureFlexible, body: t.home.featureFlexibleBody },
           ].map((item) => (
             <div key={item.title} className="card p-6">
-              <h3 className="font-bold text-ink-900">{item.title}</h3>
-              <p className="mt-2 text-sm text-ink-500">{item.body}</p>
+              <h3 className="font-bold text-ink-900 dark:text-white">{item.title}</h3>
+              <p className="mt-2 text-sm text-ink-500 dark:text-ink-400">{item.body}</p>
             </div>
           ))}
         </div>
