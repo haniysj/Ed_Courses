@@ -84,37 +84,43 @@ export const CEFR_DESCRIPTIONS: Record<CefrLevel, { en: string; ar: string }> = 
   },
 };
 
-export const LEVEL_LABELS: Record<CourseLevel, string> = {
-  BEGINNER: "Beginner",
-  INTERMEDIATE: "Intermediate",
-  ADVANCED: "Advanced",
+export type BilingualLabel = { en: string; ar: string };
+
+export function localize(record: Record<string, BilingualLabel>, key: string, locale: "en" | "ar"): string {
+  return record[key]?.[locale] ?? key;
+}
+
+export const LEVEL_LABELS: Record<CourseLevel, BilingualLabel> = {
+  BEGINNER: { en: "Beginner", ar: "مبتدئ" },
+  INTERMEDIATE: { en: "Intermediate", ar: "متوسط" },
+  ADVANCED: { en: "Advanced", ar: "متقدم" },
 };
 
-export const FORMAT_LABELS: Record<CourseFormat, string> = {
-  ONLINE_LIVE: "Online (Live)",
-  SELF_PACED: "Self-Paced",
-  HYBRID: "Hybrid",
+export const FORMAT_LABELS: Record<CourseFormat, BilingualLabel> = {
+  ONLINE_LIVE: { en: "Online (Live)", ar: "مباشر عبر الإنترنت" },
+  SELF_PACED: { en: "Self-Paced", ar: "ذاتي التعلّم" },
+  HYBRID: { en: "Hybrid", ar: "مدمج" },
 };
 
-export const COURSE_STATUS_LABELS: Record<CourseStatus, string> = {
-  DRAFT: "Draft",
-  PUBLISHED: "Published",
-  FULLY_BOOKED: "Fully Booked",
-  INACTIVE: "Inactive",
-  ARCHIVED: "Archived",
+export const COURSE_STATUS_LABELS: Record<CourseStatus, BilingualLabel> = {
+  DRAFT: { en: "Draft", ar: "مسودة" },
+  PUBLISHED: { en: "Published", ar: "منشورة" },
+  FULLY_BOOKED: { en: "Fully Booked", ar: "مكتملة الحجز" },
+  INACTIVE: { en: "Inactive", ar: "غير نشطة" },
+  ARCHIVED: { en: "Archived", ar: "مؤرشفة" },
 };
 
-export const BOOKING_STATUS_LABELS: Record<BookingStatus, string> = {
-  PENDING: "Pending",
-  CONFIRMED: "Confirmed",
-  CANCELLED: "Cancelled",
-  COMPLETED: "Completed",
+export const BOOKING_STATUS_LABELS: Record<BookingStatus, BilingualLabel> = {
+  PENDING: { en: "Pending", ar: "قيد الانتظار" },
+  CONFIRMED: { en: "Confirmed", ar: "مؤكد" },
+  CANCELLED: { en: "Cancelled", ar: "ملغى" },
+  COMPLETED: { en: "Completed", ar: "مكتمل" },
 };
 
-export const PAYMENT_STATUS_LABELS: Record<PaymentStatus, string> = {
-  UNPAID: "Unpaid",
-  PENDING: "Pending",
-  PAID: "Paid",
-  REFUNDED: "Refunded",
-  FAILED: "Failed",
+export const PAYMENT_STATUS_LABELS: Record<PaymentStatus, BilingualLabel> = {
+  UNPAID: { en: "Unpaid", ar: "غير مدفوع" },
+  PENDING: { en: "Pending", ar: "قيد الانتظار" },
+  PAID: { en: "Paid", ar: "مدفوع" },
+  REFUNDED: { en: "Refunded", ar: "مسترد" },
+  FAILED: { en: "Failed", ar: "فشل" },
 };

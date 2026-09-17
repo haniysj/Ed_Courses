@@ -69,7 +69,7 @@ const en = {
     featureQualified: "Qualified Instructors",
     featureQualifiedBody: "Every instructor is vetted for real-world expertise and teaching credentials.",
     featureTransparent: "Transparent Pricing",
-    featureTransparentBody: "See exactly how your total price is calculated — hourly rate × duration, no surprises.",
+    featureTransparentBody: "See the full course price upfront before you book — no hidden fees, no surprises.",
     featureFlexible: "Flexible Scheduling",
     featureFlexibleBody: "Choose from multiple available dates and times that fit your routine.",
   },

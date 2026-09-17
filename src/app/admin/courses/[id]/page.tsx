@@ -17,8 +17,8 @@ export default async function EditCoursePage({ params }: { params: { id: string 
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-ink-900">Edit Course</h1>
-      <p className="mt-1 text-ink-500">{course.title}</p>
+      <h1 className="text-2xl font-bold text-ink-900 dark:text-white">Edit Course</h1>
+      <p className="mt-1 text-ink-500 dark:text-ink-400">{course.title}</p>
       <div className="mt-6 max-w-4xl">
         <CourseForm
           courseId={course.id}

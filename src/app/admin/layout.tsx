@@ -5,9 +5,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const session = await requireAdminPage();
 
   return (
-    <div className="min-h-screen bg-ink-50">
+    <div className="min-h-screen bg-ink-50 dark:bg-ink-950">
       <div className="mx-auto flex max-w-[1600px]">
-        <aside className="hidden w-64 shrink-0 border-r border-ink-100 bg-white lg:block">
+        <aside className="hidden w-64 shrink-0 border-r border-ink-100 bg-white dark:border-ink-800 dark:bg-ink-900 lg:block">
           <div className="sticky top-0 h-screen overflow-y-auto p-4">
             <AdminNav userName={session.user?.name ?? "Admin"} />
           </div>

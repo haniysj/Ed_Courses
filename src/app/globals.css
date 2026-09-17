@@ -9,6 +9,11 @@
   body {
     @apply bg-white text-ink-900 antialiased dark:bg-ink-950 dark:text-ink-50;
   }
+  /* Cairo is a purpose-built Arabic typeface; Inter (the Latin default)
+     doesn't have real Arabic glyph support. */
+  html[dir="rtl"] body {
+    font-family: var(--font-cairo), var(--font-inter), system-ui, sans-serif;
+  }
 }
 
 @layer components {
@@ -48,6 +53,48 @@
 
   .badge {
     @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+}
+
+@layer utilities {
+  .hover-lift {
+    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-soft;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out both;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .animate-float, .animate-fade-in, .hover-lift {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

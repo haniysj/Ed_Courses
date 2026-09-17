@@ -17,8 +17,8 @@ export default async function AdminSchedulesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-ink-900">Schedules</h1>
-      <p className="mt-1 text-ink-500">Manage course dates, times, and capacity. Conflicting sessions for the same instructor are blocked automatically.</p>
+      <h1 className="text-2xl font-bold text-ink-900 dark:text-white">Schedules</h1>
+      <p className="mt-1 text-ink-500 dark:text-ink-400">Manage course dates, times, and capacity. Conflicting sessions for the same instructor are blocked automatically.</p>
 
       <div className="mt-6">
         <ScheduleCreateForm courses={courses.map((c) => ({ id: c.id, title: c.title, maxLearners: c.maxLearners }))} />
@@ -26,7 +26,7 @@ export default async function AdminSchedulesPage() {
 
       <div className="card mt-6 overflow-x-auto">
         <table className="min-w-full divide-y divide-ink-100 text-sm">
-          <thead className="bg-ink-50 text-left text-xs uppercase text-ink-500">
+          <thead className="bg-ink-50 dark:bg-ink-800 text-left text-xs uppercase text-ink-500 dark:text-ink-400">
             <tr>
               <th className="px-4 py-3">Course</th>
               <th className="px-4 py-3">Instructor</th>
@@ -37,14 +37,14 @@ export default async function AdminSchedulesPage() {
               <th className="px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-ink-100">
+          <tbody className="divide-y divide-ink-100 dark:divide-ink-800">
             {schedules.map((s) => (
               <tr key={s.id}>
-                <td className="px-4 py-3 font-medium text-ink-800">{s.course.title}</td>
-                <td className="px-4 py-3 text-ink-600">{s.course.instructor.fullName}</td>
-                <td className="px-4 py-3 text-ink-600">{formatDate(s.date)}</td>
-                <td className="px-4 py-3 text-ink-600">{formatTimeRange(s.startTime, s.endTime)}</td>
-                <td className="px-4 py-3 text-ink-600">{s.seatsBooked}/{s.capacity}</td>
+                <td className="px-4 py-3 font-medium text-ink-800 dark:text-ink-100">{s.course.title}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{s.course.instructor.fullName}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatDate(s.date)}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatTimeRange(s.startTime, s.endTime)}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{s.seatsBooked}/{s.capacity}</td>
                 <td className="px-4 py-3"><StatusBadge status={s.seatsBooked >= s.capacity && s.status === "OPEN" ? "FULL" : s.status} /></td>
                 <td className="px-4 py-3"><ScheduleRowActions id={s.id} status={s.status} /></td>
               </tr>

@@ -77,6 +77,7 @@ export function SiteHeader({ platformName }: { platformName: string }) {
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
+          <LanguageSwitcher compact />
           <ThemeToggle />
           <button
             className="flex h-9 w-9 items-center justify-center rounded-md border border-ink-200 dark:border-ink-700 dark:text-ink-100"
@@ -90,9 +91,6 @@ export function SiteHeader({ platformName }: { platformName: string }) {
 
       {open && (
         <div className="border-t border-ink-100 bg-white px-4 pb-4 dark:border-ink-800 dark:bg-ink-950 lg:hidden">
-          <div className="flex justify-center py-3">
-            <LanguageSwitcher />
-          </div>
           <nav className="flex flex-col gap-1 pt-2">
             {navLinks.map((link) => (
               <Link

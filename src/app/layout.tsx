@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Cairo } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -13,6 +13,7 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { dirForLocale } from "@/lib/i18n/config";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const cairo = Cairo({ subsets: ["arabic", "latin"], variable: "--font-cairo" });
 
 // The layout reads platform settings from the database on every request
 // (header/footer branding), so nothing under it can be statically prerendered
@@ -35,7 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const dir = dirForLocale(locale);
 
   return (
-    <html lang={locale} dir={dir} className={inter.variable} suppressHydrationWarning>
+    <html lang={locale} dir={dir} className={`${inter.variable} ${cairo.variable}`} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col bg-white font-sans text-ink-900 dark:bg-ink-950 dark:text-ink-50">
         <ThemeProvider>
           <I18nProvider locale={locale} dict={dict}>

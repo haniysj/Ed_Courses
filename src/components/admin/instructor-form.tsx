@@ -100,7 +100,7 @@ export function InstructorForm({ instructorId, initial }: { instructorId?: strin
         <label className="label">Biography</label>
         <textarea required rows={4} className="input" value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} />
       </div>
-      <label className="flex items-center gap-2 text-sm text-ink-700">
+      <label className="flex items-center gap-2 text-sm text-ink-700 dark:text-ink-200">
         <input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} />
         Active (visible to learners)
       </label>

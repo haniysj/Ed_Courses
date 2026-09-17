@@ -39,8 +39,8 @@ export default async function AdminPlacementDashboard() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-ink-900">Placement Tests</h1>
-          <p className="mt-1 text-ink-500">Overview of the English placement assessment.</p>
+          <h1 className="text-2xl font-bold text-ink-900 dark:text-white">Placement Tests</h1>
+          <p className="mt-1 text-ink-500 dark:text-ink-400">Overview of the English placement assessment.</p>
         </div>
         <div className="flex gap-2">
           <Link href="/admin/placement/versions" className="btn-outline">
@@ -61,19 +61,19 @@ export default async function AdminPlacementDashboard() {
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
         <div className="card p-5">
-          <h2 className="font-bold text-ink-900">Learner Levels</h2>
+          <h2 className="font-bold text-ink-900 dark:text-white">Learner Levels</h2>
           <LevelDistributionChart data={levelCounts.map((l) => ({ level: l.level.replace("_", "-"), count: l.count }))} />
         </div>
 
         <div className="card p-5">
-          <h2 className="font-bold text-ink-900">Test Versions</h2>
+          <h2 className="font-bold text-ink-900 dark:text-white">Test Versions</h2>
           <div className="mt-3 space-y-2">
             {versions.map((v) => (
               <div key={v.id} className="flex items-center justify-between border-b border-ink-50 pb-2 text-sm last:border-0">
-                <span className="font-medium text-ink-800">
+                <span className="font-medium text-ink-800 dark:text-ink-100">
                   Version {v.name} {!v.active && <span className="text-ink-400">(inactive)</span>}
                 </span>
-                <span className="text-ink-500">{v._count.attempts} attempts</span>
+                <span className="text-ink-500 dark:text-ink-400">{v._count.attempts} attempts</span>
               </div>
             ))}
           </div>

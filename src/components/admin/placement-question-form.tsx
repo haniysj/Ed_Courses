@@ -135,7 +135,7 @@ export function PlacementQuestionForm({ questionId, initial }: { questionId?: st
         <textarea rows={2} className="input" value={form.explanation} onChange={(e) => setForm({ ...form, explanation: e.target.value })} />
       </div>
 
-      <label className="flex items-center gap-2 text-sm text-ink-700">
+      <label className="flex items-center gap-2 text-sm text-ink-700 dark:text-ink-200">
         <input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} />
         Active (included in future test attempts)
       </label>

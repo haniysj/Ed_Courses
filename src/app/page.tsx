@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { CourseCard } from "@/components/course-card";
 import { HeroCarousel } from "@/components/hero-carousel";
+import { Reveal } from "@/components/reveal";
 import { getServerLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 
@@ -61,15 +62,16 @@ export default async function HomePage() {
 
       <section className="container-page py-16">
         <div className="mb-4 grid gap-3 sm:grid-cols-2 md:grid-cols-4">
-          {categories.map((c) => (
-            <Link
-              key={c.id}
-              href={`/courses?category=${c.slug}`}
-              className="card flex items-center justify-between p-4 text-sm font-medium text-ink-700 hover:border-brand-300 hover:text-brand-700 dark:text-ink-200"
-            >
-              {c.name}
-              <span className="badge bg-ink-100 text-ink-500 dark:bg-ink-800 dark:text-ink-300">{c._count.courses}</span>
-            </Link>
+          {categories.map((c, i) => (
+            <Reveal key={c.id} delay={i * 70}>
+              <Link
+                href={`/courses?category=${c.slug}`}
+                className="card hover-lift flex items-center justify-between p-4 text-sm font-medium text-ink-700 hover:border-brand-300 hover:text-brand-700 dark:text-ink-200"
+              >
+                {c.name}
+                <span className="badge bg-ink-100 text-ink-500 dark:bg-ink-800 dark:text-ink-300">{c._count.courses}</span>
+              </Link>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -85,18 +87,22 @@ export default async function HomePage() {
           </Link>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
+          {courses.map((course, i) => (
+            <Reveal key={course.id} delay={Math.min(i, 6) * 60}>
+              <CourseCard course={course} />
+            </Reveal>
           ))}
         </div>
         {courses.length === 0 && (
-          <p className="text-center text-ink-500 dark:text-ink-400">No published courses yet. Check back soon.</p>
+          <p className="text-center text-ink-500 dark:text-ink-400">
+            {locale === "ar" ? "لا توجد دورات منشورة بعد. تفقد الصفحة لاحقًا." : "No published courses yet. Check back soon."}
+          </p>
         )}
       </section>
 
       <section className="bg-gradient-to-br from-brand-700 to-brand-900 py-16 text-white dark:from-brand-950 dark:to-black">
         <div className="container-page flex flex-col items-center gap-6 text-center">
-          <span className="text-4xl">🎓</span>
+          <span className="animate-float inline-block text-4xl">🎓</span>
           <h2 className="max-w-2xl text-2xl font-bold sm:text-3xl">{t.home.placementPromoTitle}</h2>
           <p className="max-w-2xl text-brand-100">{t.home.placementPromoBody}</p>
           <Link href="/placement" className="btn-primary bg-white text-brand-800 hover:bg-brand-50">
@@ -112,11 +118,13 @@ export default async function HomePage() {
             { title: t.home.featureQualified, body: t.home.featureQualifiedBody },
             { title: t.home.featureTransparent, body: t.home.featureTransparentBody },
             { title: t.home.featureFlexible, body: t.home.featureFlexibleBody },
-          ].map((item) => (
-            <div key={item.title} className="card p-6">
-              <h3 className="font-bold text-ink-900 dark:text-white">{item.title}</h3>
-              <p className="mt-2 text-sm text-ink-500 dark:text-ink-400">{item.body}</p>
-            </div>
+          ].map((item, i) => (
+            <Reveal key={item.title} delay={i * 100}>
+              <div className="card hover-lift p-6">
+                <h3 className="font-bold text-ink-900 dark:text-white">{item.title}</h3>
+                <p className="mt-2 text-sm text-ink-500 dark:text-ink-400">{item.body}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </section>

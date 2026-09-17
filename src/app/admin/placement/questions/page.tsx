@@ -21,8 +21,8 @@ export default async function AdminPlacementQuestionsPage({
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-ink-900">Question Bank</h1>
-          <p className="mt-1 text-ink-500">{questions.length} questions in the bank.</p>
+          <h1 className="text-2xl font-bold text-ink-900 dark:text-white">Question Bank</h1>
+          <p className="mt-1 text-ink-500 dark:text-ink-400">{questions.length} questions in the bank.</p>
         </div>
         <Link href="/admin/placement/questions/new" className="btn-primary">
           + Add Question
@@ -52,7 +52,7 @@ export default async function AdminPlacementQuestionsPage({
 
       <div className="card mt-6 overflow-x-auto">
         <table className="min-w-full divide-y divide-ink-100 text-sm">
-          <thead className="bg-ink-50 text-left text-xs uppercase text-ink-500">
+          <thead className="bg-ink-50 dark:bg-ink-800 text-left text-xs uppercase text-ink-500 dark:text-ink-400">
             <tr>
               <th className="px-4 py-3">Prompt</th>
               <th className="px-4 py-3">Level</th>
@@ -63,16 +63,16 @@ export default async function AdminPlacementQuestionsPage({
               <th className="px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-ink-100">
+          <tbody className="divide-y divide-ink-100 dark:divide-ink-800">
             {questions.map((q) => (
               <tr key={q.id}>
-                <td className="max-w-xs truncate px-4 py-3 text-ink-800">{q.prompt}</td>
-                <td className="px-4 py-3 text-ink-600">{q.cefrLevel.replace("_", "-")}</td>
-                <td className="px-4 py-3 text-ink-600">{q.skill}</td>
-                <td className="px-4 py-3 text-ink-600">{q.difficulty.replace("_", " ")}</td>
-                <td className="px-4 py-3 text-ink-600">{q.topic}</td>
+                <td className="max-w-xs truncate px-4 py-3 text-ink-800 dark:text-ink-100">{q.prompt}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{q.cefrLevel.replace("_", "-")}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{q.skill}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{q.difficulty.replace("_", " ")}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{q.topic}</td>
                 <td className="px-4 py-3">
-                  <span className={`badge ${q.active ? "bg-green-100 text-green-700" : "bg-ink-100 text-ink-500"}`}>
+                  <span className={`badge ${q.active ? "bg-green-100 text-green-700" : "bg-ink-100 dark:bg-ink-800 text-ink-500 dark:text-ink-400"}`}>
                     {q.active ? "Active" : "Inactive"}
                   </span>
                 </td>

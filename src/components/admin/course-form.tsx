@@ -124,7 +124,7 @@ export function CourseForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="card space-y-4 p-6">
-        <h2 className="font-bold text-ink-900">Basic Information</h2>
+        <h2 className="font-bold text-ink-900 dark:text-white">Basic Information</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className="label">Course Name</label>
@@ -149,13 +149,13 @@ export function CourseForm({
           <div>
             <label className="label">Level</label>
             <select className="input" value={form.level} onChange={(e) => setForm({ ...form, level: e.target.value })}>
-              {COURSE_LEVELS.map((l) => <option key={l} value={l}>{LEVEL_LABELS[l]}</option>)}
+              {COURSE_LEVELS.map((l) => <option key={l} value={l}>{LEVEL_LABELS[l].en}</option>)}
             </select>
           </div>
           <div>
             <label className="label">Format</label>
             <select className="input" value={form.format} onChange={(e) => setForm({ ...form, format: e.target.value })}>
-              {COURSE_FORMATS.map((f) => <option key={f} value={f}>{FORMAT_LABELS[f]}</option>)}
+              {COURSE_FORMATS.map((f) => <option key={f} value={f}>{FORMAT_LABELS[f].en}</option>)}
             </select>
           </div>
           <div className="sm:col-span-2">
@@ -170,7 +170,7 @@ export function CourseForm({
       </div>
 
       <div className="card space-y-4 p-6">
-        <h2 className="font-bold text-ink-900">Pricing &amp; Capacity</h2>
+        <h2 className="font-bold text-ink-900 dark:text-white">Pricing &amp; Capacity</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <label className="label">Duration (hours)</label>
@@ -192,23 +192,23 @@ export function CourseForm({
 
         <div className="rounded-lg border border-brand-100 bg-brand-50 p-4">
           <p className="text-xs font-semibold uppercase text-brand-600">Automatically Calculated</p>
-          <div className="mt-1 flex items-baseline gap-2 text-sm text-ink-600">
+          <div className="mt-1 flex items-baseline gap-2 text-sm text-ink-600 dark:text-ink-300">
             <span>{formatCurrency(Number(form.hourlyRate) || 0)} &times; {form.durationHours || 0}h =</span>
             <span className="text-2xl font-extrabold text-brand-700">{formatCurrency(total)}</span>
           </div>
-          <p className="mt-1 text-xs text-ink-500">Total price cannot be edited directly — it always follows the formula.</p>
+          <p className="mt-1 text-xs text-ink-500 dark:text-ink-400">Total price cannot be edited directly — it always follows the formula.</p>
         </div>
 
         <div>
           <label className="label">Status</label>
           <select className="input max-w-xs" value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
-            {COURSE_STATUSES.map((s) => <option key={s} value={s}>{COURSE_STATUS_LABELS[s]}</option>)}
+            {COURSE_STATUSES.map((s) => <option key={s} value={s}>{COURSE_STATUS_LABELS[s].en}</option>)}
           </select>
         </div>
       </div>
 
       <div className="card space-y-3 p-6">
-        <h2 className="font-bold text-ink-900">Learning Objectives</h2>
+        <h2 className="font-bold text-ink-900 dark:text-white">Learning Objectives</h2>
         {form.objectives.map((obj, i) => (
           <div key={i} className="flex gap-2">
             <input className="input" value={obj} onChange={(e) => updateObjective(i, e.target.value)} placeholder={`Objective ${i + 1}`} />
@@ -219,7 +219,7 @@ export function CourseForm({
       </div>
 
       <div className="card space-y-3 p-6">
-        <h2 className="font-bold text-ink-900">Course Content / Modules</h2>
+        <h2 className="font-bold text-ink-900 dark:text-white">Course Content / Modules</h2>
         {form.modules.map((m, i) => (
           <div key={i} className="grid gap-2 rounded-lg border border-ink-100 p-3 sm:grid-cols-[1fr_2fr_auto]">
             <input className="input" value={m.title} onChange={(e) => updateModule(i, "title", e.target.value)} placeholder={`Module ${i + 1} title`} />

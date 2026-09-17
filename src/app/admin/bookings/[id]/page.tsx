@@ -21,12 +21,12 @@ export default async function AdminBookingDetailPage({ params }: { params: { id:
 
   return (
     <div className="max-w-3xl">
-      <h1 className="text-2xl font-bold text-ink-900">Booking Details</h1>
-      <p className="mt-1 text-ink-500">Reference: {booking.id}</p>
+      <h1 className="text-2xl font-bold text-ink-900 dark:text-white">Booking Details</h1>
+      <p className="mt-1 text-ink-500 dark:text-ink-400">Reference: {booking.id}</p>
 
       <div className="card mt-6 space-y-4 p-6">
         <div className="flex items-center justify-between">
-          <h2 className="font-bold text-ink-900">Status</h2>
+          <h2 className="font-bold text-ink-900 dark:text-white">Status</h2>
           <BookingRowActions id={booking.id} status={booking.status} paymentStatus={booking.paymentStatus} />
         </div>
 
@@ -41,13 +41,13 @@ export default async function AdminBookingDetailPage({ params }: { params: { id:
           <Info label="Booked On" value={formatDate(booking.createdAt)} />
         </div>
 
-        <p className="rounded-lg bg-ink-50 p-3 text-xs text-ink-500">
+        <p className="rounded-lg bg-ink-50 p-3 text-xs text-ink-500 dark:text-ink-400">
           Price fields are locked to the values at the time of booking. Changing the course&apos;s current hourly rate will not affect this booking.
         </p>
       </div>
 
       <div className="card mt-6 space-y-3 p-6">
-        <h2 className="font-bold text-ink-900">Learner Information</h2>
+        <h2 className="font-bold text-ink-900 dark:text-white">Learner Information</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Info label="Full Name" value={booking.learnerName} />
           <Info label="Email" value={booking.learnerEmail} />
@@ -58,14 +58,14 @@ export default async function AdminBookingDetailPage({ params }: { params: { id:
         {booking.notes && (
           <div>
             <p className="text-xs font-semibold uppercase text-ink-400">Notes</p>
-            <p className="mt-1 text-sm text-ink-700">{booking.notes}</p>
+            <p className="mt-1 text-sm text-ink-700 dark:text-ink-200">{booking.notes}</p>
           </div>
         )}
       </div>
 
       <div className="card mt-6 space-y-3 p-6">
-        <h2 className="font-bold text-ink-900">Reschedule</h2>
-        <p className="text-sm text-ink-500">Move this booking to a different available session for the same course.</p>
+        <h2 className="font-bold text-ink-900 dark:text-white">Reschedule</h2>
+        <p className="text-sm text-ink-500 dark:text-ink-400">Move this booking to a different available session for the same course.</p>
         <RescheduleForm bookingId={booking.id} currentScheduleId={booking.scheduleId} schedules={schedules} />
       </div>
     </div>
@@ -76,7 +76,7 @@ function Info({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <p className="text-xs font-semibold uppercase text-ink-400">{label}</p>
-      <p className="mt-1 text-sm font-medium text-ink-800">{value}</p>
+      <p className="mt-1 text-sm font-medium text-ink-800 dark:text-ink-100">{value}</p>
     </div>
   );
 }

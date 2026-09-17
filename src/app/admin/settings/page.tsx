@@ -8,8 +8,8 @@ export default async function AdminSettingsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-ink-900">Platform Settings</h1>
-      <p className="mt-1 text-ink-500">Configure global platform information and booking rules.</p>
+      <h1 className="text-2xl font-bold text-ink-900 dark:text-white">Platform Settings</h1>
+      <p className="mt-1 text-ink-500 dark:text-ink-400">Configure global platform information and booking rules.</p>
       <div className="mt-6">
         <SettingsForm
           initial={{

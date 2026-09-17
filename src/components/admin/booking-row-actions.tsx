@@ -43,7 +43,7 @@ export function BookingRowActions({
         disabled={loading}
         onChange={(e) => update({ status: e.target.value })}
       >
-        {BOOKING_STATUSES.map((s) => <option key={s} value={s}>{BOOKING_STATUS_LABELS[s]}</option>)}
+        {BOOKING_STATUSES.map((s) => <option key={s} value={s}>{BOOKING_STATUS_LABELS[s].en}</option>)}
       </select>
       <select
         className="input w-auto py-1 text-xs"
@@ -51,7 +51,7 @@ export function BookingRowActions({
         disabled={loading}
         onChange={(e) => update({ paymentStatus: e.target.value })}
       >
-        {PAYMENT_STATUSES.map((s) => <option key={s} value={s}>{PAYMENT_STATUS_LABELS[s]}</option>)}
+        {PAYMENT_STATUSES.map((s) => <option key={s} value={s}>{PAYMENT_STATUS_LABELS[s].en}</option>)}
       </select>
     </div>
   );

@@ -8,8 +8,8 @@ export default async function EditInstructorPage({ params }: { params: { id: str
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-ink-900">Edit Instructor</h1>
-      <p className="mt-1 text-ink-500">{instructor.fullName}</p>
+      <h1 className="text-2xl font-bold text-ink-900 dark:text-white">Edit Instructor</h1>
+      <p className="mt-1 text-ink-500 dark:text-ink-400">{instructor.fullName}</p>
       <div className="mt-6 max-w-3xl">
         <InstructorForm
           instructorId={instructor.id}

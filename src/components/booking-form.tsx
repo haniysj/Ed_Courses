@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { formatCurrency, calculateTotalPrice } from "@/lib/pricing";
 import { formatDate, formatTimeRange } from "@/lib/utils";
 import { CONTACT_METHODS } from "@/lib/enums";
+import { useI18n } from "@/components/i18n-provider";
 
 type ScheduleOption = {
   id: string;
@@ -16,6 +17,8 @@ type ScheduleOption = {
   seatsBooked: number;
   status: string;
 };
+
+const CONTACT_LABELS_AR: Record<string, string> = { EMAIL: "البريد الإلكتروني", PHONE: "الهاتف", WHATSAPP: "واتساب" };
 
 export function BookingForm({
   courseId,
@@ -32,6 +35,7 @@ export function BookingForm({
 }) {
   const router = useRouter();
   const { data: session } = useSession();
+  const { t, locale } = useI18n();
   const [scheduleId, setScheduleId] = useState("");
   const [form, setForm] = useState({
     learnerName: session?.user?.name ?? "",
@@ -53,7 +57,7 @@ export function BookingForm({
     setError(null);
 
     if (!scheduleId) {
-      setError("Please select an available date and time.");
+      setError(t("booking.selectDateError"));
       return;
     }
 
@@ -80,14 +84,12 @@ export function BookingForm({
 
   if (result) {
     return (
-      <div className="card border-green-200 bg-green-50 p-6 text-center">
+      <div className="card animate-fade-in border-green-200 bg-green-50 p-6 text-center dark:border-green-900 dark:bg-green-950">
         <p className="text-2xl">&#10003;</p>
-        <h3 className="mt-2 text-lg font-bold text-ink-900">Booking Received!</h3>
-        <p className="mt-1 text-sm text-ink-600">
-          Your booking is <strong>Pending</strong> confirmation. We&apos;ll be in touch shortly.
-        </p>
+        <h3 className="mt-2 text-lg font-bold text-ink-900 dark:text-white">{t("booking.receivedTitle")}</h3>
+        <p className="mt-1 text-sm text-ink-600 dark:text-ink-300">{t("booking.receivedBody")}</p>
         <a href={`/bookings/${result.id}`} className="btn-primary mt-4 inline-flex">
-          View Booking Status
+          {t("booking.viewStatus")}
         </a>
       </div>
     );
@@ -96,16 +98,18 @@ export function BookingForm({
   return (
     <form onSubmit={handleSubmit} className="card space-y-5 p-6">
       <div>
-        <h3 className="font-bold text-ink-900">1. Select a Date &amp; Time</h3>
+        <h3 className="font-bold text-ink-900 dark:text-white">{t("booking.selectDateTime")}</h3>
         <div className="mt-3 space-y-2">
           {availableSchedules.length === 0 && (
-            <p className="text-sm text-amber-600">No available sessions at the moment. Please check back later.</p>
+            <p className="text-sm text-amber-600 dark:text-amber-400">{t("booking.noSessions")}</p>
           )}
           {availableSchedules.map((s) => (
             <label
               key={s.id}
-              className={`flex cursor-pointer items-center justify-between rounded-lg border p-3 text-sm transition-colors ${
-                scheduleId === s.id ? "border-brand-500 bg-brand-50" : "border-ink-200 hover:border-brand-300"
+              className={`flex cursor-pointer items-center justify-between rounded-lg border p-3 text-sm transition-all duration-200 ${
+                scheduleId === s.id
+                  ? "border-brand-500 bg-brand-50 dark:border-brand-500 dark:bg-brand-950"
+                  : "border-ink-200 hover:border-brand-300 hover:shadow-card dark:border-ink-700 dark:hover:border-brand-600"
               }`}
             >
               <span className="flex items-center gap-3">
@@ -118,29 +122,31 @@ export function BookingForm({
                   className="h-4 w-4"
                 />
                 <span>
-                  <strong className="text-ink-800">{formatDate(s.date)}</strong>{" "}
-                  <span className="text-ink-500">{formatTimeRange(s.startTime, s.endTime)}</span>
+                  <strong className="text-ink-800 dark:text-ink-100">{formatDate(s.date)}</strong>{" "}
+                  <span className="text-ink-500 dark:text-ink-400">{formatTimeRange(s.startTime, s.endTime)}</span>
                 </span>
               </span>
-              <span className="text-xs text-ink-500">{s.capacity - s.seatsBooked} seats left</span>
+              <span className="text-xs text-ink-500 dark:text-ink-400">
+                {s.capacity - s.seatsBooked} {t("courseDetail.seatsLeft")}
+              </span>
             </label>
           ))}
         </div>
       </div>
 
-      <div className="rounded-lg bg-ink-50 p-4">
-        <h3 className="font-bold text-ink-900">2. Price</h3>
-        <div className="mt-2 flex items-center justify-between text-sm text-ink-600">
-          <span>{formatCurrency(hourlyRate, currency)}/hour &times; {durationHours} hours</span>
-          <span className="text-xl font-extrabold text-brand-700">{formatCurrency(total, currency)}</span>
+      <div className="rounded-lg bg-ink-50 p-4 dark:bg-ink-800">
+        <h3 className="font-bold text-ink-900 dark:text-white">{t("booking.priceSection")}</h3>
+        <div className="mt-2 flex items-center justify-between text-sm text-ink-600 dark:text-ink-300">
+          <span>{t("courses.totalPrice")}</span>
+          <span className="text-xl font-extrabold text-brand-700 dark:text-brand-400">{formatCurrency(total, currency)}</span>
         </div>
       </div>
 
       <div>
-        <h3 className="font-bold text-ink-900">3. Your Information</h3>
+        <h3 className="font-bold text-ink-900 dark:text-white">{t("booking.yourInfo")}</h3>
         <div className="mt-3 grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="label" htmlFor="learnerName">Full Name</label>
+            <label className="label" htmlFor="learnerName">{t("booking.fullName")}</label>
             <input
               id="learnerName"
               required
@@ -150,7 +156,7 @@ export function BookingForm({
             />
           </div>
           <div>
-            <label className="label" htmlFor="learnerEmail">Email</label>
+            <label className="label" htmlFor="learnerEmail">{t("booking.email")}</label>
             <input
               id="learnerEmail"
               type="email"
@@ -161,7 +167,7 @@ export function BookingForm({
             />
           </div>
           <div>
-            <label className="label" htmlFor="learnerPhone">Phone Number</label>
+            <label className="label" htmlFor="learnerPhone">{t("booking.phone")}</label>
             <input
               id="learnerPhone"
               required
@@ -171,7 +177,7 @@ export function BookingForm({
             />
           </div>
           <div>
-            <label className="label" htmlFor="country">Country</label>
+            <label className="label" htmlFor="country">{t("booking.country")}</label>
             <input
               id="country"
               required
@@ -181,7 +187,7 @@ export function BookingForm({
             />
           </div>
           <div>
-            <label className="label" htmlFor="preferredContact">Preferred Contact Method</label>
+            <label className="label" htmlFor="preferredContact">{t("booking.preferredContact")}</label>
             <select
               id="preferredContact"
               className="input"
@@ -189,12 +195,14 @@ export function BookingForm({
               onChange={(e) => setForm({ ...form, preferredContact: e.target.value })}
             >
               {CONTACT_METHODS.map((m) => (
-                <option key={m} value={m}>{m.charAt(0) + m.slice(1).toLowerCase()}</option>
+                <option key={m} value={m}>
+                  {locale === "ar" ? CONTACT_LABELS_AR[m] : m.charAt(0) + m.slice(1).toLowerCase()}
+                </option>
               ))}
             </select>
           </div>
           <div className="sm:col-span-2">
-            <label className="label" htmlFor="notes">Notes / Comments (optional)</label>
+            <label className="label" htmlFor="notes">{t("booking.notes")}</label>
             <textarea
               id="notes"
               rows={3}
@@ -206,10 +214,10 @@ export function BookingForm({
         </div>
       </div>
 
-      {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+      {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">{error}</p>}
 
       <button type="submit" disabled={submitting} className="btn-primary w-full">
-        {submitting ? "Submitting..." : "Book Course"}
+        {submitting ? t("booking.submitting") : t("booking.bookCourse")}
       </button>
     </form>
   );

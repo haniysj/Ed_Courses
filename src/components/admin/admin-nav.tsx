@@ -31,8 +31,8 @@ export function AdminNav({ userName, mobile = false }: { userName: string; mobil
             href={link.href}
             onClick={() => setOpen(false)}
             className={cn(
-              "flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-ink-600 hover:bg-ink-50",
-              active && "bg-brand-50 text-brand-700"
+              "flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-ink-600 dark:text-ink-300 hover:bg-ink-50 dark:hover:bg-ink-800",
+              active && "bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300"
             )}
           >
             <span>{link.icon}</span>
@@ -56,14 +56,14 @@ export function AdminNav({ userName, mobile = false }: { userName: string; mobil
 
   return (
     <div>
-      <Link href="/" className="mb-6 flex items-center gap-2 px-1 text-lg font-bold text-ink-900">
+      <Link href="/" className="mb-6 flex items-center gap-2 px-1 text-lg font-bold text-ink-900 dark:text-white">
         <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-white">E</span>
         Admin
       </Link>
       {linkList}
       <div className="mt-6 border-t border-ink-100 pt-4">
         <p className="px-3 text-xs text-ink-400">Signed in as</p>
-        <p className="truncate px-3 text-sm font-semibold text-ink-800">{userName}</p>
+        <p className="truncate px-3 text-sm font-semibold text-ink-800 dark:text-ink-100">{userName}</p>
         <button onClick={() => signOut({ callbackUrl: "/" })} className="btn-secondary btn-sm mt-3 w-full">
           Sign Out
         </button>

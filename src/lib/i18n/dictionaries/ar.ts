@@ -71,7 +71,7 @@ const ar: Dictionary = {
     featureQualified: "مدربون مؤهلون",
     featureQualifiedBody: "كل مدرب يخضع للتحقق من خبرته العملية ومؤهلاته التدريسية.",
     featureTransparent: "أسعار شفافة",
-    featureTransparentBody: "اطّلع بدقة على كيفية احتساب السعر الإجمالي — السعر بالساعة × المدة، بدون مفاجآت.",
+    featureTransparentBody: "اطّلع على السعر الإجمالي للدورة بوضوح قبل الحجز — بدون رسوم خفية أو مفاجآت.",
     featureFlexible: "جدولة مرنة",
     featureFlexibleBody: "اختر من بين مواعيد وأوقات متعددة تناسب جدولك.",
   },

@@ -38,8 +38,8 @@ export default async function AdminBookingsPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-ink-900">Bookings</h1>
-      <p className="mt-1 text-ink-500">Review, confirm, and manage learner bookings.</p>
+      <h1 className="text-2xl font-bold text-ink-900 dark:text-white">Bookings</h1>
+      <p className="mt-1 text-ink-500 dark:text-ink-400">Review, confirm, and manage learner bookings.</p>
 
       <form method="get" className="card mt-6 grid gap-4 p-5 sm:grid-cols-2 lg:grid-cols-5">
         <div>
@@ -64,7 +64,7 @@ export default async function AdminBookingsPage({
           <label className="label">Status</label>
           <select name="status" defaultValue={status ?? ""} className="input">
             <option value="">All Statuses</option>
-            {BOOKING_STATUSES.map((s) => <option key={s} value={s}>{BOOKING_STATUS_LABELS[s]}</option>)}
+            {BOOKING_STATUSES.map((s) => <option key={s} value={s}>{BOOKING_STATUS_LABELS[s].en}</option>)}
           </select>
         </div>
         <div className="flex items-end gap-2">
@@ -75,7 +75,7 @@ export default async function AdminBookingsPage({
 
       <div className="card mt-6 overflow-x-auto">
         <table className="min-w-full divide-y divide-ink-100 text-sm">
-          <thead className="bg-ink-50 text-left text-xs uppercase text-ink-500">
+          <thead className="bg-ink-50 dark:bg-ink-800 text-left text-xs uppercase text-ink-500 dark:text-ink-400">
             <tr>
               <th className="px-4 py-3">Learner</th>
               <th className="px-4 py-3">Course</th>
@@ -87,18 +87,18 @@ export default async function AdminBookingsPage({
               <th className="px-4 py-3 text-right">Details</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-ink-100">
+          <tbody className="divide-y divide-ink-100 dark:divide-ink-800">
             {bookings.map((b) => (
               <tr key={b.id}>
                 <td className="px-4 py-3">
-                  <p className="font-medium text-ink-800">{b.learnerName}</p>
+                  <p className="font-medium text-ink-800 dark:text-ink-100">{b.learnerName}</p>
                   <p className="text-xs text-ink-400">{b.learnerEmail}</p>
                 </td>
-                <td className="px-4 py-3 text-ink-600">{b.course.title}</td>
-                <td className="px-4 py-3 text-ink-600">{b.instructor.fullName}</td>
-                <td className="px-4 py-3 text-ink-600">{formatDate(b.schedule.date)}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{b.course.title}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{b.instructor.fullName}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatDate(b.schedule.date)}</td>
                 <td className="px-4 py-3 font-semibold text-brand-700">{formatCurrency(b.totalPriceSnapshot, b.currencySnapshot)}</td>
-                <td className="px-4 py-3 text-ink-500">{formatDate(b.createdAt)}</td>
+                <td className="px-4 py-3 text-ink-500 dark:text-ink-400">{formatDate(b.createdAt)}</td>
                 <td className="px-4 py-3">
                   <BookingRowActions id={b.id} status={b.status} paymentStatus={b.paymentStatus} />
                 </td>

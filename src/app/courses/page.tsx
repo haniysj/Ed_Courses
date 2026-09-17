@@ -3,6 +3,9 @@ import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { CourseCard } from "@/components/course-card";
 import { CourseFilters } from "@/components/course-filters";
+import { Reveal } from "@/components/reveal";
+import { getServerLocale } from "@/lib/i18n/server";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 export const metadata: Metadata = { title: "Courses" };
 export const dynamic = "force-dynamic";
@@ -12,6 +15,8 @@ export default async function CoursesPage({
 }: {
   searchParams: { [key: string]: string | undefined };
 }) {
+  const locale = getServerLocale();
+  const t = getDictionary(locale);
   const { q, category, level, instructor, format, duration, price } = searchParams;
 
   const where: Prisma.CourseWhereInput = { status: "PUBLISHED" };
@@ -59,8 +64,8 @@ export default async function CoursesPage({
   return (
     <div className="container-page py-10">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-ink-900">Course Catalogue</h1>
-        <p className="mt-1 text-ink-500">Browse our full range of professional online courses.</p>
+        <h1 className="text-3xl font-bold text-ink-900 dark:text-white">{t.courses.title}</h1>
+        <p className="mt-1 text-ink-500 dark:text-ink-400">{t.courses.subtitle}</p>
       </div>
 
       <div className="mb-8">
@@ -71,18 +76,20 @@ export default async function CoursesPage({
         />
       </div>
 
-      <p className="mb-4 text-sm text-ink-500">{filtered.length} course{filtered.length === 1 ? "" : "s"} found</p>
+      <p className="mb-4 text-sm text-ink-500 dark:text-ink-400">
+        {filtered.length} {t.courses.resultsFound}
+      </p>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((course) => (
-          <CourseCard key={course.id} course={course} />
+        {filtered.map((course, i) => (
+          <Reveal key={course.id} delay={Math.min(i, 6) * 60}>
+            <CourseCard course={course} />
+          </Reveal>
         ))}
       </div>
 
       {filtered.length === 0 && (
-        <div className="card p-10 text-center text-ink-500">
-          No courses match your filters. Try adjusting your search.
-        </div>
+        <div className="card p-10 text-center text-ink-500 dark:text-ink-400">{t.courses.noResults}</div>
       )}
     </div>
   );
