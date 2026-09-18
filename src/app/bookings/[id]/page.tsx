@@ -6,6 +6,7 @@ import { formatCurrency } from "@/lib/pricing";
 import { formatDate, formatTimeRange } from "@/lib/utils";
 import { getServerLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { ReceiptUpload } from "@/components/receipt-upload";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +27,7 @@ export default async function BookingStatusPage({ params }: { params: { id: stri
         <div className="mb-6 text-center">
           <span className="text-3xl">&#128197;</span>
           <h1 className="mt-2 text-2xl font-bold text-ink-900 dark:text-white">{isAr ? "تأكيد الحجز" : "Booking Confirmation"}</h1>
-          <p className="text-sm text-ink-500 dark:text-ink-400">{isAr ? "الرقم المرجعي" : "Reference"}: {booking.id}</p>
+          <p className="text-sm text-ink-500 dark:text-ink-400">{isAr ? "الرقم المرجعي" : "Reference"}: {booking.bookingReference ?? booking.id}</p>
         </div>
 
         <div className="flex items-center justify-between border-b border-ink-100 pb-4 dark:border-ink-800">
@@ -57,6 +58,10 @@ export default async function BookingStatusPage({ params }: { params: { id: stri
           <Link href="/courses" className="btn-outline flex-1 text-center">{isAr ? "تصفح المزيد من الدورات" : "Browse More Courses"}</Link>
           <Link href="/" className="btn-primary flex-1 text-center">{isAr ? "العودة للرئيسية" : "Back to Home"}</Link>
         </div>
+      </div>
+
+      <div className="mt-6">
+        <ReceiptUpload bookingId={booking.id} existingFileName={booking.receiptFileName} />
       </div>
     </div>
   );

@@ -36,6 +36,7 @@ export default async function MyBookingsPage() {
           <div key={b.id} className="card hover-lift flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="font-bold text-ink-900 dark:text-white">{b.course.title}</p>
+              <p className="text-xs text-ink-400">{b.bookingReference ?? b.id}</p>
               <p className="text-sm text-ink-500 dark:text-ink-400">
                 {formatDate(b.schedule.date)} &middot; {formatTimeRange(b.schedule.startTime, b.schedule.endTime)} &middot; {b.instructor.fullName}
               </p>
@@ -44,7 +45,9 @@ export default async function MyBookingsPage() {
             <div className="flex items-center gap-3">
               <StatusBadge status={b.status} />
               <StatusBadge status={b.paymentStatus} />
-              <Link href={`/bookings/${b.id}`} className="btn-outline btn-sm">{t.myBookings.view}</Link>
+              <Link href={`/bookings/${b.id}`} className="btn-outline btn-sm">
+                {b.receiptUploadedAt ? t.myBookings.view : locale === "ar" ? "رفع الإيصال" : "Upload Receipt"}
+              </Link>
             </div>
           </div>
         ))}

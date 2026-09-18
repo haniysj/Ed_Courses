@@ -123,11 +123,12 @@ model CourseSchedule {
 }
 
 model Booking {
-  id           String  @id @default(cuid())
-  courseId     String
-  scheduleId   String
-  instructorId String
-  userId       String?
+  id                String  @id @default(cuid())
+  bookingReference  String? @unique
+  courseId          String
+  scheduleId        String
+  instructorId      String
+  userId            String?
 
   learnerName      String
   learnerEmail     String
@@ -145,6 +146,15 @@ model Booking {
 
   status        String @default("PENDING")
   paymentStatus String @default("UNPAID")
+
+  // Payment receipt uploaded by the learner (image or PDF), stored inline
+  // as a base64 data URL -- no external file storage service is
+  // configured for this project, and receipts are small enough that a
+  // Postgres TEXT column is a reasonable, dependency-free fit.
+  receiptData       String?
+  receiptFileName   String?
+  receiptMimeType   String?
+  receiptUploadedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

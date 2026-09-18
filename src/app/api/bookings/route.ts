@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { bookingInputSchema } from "@/lib/validation";
 import { calculateTotalPrice } from "@/lib/pricing";
+import { generateBookingReference } from "@/lib/booking-reference";
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -56,9 +57,11 @@ export async function POST(req: NextRequest) {
       }
 
       const totalPrice = calculateTotalPrice(course.hourlyRate, course.durationHours);
+      const bookingReference = await generateBookingReference(tx);
 
       const newBooking = await tx.booking.create({
         data: {
+          bookingReference,
           courseId: course.id,
           scheduleId: schedule.id,
           instructorId: course.instructorId,

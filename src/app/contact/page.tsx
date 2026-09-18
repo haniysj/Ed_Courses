@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getSettings } from "@/lib/settings";
 import { getServerLocale } from "@/lib/i18n/server";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 
 export const metadata: Metadata = { title: "Contact" };
 export const dynamic = "force-dynamic";
@@ -27,6 +28,14 @@ export default async function ContactPage() {
           <p className="mt-1 font-medium text-ink-800 dark:text-white">{settings.contactPhone}</p>
         </div>
       </div>
+
+      <WhatsAppButton
+        phone={settings.contactPhone}
+        message={isAr ? "مرحبًا، لدي استفسار حول دوراتكم." : "Hello, I have a question about your courses."}
+        className="mt-6"
+      >
+        {isAr ? "تواصل عبر واتساب" : "Chat on WhatsApp"}
+      </WhatsAppButton>
 
       <form className="card mt-8 space-y-4 p-6">
         <div className="grid gap-4 sm:grid-cols-2">

@@ -5,6 +5,7 @@ import { BookingRowActions } from "@/components/admin/booking-row-actions";
 import { formatCurrency } from "@/lib/pricing";
 import { formatDate } from "@/lib/utils";
 import { BOOKING_STATUSES, BOOKING_STATUS_LABELS } from "@/lib/enums";
+import { WhatsAppIconButton } from "@/components/whatsapp-button";
 
 export const dynamic = "force-dynamic";
 
@@ -78,6 +79,7 @@ export default async function AdminBookingsPage({
           <thead className="bg-ink-50 dark:bg-ink-800 text-left text-xs uppercase text-ink-500 dark:text-ink-400">
             <tr>
               <th className="px-4 py-3">Learner</th>
+              <th className="px-4 py-3">Phone</th>
               <th className="px-4 py-3">Course</th>
               <th className="px-4 py-3">Instructor</th>
               <th className="px-4 py-3">Date</th>
@@ -93,6 +95,13 @@ export default async function AdminBookingsPage({
                 <td className="px-4 py-3">
                   <p className="font-medium text-ink-800 dark:text-ink-100">{b.learnerName}</p>
                   <p className="text-xs text-ink-400">{b.learnerEmail}</p>
+                  <p className="text-xs text-ink-400">{b.bookingReference ?? b.id}</p>
+                </td>
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-ink-600 dark:text-ink-300">{b.learnerPhone}</span>
+                    <WhatsAppIconButton phone={b.learnerPhone} />
+                  </div>
                 </td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{b.course.title}</td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{b.instructor.fullName}</td>
