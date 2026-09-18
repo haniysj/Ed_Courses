@@ -29,7 +29,9 @@ export default function RegisterPage() {
         return;
       }
       await signIn("credentials", { email: form.email, password: form.password, redirect: false });
-      router.push("/");
+      // Return the learner to where they came from (e.g. Free Lessons), only ever to a same-site path.
+      const cb = new URLSearchParams(window.location.search).get("callbackUrl");
+      router.push(cb && cb.startsWith("/") && !cb.startsWith("//") ? cb : "/");
       router.refresh();
     } catch {
       setError("Network error. Please try again.");

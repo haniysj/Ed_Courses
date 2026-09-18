@@ -32,6 +32,11 @@ model User {
   createdAt         DateTime           @default(now())
   bookings          Booking[]
   placementAttempts PlacementAttempt[]
+
+  // Free English Lessons: the level the learner chose to study at.
+  freeLessonLevel    String?
+  freeLessonProgress FreeLessonProgress[]
+  freeLessonAttempts FreeLessonAttempt[]
 }
 
 model Instructor {
@@ -123,12 +128,12 @@ model CourseSchedule {
 }
 
 model Booking {
-  id                String  @id @default(cuid())
-  bookingReference  String? @unique
-  courseId          String
-  scheduleId        String
-  instructorId      String
-  userId            String?
+  id               String  @id @default(cuid())
+  bookingReference String? @unique
+  courseId         String
+  scheduleId       String
+  instructorId     String
+  userId           String?
 
   learnerName      String
   learnerEmail     String
@@ -274,4 +279,119 @@ model PlacementAttempt {
   @@index([versionId])
   @@index([userId])
   @@index([status])
+}
+
+// -----------------------------------------------------------------------
+// Free English Lessons (mini-LMS)
+//
+// Level: BEGINNER | ELEMENTARY | PRE_INTERMEDIATE | INTERMEDIATE | UPPER_INTERMEDIATE | ADVANCED
+// Category: GRAMMAR | VOCABULARY | WRITING | READING
+// Difficulty: BASIC | CORE | CHALLENGING
+// LessonStatus: DRAFT | PUBLISHED | UNPUBLISHED
+// ProgressStatus: IN_PROGRESS | COMPLETED
+// ExerciseType: MULTIPLE_CHOICE | MULTIPLE_SELECT | TRUE_FALSE | FILL_BLANK |
+//               SHORT_ANSWER | ORDERING | MATCHING | IDENTIFY_MISTAKE
+// -----------------------------------------------------------------------
+
+model FreeLesson {
+  id               String  @id @default(cuid())
+  slug             String  @unique
+  level            String
+  category         String
+  title            String
+  topic            String
+  difficulty       String  @default("CORE")
+  order            Int     @default(0) // sequence within level + category
+  estimatedMinutes Int     @default(10)
+  objective        String
+  imageUrl         String?
+  status           String  @default("DRAFT")
+
+  // Structured explanation content (JSON, validated by src/lib/free-lessons/schema.ts)
+  content String @default("{\"sections\":[]}")
+
+  // Recommendation metadata
+  tags          String @default("[]") // JSON string[] -- placement weakness / topic tags
+  prerequisites String @default("[]") // JSON string[] of lesson slugs
+
+  // Completion rules (configurable per lesson)
+  requireAllAnswered Boolean @default(true)
+  minScorePercent    Int     @default(60)
+  allowRetry         Boolean @default(true)
+
+  // Internal curriculum alignment only -- never displayed to learners.
+  refBook  String?
+  refLevel String?
+  refArea  String?
+  refTopic String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exercises FreeLessonExercise[]
+  progress  FreeLessonProgress[]
+  attempts  FreeLessonAttempt[]
+
+  @@index([level, category, order])
+  @@index([status])
+}
+
+model FreeLessonExercise {
+  id          String  @id @default(cuid())
+  lessonId    String
+  order       Int     @default(0)
+  type        String
+  prompt      String
+  context     String? // optional passage / stimulus shown above the prompt
+  data        String // JSON, shape depends on `type` (see schema.ts)
+  explanation String?
+  points      Int     @default(1)
+
+  lesson FreeLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@index([lessonId, order])
+}
+
+model FreeLessonProgress {
+  id       String @id @default(cuid())
+  userId   String
+  lessonId String
+  status   String @default("IN_PROGRESS")
+
+  contentRead  Boolean @default(false)
+  viewCount    Int     @default(1)
+  // JSON: { [exerciseId]: { answer, correct, attempts } } -- persisted so
+  // progress follows the learner across devices and sessions.
+  results      String  @default("{}")
+  scorePercent Int     @default(0)
+
+  startedAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime?
+
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson FreeLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([lessonId])
+  @@index([status])
+}
+
+// One row per answer submission -- feeds admin analytics (difficulty,
+// common wrong answers). exerciseId is deliberately not a relation so
+// analytics survive exercise edits.
+model FreeLessonAttempt {
+  id         String   @id @default(cuid())
+  userId     String
+  lessonId   String
+  exerciseId String
+  correct    Boolean
+  answerText String
+  createdAt  DateTime @default(now())
+
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson FreeLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@index([lessonId])
+  @@index([exerciseId])
 }

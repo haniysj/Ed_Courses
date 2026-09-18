@@ -9,6 +9,10 @@ import { formatCurrency } from "@/lib/pricing";
 import { formatDate, formatTimeRange } from "@/lib/utils";
 import { getServerLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { getLearnerOverview } from "@/lib/free-lessons/overview";
+import { LearningProgressCard } from "@/components/free-lessons/learning-progress-card";
+import { RecommendedLessons } from "@/components/free-lessons/recommended-lessons";
+import { fl } from "@/lib/free-lessons/i18n";
 
 export const metadata: Metadata = { title: "My Bookings" };
 export const dynamic = "force-dynamic";
@@ -20,6 +24,9 @@ export default async function MyBookingsPage() {
   const locale = getServerLocale();
   const t = getDictionary(locale);
 
+  const overview = await getLearnerOverview(session.user.id, 2);
+  const ft = fl(locale);
+
   const bookings = await prisma.booking.findMany({
     where: { userId: session.user.id },
     include: { course: true, schedule: true, instructor: true },
@@ -30,6 +37,20 @@ export default async function MyBookingsPage() {
     <div className="container-page py-10">
       <h1 className="text-3xl font-bold text-ink-900 dark:text-white">{t.myBookings.title}</h1>
       <p className="mt-1 text-ink-500 dark:text-ink-400">{t.myBookings.subtitle}</p>
+
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        <LearningProgressCard overview={overview} locale={locale} />
+        <section className="card p-6">
+          <h2 className="text-lg font-bold text-ink-900 dark:text-white">{ft.recommendedTitle}</h2>
+          <p className="mt-0.5 text-sm text-ink-500 dark:text-ink-400">{overview.profile ? ft.basedOnPlacement : ft.recommendedBody}</p>
+          <div className="mt-4">
+            <RecommendedLessons recs={overview.recommendations} locale={locale} />
+          </div>
+          <Link href={overview.profile ? "/free-lessons" : "/placement"} className="mt-4 inline-block text-sm font-semibold text-brand-700 hover:underline dark:text-brand-400">
+            {overview.profile ? ft.openHub : ft.takePlacementBtn} →
+          </Link>
+        </section>
+      </div>
 
       <div className="mt-8 space-y-4">
         {bookings.map((b) => (

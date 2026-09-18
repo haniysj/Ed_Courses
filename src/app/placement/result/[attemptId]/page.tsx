@@ -14,6 +14,9 @@ import { PlacementCertificate } from "@/components/placement/placement-certifica
 import { LearnerInfoForm } from "@/components/placement/learner-info-form";
 import { RetakeSection } from "@/components/placement/retake-section";
 import { formatDate } from "@/lib/utils";
+import { buildPlacementProfile, loadLessonSummaries, recommendCourse, recommendLessons } from "@/lib/free-lessons/recommend";
+import { RecommendedLessons } from "@/components/free-lessons/recommended-lessons";
+import { fl } from "@/lib/free-lessons/i18n";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +58,19 @@ export default async function PlacementResultPage({ params }: { params: { attemp
   const headway = getHeadwayRecommendation(cefr, position);
   const skillScores: Record<PlacementSkill, CefrLevel | null> = JSON.parse(attempt.skillScores ?? "{}");
   const recommendedCourses = await getRecommendedCourses(cefr);
+
+  // Free-lesson recommendations are driven by the same skill results shown on this page.
+  const viewer = await getServerSession(authOptions);
+  const profile = await buildPlacementProfile(attempt);
+  const [lessonPool, doneRows] = await Promise.all([
+    loadLessonSummaries(),
+    viewer?.user && viewer.user.role !== "ADMIN"
+      ? prisma.freeLessonProgress.findMany({ where: { userId: viewer.user.id, status: "COMPLETED" }, select: { lesson: { select: { slug: true } } } })
+      : Promise.resolve([]),
+  ]);
+  const lessonRecs = recommendLessons({ lessons: lessonPool, completed: new Set(doneRows.map((r) => r.lesson.slug)), profile, fallbackLevel: null, limit: 4 });
+  const courseRec = await recommendCourse({ profile, fallbackLevel: null });
+  const ft = fl(locale);
 
   const levelLabel = CEFR_LABELS[cefr][locale];
   const levelDescription = CEFR_DESCRIPTIONS[cefr][locale];
@@ -107,6 +123,18 @@ export default async function PlacementResultPage({ params }: { params: { attemp
         <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">{headway.explanation[locale]}</p>
       </div>
 
+      {lessonRecs.length > 0 && (
+        <div className="card mt-6 p-6">
+          <h2 className="font-bold text-ink-900 dark:text-white">{ft.freeLessonsFor}</h2>
+          <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">{ft.basedOnPlacement}. {ft.writingNote}</p>
+          <div className="mt-4">
+            <RecommendedLessons recs={lessonRecs} locale={locale} guest={!viewer?.user} />
+          </div>
+          {!viewer?.user && <p className="mt-3 text-sm text-ink-500 dark:text-ink-400">{ft.registerToStart}</p>}
+          <Link href="/free-lessons" className="mt-3 inline-block text-sm font-semibold text-brand-700 hover:underline dark:text-brand-400">{ft.openHub} →</Link>
+        </div>
+      )}
+
       <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300">
         {t.placement.finalDisclaimer}
       </div>
@@ -128,6 +156,7 @@ export default async function PlacementResultPage({ params }: { params: { attemp
       <div className="print:hidden">
       <div className="mt-10">
         <h2 className="text-xl font-bold text-ink-900 dark:text-white">{t.placement.recommendedForYou}</h2>
+        {courseRec && <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">{courseRec.reason[locale]}</p>}
         <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {recommendedCourses.map((course) => (
             <CourseCard key={course.id} course={course} />

@@ -29,6 +29,7 @@ const en = {
     about: "About",
     contact: "Contact",
     placementTest: "Placement Test",
+    freeLessons: "Free Lessons",
     login: "Login",
     register: "Register",
     adminDashboard: "Admin Dashboard",

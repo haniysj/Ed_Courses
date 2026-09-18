@@ -31,6 +31,7 @@ const ar: Dictionary = {
     about: "من نحن",
     contact: "تواصل معنا",
     placementTest: "اختبار تحديد المستوى",
+    freeLessons: "دروس مجانية",
     login: "تسجيل الدخول",
     register: "إنشاء حساب",
     adminDashboard: "لوحة التحكم",

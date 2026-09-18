@@ -100,6 +100,23 @@ export default async function HomePage() {
         )}
       </section>
 
+      <section className="container-page pb-16">
+        <div className="card flex flex-col items-center gap-4 p-8 text-center sm:flex-row sm:text-start">
+          <span aria-hidden className="text-5xl">📚</span>
+          <div className="flex-1">
+            <h2 className="text-xl font-bold text-ink-900 dark:text-white">
+              {locale === "ar" ? "دروس إنجليزية مجانية للمتعلمين المسجّلين" : "Free English lessons for registered learners"}
+            </h2>
+            <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">
+              {locale === "ar"
+                ? "قواعد ومفردات وكتابة وقراءة في ستة مستويات، مع تمارين تفاعلية وتوصيات مبنية على اختبار تحديد المستوى."
+                : "Grammar, vocabulary, writing and reading across six levels, with interactive practice and recommendations based on your placement test."}
+            </p>
+          </div>
+          <Link href="/free-lessons" className="btn-primary">{locale === "ar" ? "ابدأ التعلّم مجانًا" : "Start learning free"}</Link>
+        </div>
+      </section>
+
       <section className="bg-gradient-to-br from-brand-700 to-brand-900 py-16 text-white dark:from-brand-950 dark:to-black">
         <div className="container-page flex flex-col items-center gap-6 text-center">
           <span className="animate-float inline-block text-4xl">🎓</span>

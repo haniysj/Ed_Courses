@@ -68,3 +68,19 @@ npm run db:reset
 ## Not Yet Wired (by design)
 
 Payment gateway, email/SMS notifications, and reviews have data fields/architecture in place (`paymentStatus`, `Review` model) but no live integration. Placement test writing/speaking sections are not auto-scored (flagged as "Not assessed automatically" in the skill profile, per spec).
+
+## Free English Lessons (mini-LMS)
+
+A registered-learner section at `/free-lessons`: six levels (Beginner → Advanced) × four categories
+(Grammar, Vocabulary, Writing, Reading), each lesson split into **LESSON** and **PRACTICE** panels.
+
+- **Content**: 48 original lessons / 274 exercises in `prisma/free-lessons/*.ts`. Coursebooks (Headway 5th ed.,
+  Cutting Edge 3rd ed.) are used only as curriculum references; nothing is copied from them.
+- **Seeding**: `npm run db:seed:lessons` creates missing lessons (safe to re-run; admin edits are never overwritten).
+  `npm run db:seed:lessons -- --force` overwrites seeded lessons by slug.
+- **Database**: models `FreeLesson`, `FreeLessonExercise`, `FreeLessonProgress`, `FreeLessonAttempt`, plus
+  `User.freeLessonLevel`. Apply with `npx prisma db push`.
+- **Grading** happens on the server (`/api/free-lessons/[slug]/check`); answer keys are never sent to the browser.
+- **Recommendations** (`src/lib/free-lessons/recommend.ts`): placement skill results → start level and weakness per
+  category → next uncompleted, prerequisite-satisfied lesson (boosted by missed placement themes) → existing paid course.
+- **Admin**: `/admin/free-lessons` (create, edit, publish, duplicate, reorder, delete) and `/admin/free-lessons/analytics`.
