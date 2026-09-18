@@ -171,6 +171,54 @@ export async function submitAnswerAndAdvance(params: {
   };
 }
 
+/**
+ * Reconstructs in-progress test state from the database so a page refresh,
+ * tab close, or temporary inactivity never loses (or lets the learner
+ * cheat) the timer -- remaining time is always recomputed from the
+ * server-recorded `startedAt`, never trusted from the client alone.
+ */
+export async function getResumeState(attemptId: string) {
+  const attempt = await prisma.placementAttempt.findUnique({
+    where: { id: attemptId },
+    include: { version: true },
+  });
+  if (!attempt) return { resumable: false as const };
+
+  if (attempt.status !== "IN_PROGRESS") {
+    return { resumable: false as const };
+  }
+
+  const elapsedSeconds = Math.floor((Date.now() - attempt.startedAt.getTime()) / 1000);
+  const totalSeconds = attempt.version.timeLimitMinutes * 60;
+  const secondsLeft = Math.max(0, totalSeconds - elapsedSeconds);
+
+  if (secondsLeft <= 0) {
+    const result = await finishAttempt(attemptId);
+    return { resumable: false as const, justFinished: true as const, resultReference: result.resultReference };
+  }
+
+  const presented: PresentedQuestion[] = JSON.parse(attempt.selectedQuestionIds);
+  const current = presented[attempt.currentIndex];
+  if (!current) {
+    const result = await finishAttempt(attemptId);
+    return { resumable: false as const, justFinished: true as const, resultReference: result.resultReference };
+  }
+
+  const question = await prisma.placementQuestion.findUniqueOrThrow({ where: { id: current.id } });
+
+  return {
+    resumable: true as const,
+    attemptId: attempt.id,
+    versionName: attempt.version.name,
+    timeLimitMinutes: attempt.version.timeLimitMinutes,
+    totalQuestions: attempt.version.questionCount,
+    totalSeconds,
+    secondsLeft,
+    question: toPublicQuestion(question, current.optionOrder),
+    progress: { current: attempt.currentIndex + 1, total: attempt.version.questionCount },
+  };
+}
+
 export async function finishAttempt(attemptId: string) {
   const attempt = await prisma.placementAttempt.findUniqueOrThrow({ where: { id: attemptId } });
   if (attempt.status === "COMPLETED") {

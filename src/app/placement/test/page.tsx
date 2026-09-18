@@ -19,6 +19,8 @@ type VersionOption = { id: string; name: string; timeLimitMinutes: number; quest
 
 type Progress = { current: number; total: number };
 
+const STORAGE_KEY = "placementAttemptId";
+
 function sectionLabel(skill: PublicQuestion["skill"], t: ReturnType<typeof useI18n>["t"]): string {
   if (skill === "READING") return t("placement.reading");
   if (skill === "LISTENING") return t("placement.listening");
@@ -40,7 +42,7 @@ export default function PlacementTestPage() {
   const { t, locale } = useI18n();
   const { data: session } = useSession();
 
-  const [phase, setPhase] = useState<"setup" | "testing" | "submitting">("setup");
+  const [phase, setPhase] = useState<"loading" | "setup" | "testing" | "submitting">("loading");
   const [versions, setVersions] = useState<VersionOption[]>([]);
   const [versionId, setVersionId] = useState("");
   const [learnerName, setLearnerName] = useState("");
@@ -53,11 +55,18 @@ export default function PlacementTestPage() {
   const [progress, setProgress] = useState<Progress>({ current: 1, total: 1 });
   const [selected, setSelected] = useState<number | null>(null);
   const [secondsLeft, setSecondsLeft] = useState(0);
+  const [totalSeconds, setTotalSeconds] = useState(0);
   const [replaysLeft, setReplaysLeft] = useState(2);
   const [maxReplays, setMaxReplays] = useState(2);
 
   const questionStartRef = useRef<number>(Date.now());
+  const deadlineRef = useRef<number>(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const attemptIdRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    attemptIdRef.current = attemptId;
+  }, [attemptId]);
 
   useEffect(() => {
     fetch("/api/placement/versions")
@@ -76,29 +85,80 @@ export default function PlacementTestPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
+  // Resume an in-progress attempt after a refresh, tab close, or period of
+  // inactivity. The attemptId is a lightweight per-browser pointer only --
+  // every field it resolves to (question, progress, remaining time) is
+  // recomputed authoritatively from the database, never trusted locally.
+  useEffect(() => {
+    const savedId = typeof window !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
+    if (!savedId) {
+      setPhase("setup");
+      return;
+    }
+    fetch(`/api/placement/attempts/${savedId}/resume`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (!data.resumable) {
+          localStorage.removeItem(STORAGE_KEY);
+          if (data.justFinished && data.resultReference) {
+            router.push(`/placement/result/${savedId}`);
+            return;
+          }
+          setPhase("setup");
+          return;
+        }
+        setAttemptId(savedId);
+        setQuestion(data.question);
+        setProgress(data.progress);
+        setTotalSeconds(data.totalSeconds);
+        setSecondsLeft(data.secondsLeft);
+        deadlineRef.current = Date.now() + data.secondsLeft * 1000;
+        setReplaysLeft(maxReplays);
+        questionStartRef.current = Date.now();
+        setPhase("testing");
+      })
+      .catch(() => {
+        localStorage.removeItem(STORAGE_KEY);
+        setPhase("setup");
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const tick = () => {
+    const remaining = Math.max(0, Math.round((deadlineRef.current - Date.now()) / 1000));
+    setSecondsLeft(remaining);
+    if (remaining <= 0) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      handleTimeUp();
+    }
+  };
+
   useEffect(() => {
     if (phase !== "testing") return;
-    timerRef.current = setInterval(() => {
-      setSecondsLeft((s) => {
-        if (s <= 1) {
-          if (timerRef.current) clearInterval(timerRef.current);
-          handleTimeUp();
-          return 0;
-        }
-        return s - 1;
-      });
-    }, 1000);
+    timerRef.current = setInterval(tick, 1000);
+
+    // Recompute immediately from the wall-clock deadline when the tab
+    // regains focus, since background tabs can throttle/pause intervals
+    // and let the on-screen timer drift behind the real elapsed time.
+    function handleVisibility() {
+      if (document.visibilityState === "visible") tick();
+    }
+    document.addEventListener("visibilitychange", handleVisibility);
+
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
 
   async function handleTimeUp() {
-    if (!attemptId) return;
+    const id = attemptIdRef.current;
+    if (!id) return;
     setPhase("submitting");
-    await fetch(`/api/placement/attempts/${attemptId}/finish`, { method: "POST" });
-    router.push(`/placement/result/${attemptId}`);
+    await fetch(`/api/placement/attempts/${id}/finish`, { method: "POST" });
+    localStorage.removeItem(STORAGE_KEY);
+    router.push(`/placement/result/${id}`);
   }
 
   async function handleStart(e: React.FormEvent) {
@@ -120,10 +180,14 @@ export default function PlacementTestPage() {
         }
         return;
       }
+      localStorage.setItem(STORAGE_KEY, data.attemptId);
       setAttemptId(data.attemptId);
       setQuestion(data.question);
       setProgress(data.progress);
-      setSecondsLeft(data.timeLimitMinutes * 60);
+      const total = data.timeLimitMinutes * 60;
+      setTotalSeconds(total);
+      setSecondsLeft(total);
+      deadlineRef.current = Date.now() + total * 1000;
       setReplaysLeft(maxReplays);
       questionStartRef.current = Date.now();
       setPhase("testing");
@@ -162,6 +226,7 @@ export default function PlacementTestPage() {
         return;
       }
       if (data.done) {
+        localStorage.removeItem(STORAGE_KEY);
         router.push(`/placement/result/${attemptId}`);
         return;
       }
@@ -179,9 +244,18 @@ export default function PlacementTestPage() {
 
   const progressPct = useMemo(() => Math.round((progress.current / Math.max(progress.total, 1)) * 100), [progress]);
 
+  // Dynamic warning threshold: the last 10% of the total exam time, never
+  // a hard-coded number of minutes -- a 30-minute test turns red at 3:00
+  // remaining, a 20-minute test at 2:00, etc.
+  const isTimeWarning = totalSeconds > 0 && secondsLeft <= totalSeconds * 0.1;
+
+  if (phase === "loading") {
+    return <div dir="ltr" className="container-page max-w-lg py-14 text-center text-ink-400">{t("common.loading")}</div>;
+  }
+
   if (phase === "setup") {
     return (
-      <div className="container-page max-w-lg py-14">
+      <div dir="ltr" className="container-page max-w-lg py-14">
         <h1 className="text-2xl font-bold text-ink-900 dark:text-white">{t("placement.landingTitle")}</h1>
         <p className="mt-2 text-sm text-ink-500 dark:text-ink-400">{t("placement.disclaimer")}</p>
 
@@ -218,11 +292,21 @@ export default function PlacementTestPage() {
 
   if (!question) return null;
 
+  const isListening = question.skill === "LISTENING";
+
   return (
-    <div className="container-page max-w-2xl py-10">
-      <div className="mb-4 flex items-center justify-between text-sm">
-        <span className="font-semibold text-brand-700 dark:text-brand-400">{sectionLabel(question.skill, t)}</span>
-        <span className="rounded-full bg-ink-100 px-3 py-1 font-mono text-ink-700 dark:bg-ink-800 dark:text-ink-200">
+    <div dir="ltr" className="container-page max-w-2xl py-10 text-left">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 text-sm">
+        <span className="font-semibold text-ink-800 dark:text-ink-100">
+          {t("placement.questionOf", { current: progress.current, total: progress.total })}
+        </span>
+        <span
+          className={`rounded-full px-3 py-1 font-mono font-semibold transition-colors ${
+            isTimeWarning
+              ? "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300"
+              : "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
+          }`}
+        >
           {t("placement.timeRemaining")}: {formatTime(secondsLeft)}
         </span>
       </div>
@@ -230,28 +314,37 @@ export default function PlacementTestPage() {
       <div className="mb-2 h-2 w-full overflow-hidden rounded-full bg-ink-100 dark:bg-ink-800">
         <div className="h-full bg-brand-600 transition-all" style={{ width: `${progressPct}%` }} />
       </div>
-      <p className="mb-6 text-xs text-ink-500 dark:text-ink-400">
-        {t("placement.questionOf", { current: progress.current, total: progress.total })}
+      <p className="mb-6 text-xs font-semibold uppercase tracking-wide text-brand-700 dark:text-brand-400">
+        {sectionLabel(question.skill, t)}
       </p>
+
+      {isListening && (
+        <div className="mb-4 flex items-start gap-3 rounded-xl2 border border-sky-200 bg-sky-50 p-4 dark:border-sky-900 dark:bg-sky-950">
+          <span className="text-2xl">&#127911;</span>
+          <div>
+            <p className="text-sm font-bold uppercase tracking-wide text-sky-800 dark:text-sky-300">Listening Task</p>
+            <p className="mt-0.5 text-sm text-sky-700 dark:text-sky-400">Listen to the audio twice, then answer the question.</p>
+            {question.audioText && (
+              <div className="mt-3 flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => playAudio(question.audioText!)}
+                  disabled={replaysLeft <= 0}
+                  className="btn-primary btn-sm"
+                >
+                  &#9658; {t("placement.playAudio")}
+                </button>
+                <span className="text-xs text-sky-600 dark:text-sky-400">
+                  {replaysLeft} {t("placement.replaysLeft")}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="card p-6">
         <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">{question.topic}</p>
-
-        {question.skill === "LISTENING" && question.audioText && (
-          <div className="mt-3 flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => playAudio(question.audioText!)}
-              disabled={replaysLeft <= 0}
-              className="btn-secondary btn-sm"
-            >
-              &#9658; {t("placement.playAudio")}
-            </button>
-            <span className="text-xs text-ink-400">
-              {replaysLeft} {t("placement.replaysLeft")}
-            </span>
-          </div>
-        )}
 
         <p className="mt-4 text-lg font-medium text-ink-900 dark:text-white">{question.prompt}</p>
 
@@ -261,7 +354,7 @@ export default function PlacementTestPage() {
               key={i}
               type="button"
               onClick={() => setSelected(i)}
-              className={`w-full rounded-lg border p-4 text-start text-base transition-colors ${
+              className={`w-full rounded-lg border p-4 text-left text-base transition-colors ${
                 selected === i
                   ? "border-brand-500 bg-brand-50 dark:border-brand-500 dark:bg-brand-950"
                   : "border-ink-200 hover:border-brand-300 dark:border-ink-700 dark:hover:border-brand-600"

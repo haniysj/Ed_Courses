@@ -10,7 +10,7 @@ export default function PlacementLandingPage() {
   const t = getDictionary(locale);
 
   return (
-    <div className="container-page max-w-3xl py-14">
+    <div dir="ltr" className="container-page max-w-3xl py-14">
       <div className="text-center">
         <span className="text-5xl">🎓</span>
         <h1 className="mt-4 text-3xl font-bold text-ink-900 dark:text-white sm:text-4xl">{t.placement.landingTitle}</h1>

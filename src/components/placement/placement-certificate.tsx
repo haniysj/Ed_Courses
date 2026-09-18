@@ -72,8 +72,8 @@ export function PlacementCertificate({
 
       <div
         ref={certRef}
-        className="mx-auto max-w-2xl rounded-xl2 border-2 border-brand-100 bg-white p-8 text-ink-900 shadow-soft dark:border-brand-900"
-        dir={locale === "ar" ? "rtl" : "ltr"}
+        className="mx-auto max-w-2xl rounded-xl2 border-2 border-brand-100 bg-white p-8 text-left text-ink-900 shadow-soft dark:border-brand-900"
+        dir="ltr"
       >
         <div className="flex items-center justify-between border-b border-ink-100 pb-4">
           <div className="flex items-center gap-2">

@@ -54,7 +54,7 @@ export default async function AdminPlacementDashboard() {
 
       <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
         <StatCard label="Total Attempts" value={String(totalAttempts)} />
-        <StatCard label="Completed Tests" value={String(completedAttempts)} />
+        <StatCard label="Completed Tests" value={String(completedAttempts)} href="/admin/placement/attempts" />
         <StatCard label="Average Score" value={`${avgScore} / 100`} />
         <StatCard label="Avg. Completion Time" value={`${avgCompletionMinutes} min`} />
       </div>

@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getServerLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -21,6 +23,18 @@ export default async function PlacementResultPage({ params }: { params: { attemp
     include: { version: true },
   });
   if (!attempt) notFound();
+
+  // Anonymous attempts (no account) are gated only by the unguessable
+  // attempt ID, same as an order-confirmation link. Attempts tied to a
+  // logged-in learner's account are additionally locked to that account
+  // (or an admin) so one learner can't view another's result by editing
+  // the URL.
+  if (attempt.userId) {
+    const session = await getServerSession(authOptions);
+    const isOwner = session?.user?.id === attempt.userId;
+    const isAdmin = session?.user?.role === "ADMIN";
+    if (!isOwner && !isAdmin) notFound();
+  }
 
   const locale = getServerLocale();
   const t = getDictionary(locale);
@@ -54,7 +68,7 @@ export default async function PlacementResultPage({ params }: { params: { attemp
   };
 
   return (
-    <div className="container-page max-w-3xl py-10">
+    <div dir="ltr" className="container-page max-w-3xl py-10 text-left">
       <div className="print:hidden">
       <div className="text-center">
         <span className="badge bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300">{t.placement.placementEstimate}</span>
