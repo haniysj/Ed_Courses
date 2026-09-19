@@ -1,5 +1,9 @@
 import { ELEMENTARY_UNITS } from "./elementary-units";
-import { HW, annotated, compare, examples, fill, list, match, mc, mist, order, passage, sa, structure, text, tf, tip, vocab, type SeedLesson } from "./dsl";
+import { ELEMENTARY_W3_W4 } from "./elementary-w3-w4";
+import { ELEMENTARY_W5_W6 } from "./elementary-w5-w6";
+import { ELEMENTARY_W7_W8 } from "./elementary-w7-w8";
+import { ELEMENTARY_W9_W10 } from "./elementary-w9-w10";
+import { HW, table, annotated, compare, examples, fill, list, match, mc, mist, order, passage, sa, structure, text, tf, tip, vocab, type SeedLesson } from "./dsl";
 
 const BIKES = "Many people in our town ride bicycles. Bicycles are cheap and they don't need petrol. They are also good for your health. In the morning, you can see students, workers and even the postman on bicycles. Some streets now have special bicycle roads, so riding is safer.";
 const BOOKSHOP = "Fatima works at a bookshop. She likes it because it is quiet. The customers are kind. They often ask her questions in English. This helps her practise.";
@@ -52,6 +56,15 @@ export const ELEMENTARY_CORE: SeedLesson[] = [
         Irregular: ["go → went", "have → had", "buy → bought", "eat → ate"],
         "Negative / question": ["I didn't watch TV last night.", "Did you enjoy the film?", "What did you eat?"],
       }),
+      table("Regular verbs: -ed spelling", ["Rule", "Examples"], [
+        ["Most verbs: + -ed", "work → worked · start → started"],
+        ["Verbs ending in -e: + -d", "live → lived · like → liked"],
+        ["Consonant + y: y → -ied", "study → studied · carry → carried"],
+        ["One vowel + one consonant: double it", "stop → stopped · plan → planned"],
+      ]),
+      table("Common irregular verbs", ["Base form", "Past form"], [
+        ["go", "went"], ["see", "saw"], ["have", "had"], ["buy", "bought"], ["make", "made"], ["drive", "drove"], ["eat", "ate"], ["take", "took"],
+      ]),
       tip("Time words that often go with the Past Simple: yesterday, last week, two days ago, in 2019."),
     ],
     exercises: [
@@ -60,6 +73,8 @@ export const ELEMENTARY_CORE: SeedLesson[] = [
       mist("Find the mistake.", ["Did you", "went", "to school?"], 1, "go", "After did we use the base form: Did you go to school?"),
       match("Match the base form with its past form.", [["go", "went"], ["buy", "bought"], ["study", "studied"], ["stop", "stopped"]], "Go and buy are irregular. Study changes y → ied, and stop doubles the p."),
       order("Put the words in order.", ["We", "visited", "my", "grandmother", "last", "week."], "word", "Subject + past verb + object + time: We visited my grandmother last week."),
+      fill("He ___ (buy) a new car last month and ___ (drive) it to Salalah.", ["bought", "drove"], "Buy and drive are irregular: bought, drove."),
+      fill("We ___ (not / enjoy) the film because it ___ (be) too long.", [["didn't enjoy", "did not enjoy"], "was"], "Negative: didn't + base verb. The past of be (it) is was."),
       mc("Which sentence is correct?", ["He didn't played football.", "He didn't play football.", "He not played football."], 1, "After didn't the verb is in the base form: didn't play."),
     ],
   },
@@ -217,14 +232,35 @@ export const ELEMENTARY_CORE: SeedLesson[] = [
 
 void annotated;
 
-// Weeks 1-2 of the Elementary course first, then the rest, in teaching order per category.
+// Teaching order (Weeks 1-10), per category. Lessons not listed here go last.
 const PLAN = [
+  // grammar
   "elementary-grammar-be-contractions", "elementary-grammar-possessive-adjectives", "elementary-grammar-possessive-s",
   "elementary-grammar-high-frequency-verbs", "elementary-grammar-third-person-s", "elementary-grammar-present-simple-questions",
-  "elementary-grammar-pronouns", "elementary-grammar-past-simple",
+  "elementary-grammar-pronouns", "elementary-grammar-present-simple-plural", "elementary-grammar-adverbs-of-frequency",
+  "elementary-grammar-like-ing", "elementary-grammar-there-is-are", "elementary-grammar-some-any-a-lot-of",
+  "elementary-grammar-demonstratives", "elementary-grammar-can-cant", "elementary-grammar-was-were-could",
+  "elementary-grammar-past-simple", "elementary-grammar-past-questions-ago", "elementary-grammar-prepositions-of-time",
+  "elementary-grammar-countable-uncountable", "elementary-grammar-quantifiers", "elementary-grammar-like-would-like",
+  "elementary-grammar-comparatives", "elementary-grammar-superlatives", "elementary-grammar-have-got",
+  "elementary-grammar-present-continuous", "elementary-grammar-going-to", "elementary-grammar-present-perfect-intro",
+  // vocabulary
   "elementary-vocab-family-members", "elementary-vocab-opposite-adjectives", "elementary-vocab-jobs", "elementary-vocab-opposite-verbs",
-  "elementary-vocab-places-in-town", "elementary-vocab-shopping-money",
-  "elementary-writing-personal-profile", "elementary-writing-pronouns-cohesion", "elementary-writing-punctuation", "elementary-writing-sequencing",
-  "elementary-reading-student-blog", "elementary-reading-two-jobs", "elementary-reading-main-idea", "elementary-reading-reference-words",
+  "elementary-vocab-seasons-months", "elementary-vocab-leisure-activities", "elementary-vocab-rooms-house-items",
+  "elementary-vocab-prepositions-of-place", "elementary-vocab-compound-nouns", "elementary-vocab-word-partners-ability",
+  "elementary-vocab-ed-ing-adjectives", "elementary-vocab-ordinals-dates", "elementary-vocab-manner-adverbs",
+  "elementary-vocab-food-categories", "elementary-vocab-daily-needs", "elementary-vocab-town-and-country",
+  "elementary-vocab-prepositions-of-movement", "elementary-vocab-clothes-appearance", "elementary-vocab-weather", "elementary-vocab-take-get",
+  // reading
+  "elementary-reading-student-blog", "elementary-reading-two-jobs", "elementary-reading-young-swimmer", "elementary-reading-heritage-house",
+  "elementary-reading-family-of-champions", "elementary-reading-lost-phone", "elementary-reading-two-thinkers",
+  "elementary-reading-story-of-coffee", "elementary-reading-tall-buildings", "elementary-reading-modern-adventurers",
+  // writing
+  "elementary-writing-personal-profile", "elementary-writing-pronouns-cohesion", "elementary-writing-form-filling",
+  "elementary-writing-describing-home", "elementary-writing-job-application-email", "elementary-writing-biography",
+  "elementary-writing-story-past", "elementary-writing-formal-informal", "elementary-writing-describing-place", "elementary-writing-holiday-email",
 ];
-export const ELEMENTARY: SeedLesson[] = [...ELEMENTARY_UNITS, ...ELEMENTARY_CORE].sort((a, b) => PLAN.indexOf(a.slug) - PLAN.indexOf(b.slug));
+const rank = (slug: string) => (PLAN.indexOf(slug) === -1 ? 999 : PLAN.indexOf(slug));
+export const ELEMENTARY: SeedLesson[] = [
+  ...ELEMENTARY_UNITS, ...ELEMENTARY_W3_W4, ...ELEMENTARY_W5_W6, ...ELEMENTARY_W7_W8, ...ELEMENTARY_W9_W10, ...ELEMENTARY_CORE,
+].sort((a, b) => rank(a.slug) - rank(b.slug));
