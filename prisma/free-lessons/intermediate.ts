@@ -1,15 +1,19 @@
+import { INT_U1_U3 } from "./int-u1-u3";
+import { INT_U4_U6 } from "./int-u4-u6";
+import { INT_U7_U9 } from "./int-u7-u9";
+import { INT_U10_U12 } from "./int-u10-u12";
 import { HW, CE, annotated, compare, examples, fill, list, match, mc, ms, mist, order, passage, sa, structure, text, tf, tip, vocab, type SeedLesson } from "./dsl";
 
 const CARS = "Electric cars are becoming a common sight on our roads. Ten years ago they were rare, but today many drivers are choosing them instead of petrol cars.\n\nOne reason is cost. An electric car uses cheap electricity instead of expensive fuel, and it has fewer parts to repair. Another reason is the environment: electric cars produce no exhaust gases, so the air in cities is cleaner.\n\nNevertheless, there are still problems. Charging stations are not available everywhere, and a full charge can take several hours. Until charging becomes quicker and easier, some people will continue to buy petrol cars.";
 const MUSEUM = "The city museum has introduced a new evening opening scheme. From next month, the museum will stay open until 9 pm on Thursdays, when tickets cost half price. The director says the aim is to attract people who work during the day. Last year, only 12 percent of visitors were under thirty, but the museum hopes the change will double that figure. Some staff have complained about the longer hours, though the director has promised extra pay.";
 const PARKS_MIXED = "1. In my opinion, cities should have more parks.\n2. Firstly, parks give people a place to relax.\n3. For example, workers can walk under the trees after a long day.\n4. Therefore, cities need parks.\n5. Secondly, parks make cities cleaner because trees clean the air.";
 
-export const INTERMEDIATE: SeedLesson[] = [
+export const INTERMEDIATE_CORE: SeedLesson[] = [
   // ------------------------------------------------------------ GRAMMAR
   {
     slug: "int-grammar-conditionals",
     level: "INTERMEDIATE", category: "GRAMMAR", title: "First and Second Conditionals", topic: "Conditionals",
-    difficulty: "CORE", minutes: 15, prereq: ["pre-int-grammar-present-perfect"],
+    difficulty: "CORE", minutes: 15, prereq: ["int-grammar-verb-patterns"],
     objective: "Talk about real future possibilities (first conditional) and imaginary situations (second conditional).",
     tags: ["grammar", "conditionals", "tenses", "B1"],
     ref: { book: HW, level: "Intermediate", area: "Grammar", topic: "Conditionals 1 and 2" },
@@ -34,7 +38,7 @@ export const INTERMEDIATE: SeedLesson[] = [
   {
     slug: "int-grammar-passive",
     level: "INTERMEDIATE", category: "GRAMMAR", title: "The Passive: Present and Past Simple", topic: "Passive voice",
-    difficulty: "CORE", minutes: 15, prereq: ["int-grammar-conditionals"],
+    difficulty: "CORE", minutes: 15, prereq: ["int-grammar-present-simple-vs-continuous"],
     objective: "Use the passive when the action matters more than who did it.",
     tags: ["grammar", "passive-voice", "tenses", "B1"],
     ref: { book: CE, level: "Intermediate", area: "Grammar", topic: "Passive" },
@@ -210,5 +214,35 @@ export const INTERMEDIATE: SeedLesson[] = [
     ],
   },
 ];
+
+
+// Teaching order (syllabus Units 1-12); existing core lessons are slotted into the unit they best support.
+const PLAN = [
+  // grammar
+  "int-grammar-tense-review", "int-grammar-auxiliary-verbs", "int-grammar-present-simple-vs-continuous", "int-grammar-state-vs-action-verbs",
+  "int-grammar-passive", "int-grammar-passive-facts-processes", "int-grammar-past-narrative-tenses", "int-grammar-used-to-would",
+  "int-grammar-modals-obligation", "int-grammar-future-forms", "int-grammar-information-questions", "int-grammar-relative-clauses",
+  "int-grammar-present-perfect-simple-continuous", "int-grammar-verb-patterns", "int-grammar-conditionals", "int-grammar-second-third-conditionals",
+  "int-grammar-noun-phrases-articles", "int-grammar-reflexive-each-other", "int-grammar-modals-probability-past", "int-grammar-reported-speech",
+  "int-grammar-reported-questions-verbs",
+  // vocabulary
+  "int-vocab-verb-categories", "int-vocab-personal-objects", "int-vocab-phrasal-verbs-journeys", "int-vocab-collocations-social-situations",
+  "int-vocab-past-forms-time-expressions", "int-vocab-story-literary", "int-vocab-descriptive-adverbs", "int-vocab-numbers-statistics",
+  "int-vocab-work-careers", "int-vocab-make-do-take-get", "int-vocab-professional-phrasal-verbs", "int-vocab-money-prepositions",
+  "int-vocab-character-adjectives", "int-vocab-synonyms-nuance", "int-vocab-place-description", "int-vocab-proverbs", "int-vocab-reporting-verbs-phrases",
+  // reading
+  "int-reading-main-idea-details", "int-reading-multiple-choice", "int-reading-what-matters", "int-reading-language-facts",
+  "int-reading-welcoming-neighbour", "int-reading-flat-story", "int-reading-forest-man", "int-reading-whos-who", "int-reading-first-job",
+  "int-reading-olden-days", "int-reading-money-matters", "int-reading-lost-garden", "int-reading-proverbs-text", "int-reading-holiday-from-hell",
+  // writing
+  "int-writing-hook-topic-support", "int-writing-opinion-paragraph", "int-writing-personal-profile", "int-writing-sentence-variety",
+  "int-writing-thesis-editing", "int-writing-essay-1-paragraph-logic", "int-writing-narrative-sequencing", "int-writing-descriptive-adverbs",
+  "int-writing-discursive-pros-cons", "int-writing-professional-correspondence", "int-writing-comparative-essays", "int-writing-essay-2-argumentative",
+  "int-writing-formal-descriptive-report", "int-writing-evaluative-essay", "int-writing-biography-report",
+];
+const rank = (slug: string) => (PLAN.indexOf(slug) === -1 ? 999 : PLAN.indexOf(slug));
+export const INTERMEDIATE: SeedLesson[] = [...INT_U1_U3, ...INT_U4_U6, ...INT_U7_U9, ...INT_U10_U12, ...INTERMEDIATE_CORE].sort(
+  (a, b) => rank(a.slug) - rank(b.slug)
+);
 
 void HW; void compare; void examples; void passage; void sa; void tip; void vocab;

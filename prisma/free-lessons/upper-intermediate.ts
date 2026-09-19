@@ -1,3 +1,7 @@
+import { UPPER_U1_U3 } from "./upper-u1-u3";
+import { UPPER_U4_U6 } from "./upper-u4-u6";
+import { UPPER_U7_U9 } from "./upper-u7-u9";
+import { UPPER_U10_U12 } from "./upper-u10-u12";
 import { HW, CE, annotated, compare, examples, fill, list, match, mc, ms, mist, order, passage, sa, structure, text, tf, tip, vocab, type SeedLesson } from "./dsl";
 
 const NADIA = "Nadia looked at the clock for the third time in ten minutes. Her fingers tapped the table, and she read the same line of her book again without understanding it. When the phone finally rang, she grabbed it before the first ring had ended.";
@@ -6,12 +10,12 @@ const TEXT_LIBRARY = "The city library has extended its opening hours. From Marc
 const TEXT_MEETING = "Nobody should have to sit through another pointless meeting. Send the summary by email instead: you'll save time, money and everyone's patience.";
 const TEXT_CAT = "My grandmother's cat has never understood that the sofa is not a bed. Yesterday it slept on my exam notes, and this morning it sneezed on my toast, which I have to admit was its most helpful review so far.";
 
-export const UPPER_INTERMEDIATE: SeedLesson[] = [
+export const UPPER_INTERMEDIATE_CORE: SeedLesson[] = [
   // ------------------------------------------------------------ GRAMMAR
   {
     slug: "upper-grammar-reported-speech",
     level: "UPPER_INTERMEDIATE", category: "GRAMMAR", title: "Reported Speech", topic: "Reported speech",
-    difficulty: "CORE", minutes: 16, prereq: ["int-grammar-passive"],
+    difficulty: "CORE", minutes: 16, prereq: ["upper-grammar-articles-determiners"],
     objective: "Report statements and questions accurately, changing tenses, pronouns and time words.",
     tags: ["grammar", "reported-speech", "tenses", "communication", "B2"],
     ref: { book: HW, level: "Upper-Intermediate", area: "Grammar", topic: "Reported speech" },
@@ -37,7 +41,7 @@ export const UPPER_INTERMEDIATE: SeedLesson[] = [
   {
     slug: "upper-grammar-relative-clauses",
     level: "UPPER_INTERMEDIATE", category: "GRAMMAR", title: "Relative Clauses: Defining and Non-Defining", topic: "Relative clauses",
-    difficulty: "CORE", minutes: 16, prereq: ["upper-grammar-reported-speech"],
+    difficulty: "CORE", minutes: 16, prereq: ["upper-grammar-modals-obligation-probability"],
     objective: "Add information to nouns with who, which, that, whose and where, and punctuate clauses correctly.",
     tags: ["grammar", "relative-clauses", "complex-sentences", "B2"],
     ref: { book: CE, level: "Upper-Intermediate", area: "Grammar", topic: "Relative clauses" },
@@ -208,5 +212,35 @@ export const UPPER_INTERMEDIATE: SeedLesson[] = [
     ],
   },
 ];
+
+
+// Teaching order (syllabus Units 1-12); existing core lessons are slotted into the unit they best support.
+const PLAN = [
+  // grammar
+  "upper-grammar-tense-system-review", "upper-grammar-present-perfect-simple-continuous", "upper-grammar-narrative-tenses", "upper-grammar-questions-negatives",
+  "upper-grammar-future-forms-complete", "upper-grammar-quantifiers", "upper-grammar-modals-obligation-probability", "upper-grammar-midterm-review-units-1-7",
+  "upper-grammar-relative-clauses", "upper-grammar-participle-clauses", "upper-grammar-habits-present-past", "upper-grammar-used-to-get-used-to",
+  "upper-grammar-past-modals-deduction", "upper-grammar-should-have-needn-t-have", "upper-grammar-wish-if-only", "upper-grammar-conditionals-hypothesising",
+  "upper-grammar-articles-determiners", "upper-grammar-final-review-units-1-12", "upper-grammar-reported-speech",
+  // vocabulary
+  "upper-vocab-compound-nouns-adjectives", "upper-vocab-make-do", "upper-vocab-environment-society", "upper-vocab-books-films", "upper-vocab-antonyms-prefixes",
+  "upper-vocab-truth-deception", "upper-vocab-take-put", "upper-vocab-variable-stress", "upper-vocab-get", "upper-vocab-phrasal-verbs",
+  "upper-vocab-extreme-adjectives", "upper-vocab-homonyms-homophones", "upper-vocab-body-idioms", "upper-vocab-word-pairs", "upper-vocab-life-time-expressions",
+  // reading
+  "upper-reading-road-back-harbour", "upper-reading-inference", "upper-reading-plastic-planet", "upper-reading-kindness-strangers", "upper-reading-suspense-story",
+  "upper-reading-post-truth", "upper-reading-writers-purpose", "upper-reading-boomerang-generation", "upper-reading-two-success-stories", "upper-reading-relentless-engineer",
+  "upper-reading-mountains-to-sea", "upper-reading-treetop-fairy-tale", "upper-reading-cold-runner", "upper-reading-living-in-the-past", "upper-reading-amazing-seafarers",
+  "upper-reading-scholar-under-playground", "upper-reading-have-you-wondered", "upper-reading-someone-should-have-stopped", "upper-reading-body-clock",
+  // writing
+  "upper-writing-correction-codes", "upper-writing-contrast-result", "upper-writing-cause-effect-problem-solution", "upper-writing-adverbs-narrative",
+  "upper-writing-in-class-1-preparation", "upper-writing-linking-conjunctions", "upper-writing-cv-cover-letter", "upper-writing-survey-report",
+  "upper-writing-argument-counter", "upper-writing-for-against-essay", "upper-writing-describing-places", "upper-writing-early-memory",
+  "upper-writing-in-class-2-preparation", "upper-writing-emphasis-cleft", "upper-writing-narrative-linkers", "upper-writing-improving-style-cohesion",
+  "upper-writing-final-exam-essay",
+];
+const rank = (slug: string) => (PLAN.indexOf(slug) === -1 ? 999 : PLAN.indexOf(slug));
+export const UPPER_INTERMEDIATE: SeedLesson[] = [...UPPER_U1_U3, ...UPPER_U4_U6, ...UPPER_U7_U9, ...UPPER_U10_U12, ...UPPER_INTERMEDIATE_CORE].sort(
+  (a, b) => rank(a.slug) - rank(b.slug)
+);
 
 void HW; void CE; void compare; void examples; void passage; void sa; void tip;
