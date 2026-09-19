@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { StatusBadge } from "@/components/status-badge";
 import { ScheduleCreateForm } from "@/components/admin/schedule-create-form";
 import { ScheduleRowActions } from "@/components/admin/schedule-row-actions";
-import { formatDate, formatTimeRange } from "@/lib/utils";
+import { formatTimeRange, formatDateLtr } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +42,7 @@ export default async function AdminSchedulesPage() {
               <tr key={s.id}>
                 <td className="px-4 py-3 font-medium text-ink-800 dark:text-ink-100">{s.course.title}</td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{s.course.instructor.fullName}</td>
-                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatDate(s.date)}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatDateLtr(s.date)}</td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatTimeRange(s.startTime, s.endTime)}</td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{s.seatsBooked}/{s.capacity}</td>
                 <td className="px-4 py-3"><StatusBadge status={s.seatsBooked >= s.capacity && s.status === "OPEN" ? "FULL" : s.status} /></td>

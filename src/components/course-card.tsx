@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FORMAT_LABELS, LEVEL_LABELS, localize } from "@/lib/enums";
 import { PriceBreakdown } from "@/components/price-breakdown";
-import { formatDate } from "@/lib/utils";
+import { formatDateLtr } from "@/lib/utils";
 import { useI18n } from "@/components/i18n-provider";
 import type { CourseCardData } from "@/lib/types";
 
@@ -59,7 +59,7 @@ export function CourseCard({ course }: { course: CourseCardData }) {
         <div className="text-xs text-ink-500 dark:text-ink-400">
           {upcoming.length > 0 ? (
             <span>
-              {t("courses.nextAvailable")}: <strong className="text-ink-700 dark:text-ink-200">{formatDate(upcoming[0].date)}</strong>
+              {t("courses.nextAvailable")}: <strong className="text-ink-700 dark:text-ink-200">{formatDateLtr(upcoming[0].date)}</strong>
             </span>
           ) : (
             <span className="text-amber-600 dark:text-amber-400">{t("courses.noUpcoming")}</span>

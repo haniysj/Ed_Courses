@@ -5,7 +5,7 @@ import { RescheduleForm } from "@/components/admin/reschedule-form";
 import { ApprovePaymentButton } from "@/components/admin/approve-payment-button";
 import { WhatsAppIconButton } from "@/components/whatsapp-button";
 import { Money } from "@/components/money";
-import { formatDate, formatTimeRange } from "@/lib/utils";
+import { formatTimeRange, formatDateLtr } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -38,12 +38,12 @@ export default async function AdminBookingDetailPage({ params }: { params: { id:
         <div className="grid gap-4 border-t border-ink-100 pt-4 sm:grid-cols-2">
           <Info label="Course" value={booking.course.title} />
           <Info label="Instructor" value={booking.instructor.fullName} />
-          <Info label="Session Date" value={formatDate(booking.schedule.date)} />
+          <Info label="Session Date" value={formatDateLtr(booking.schedule.date)} />
           <Info label="Session Time" value={formatTimeRange(booking.schedule.startTime, booking.schedule.endTime)} />
           <Info label="Duration (snapshot)" value={`${booking.durationHoursSnapshot} hours`} />
           <Info label="Hourly Rate (snapshot)" value=<Money amount={booking.hourlyRateSnapshot} currency={booking.currencySnapshot} weight="medium" /> />
           <Info label="Total Price (snapshot)" value=<Money amount={booking.totalPriceSnapshot} currency={booking.currencySnapshot} weight="medium" /> />
-          <Info label="Booked On" value={formatDate(booking.createdAt)} />
+          <Info label="Booked On" value={formatDateLtr(booking.createdAt)} />
         </div>
 
         <p className="rounded-lg bg-ink-50 p-3 text-xs text-ink-500 dark:text-ink-400">
@@ -81,7 +81,7 @@ export default async function AdminBookingDetailPage({ params }: { params: { id:
             <div>
               <p className="text-sm font-medium text-ink-800 dark:text-ink-100">{booking.receiptFileName ?? "Receipt"}</p>
               <p className="text-xs text-ink-400">
-                Uploaded {booking.receiptUploadedAt ? formatDate(booking.receiptUploadedAt) : "—"}
+                Uploaded {booking.receiptUploadedAt ? formatDateLtr(booking.receiptUploadedAt) : "—"}
               </p>
             </div>
             <a href={booking.receiptData} download={booking.receiptFileName ?? "receipt"} className="btn-outline btn-sm">

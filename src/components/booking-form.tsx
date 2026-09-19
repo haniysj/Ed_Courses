@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { calculateTotalPrice } from "@/lib/pricing";
 import { Money } from "@/components/money";
-import { formatDate, formatTimeRange } from "@/lib/utils";
+import { formatTimeRange, formatDateLtr } from "@/lib/utils";
 import { CONTACT_METHODS } from "@/lib/enums";
 import { useI18n } from "@/components/i18n-provider";
 
@@ -123,7 +123,7 @@ export function BookingForm({
                   className="h-4 w-4"
                 />
                 <span>
-                  <strong className="text-ink-800 dark:text-ink-100">{formatDate(s.date)}</strong>{" "}
+                  <strong className="text-ink-800 dark:text-ink-100">{formatDateLtr(s.date)}</strong>{" "}
                   <span className="text-ink-500 dark:text-ink-400">{formatTimeRange(s.startTime, s.endTime)}</span>
                 </span>
               </span>

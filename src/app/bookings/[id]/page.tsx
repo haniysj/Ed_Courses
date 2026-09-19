@@ -3,7 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { StatusBadge } from "@/components/status-badge";
 import { Money } from "@/components/money";
-import { formatDate, formatTimeRange } from "@/lib/utils";
+import { formatTimeRange, formatDateLtr } from "@/lib/utils";
 import { getServerLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { ReceiptUpload } from "@/components/receipt-upload";
@@ -42,7 +42,7 @@ export default async function BookingStatusPage({ params }: { params: { id: stri
         <dl className="mt-4 space-y-3 text-sm">
           <Row label={isAr ? "الدورة" : "Course"} value={booking.course.title} />
           <Row label={t.courseDetail.instructor} value={booking.instructor.fullName} />
-          <Row label={t.courseDetail.date} value={formatDate(booking.schedule.date)} />
+          <Row label={t.courseDetail.date} value={formatDateLtr(booking.schedule.date)} />
           <Row label={t.courseDetail.time} value={formatTimeRange(booking.schedule.startTime, booking.schedule.endTime)} />
           <Row label={t.courses.duration} value={`${booking.durationHoursSnapshot} ${t.common.hours}`} />
           <Row

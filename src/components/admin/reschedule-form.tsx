@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { formatDate, formatTimeRange } from "@/lib/utils";
+import { formatTimeRange, formatDateLtr } from "@/lib/utils";
 
 type ScheduleOption = {
   id: string;
@@ -43,7 +43,7 @@ export function RescheduleForm({ bookingId, currentScheduleId, schedules }: { bo
       <select className="input" value={scheduleId} onChange={(e) => setScheduleId(e.target.value)}>
         {schedules.map((s) => (
           <option key={s.id} value={s.id} disabled={s.id !== currentScheduleId && (s.status !== "OPEN" || s.seatsBooked >= s.capacity)}>
-            {formatDate(s.date)} &middot; {formatTimeRange(s.startTime, s.endTime)} ({s.capacity - s.seatsBooked} left)
+            {formatDateLtr(s.date)} &middot; {formatTimeRange(s.startTime, s.endTime)} ({s.capacity - s.seatsBooked} left)
           </option>
         ))}
       </select>

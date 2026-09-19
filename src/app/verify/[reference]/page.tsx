@@ -3,7 +3,7 @@ import { getServerLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { CEFR_LABELS, type CefrLevel } from "@/lib/enums";
 import { getHeadwayRecommendation, type BandPosition } from "@/lib/placement/headway";
-import { formatDate } from "@/lib/utils";
+import { formatDateLtr } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +29,7 @@ export default async function VerifyPage({ params }: { params: { reference: stri
               </span>
             </div>
             <Row label={locale === "ar" ? "المتعلم" : "Learner"} value={attempt.learnerName || (locale === "ar" ? "متعلم مجهول" : "Anonymous")} />
-            <Row label={t.placement.testDate} value={formatDate(attempt.completedAt ?? attempt.startedAt)} />
+            <Row label={t.placement.testDate} value={formatDateLtr(attempt.completedAt ?? attempt.startedAt)} />
             <Row label={t.placement.overallLevel} value={CEFR_LABELS[attempt.cefrOverall as CefrLevel][locale]} />
             <Row
               label={t.placement.recommendedHeadway}

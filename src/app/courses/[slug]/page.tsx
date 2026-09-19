@@ -8,7 +8,7 @@ import { BookingForm } from "@/components/booking-form";
 import { StatusBadge } from "@/components/status-badge";
 import { Reveal } from "@/components/reveal";
 import { FORMAT_LABELS, LEVEL_LABELS, localize } from "@/lib/enums";
-import { formatDate, formatTimeRange } from "@/lib/utils";
+import { formatTimeRange, formatDateLtr } from "@/lib/utils";
 import { getServerLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 
@@ -134,7 +134,7 @@ export default async function CourseDetailsPage({ params }: { params: { slug: st
                 <tbody className="divide-y divide-ink-100 dark:divide-ink-800">
                   {course.schedules.map((s) => (
                     <tr key={s.id}>
-                      <td className="px-4 py-3 font-medium text-ink-800 dark:text-ink-100">{formatDate(s.date)}</td>
+                      <td className="px-4 py-3 font-medium text-ink-800 dark:text-ink-100">{formatDateLtr(s.date)}</td>
                       <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatTimeRange(s.startTime, s.endTime)}</td>
                       <td className="px-4 py-3">
                         <StatusBadge status={s.seatsBooked >= s.capacity ? "FULL" : s.status} />

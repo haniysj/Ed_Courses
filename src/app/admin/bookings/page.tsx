@@ -3,7 +3,7 @@ import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { BookingRowActions } from "@/components/admin/booking-row-actions";
 import { Money } from "@/components/money";
-import { formatDate } from "@/lib/utils";
+import { formatDateLtr } from "@/lib/utils";
 import { BOOKING_STATUSES, BOOKING_STATUS_LABELS } from "@/lib/enums";
 import { WhatsAppIconButton } from "@/components/whatsapp-button";
 
@@ -105,9 +105,9 @@ export default async function AdminBookingsPage({
                 </td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{b.course.title}</td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{b.instructor.fullName}</td>
-                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatDate(b.schedule.date)}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatDateLtr(b.schedule.date)}</td>
                 <td className="px-4 py-3 font-semibold text-brand-700"><Money amount={b.totalPriceSnapshot} currency={b.currencySnapshot} weight="bold" /></td>
-                <td className="px-4 py-3 text-ink-500 dark:text-ink-400">{formatDate(b.createdAt)}</td>
+                <td className="px-4 py-3 text-ink-500 dark:text-ink-400">{formatDateLtr(b.createdAt)}</td>
                 <td className="px-4 py-3">
                   <BookingRowActions id={b.id} status={b.status} paymentStatus={b.paymentStatus} />
                 </td>

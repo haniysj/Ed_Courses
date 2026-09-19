@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { CEFR_LABELS, type CefrLevel } from "@/lib/enums";
-import { formatDate } from "@/lib/utils";
+import { formatDateLtr } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -110,7 +110,7 @@ export default async function AdminPlacementAttemptsPage({
                   <p className="font-medium text-ink-800 dark:text-ink-100">{a.learnerName || "Anonymous"}</p>
                   {a.learnerEmail && <p className="text-xs text-ink-400">{a.learnerEmail}</p>}
                 </td>
-                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatDate(a.completedAt ?? a.startedAt)}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatDateLtr(a.completedAt ?? a.startedAt)}</td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{a.version.name}</td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{a.scoreOverall} / 100</td>
                 <td className="px-4 py-3">

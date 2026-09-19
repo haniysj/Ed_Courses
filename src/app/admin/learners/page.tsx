@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { formatDate } from "@/lib/utils";
+import { formatDateLtr } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -35,7 +35,7 @@ export default async function AdminLearnersPage() {
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{l.phone ?? "—"}</td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{l.country ?? "—"}</td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{l._count.bookings}</td>
-                <td className="px-4 py-3 text-ink-500 dark:text-ink-400">{formatDate(l.createdAt)}</td>
+                <td className="px-4 py-3 text-ink-500 dark:text-ink-400">{formatDateLtr(l.createdAt)}</td>
               </tr>
             ))}
           </tbody>

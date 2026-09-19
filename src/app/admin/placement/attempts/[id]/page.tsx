@@ -5,7 +5,7 @@ import { CEFR_DESCRIPTIONS, CEFR_LABELS, type CefrLevel, type PlacementSkill } f
 import { formatCefrLabel } from "@/lib/placement/scoring";
 import { getHeadwayRecommendation, type BandPosition } from "@/lib/placement/headway";
 import { PlacementCertificate } from "@/components/placement/placement-certificate";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatDateLtr } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -60,7 +60,7 @@ export default async function AdminPlacementAttemptDetailPage({ params }: { para
         <Info label="Email" value={attempt.learnerEmail || "—"} />
         <Info label="Account" value={attempt.user ? attempt.user.email : "Guest (no account)"} />
         <Info label="Test Version" value={`Version ${attempt.version.name}`} />
-        <Info label="Test Date" value={formatDate(attempt.completedAt ?? attempt.startedAt)} />
+        <Info label="Test Date" value={formatDateLtr(attempt.completedAt ?? attempt.startedAt)} />
         <Info label="Completion Time" value={completionMinutes !== null ? `${completionMinutes} min` : "—"} />
         <Info label="Overall Score" value={`${attempt.scoreOverall} / 100`} />
         <Info label="CEFR Level" value={`${CEFR_LABELS[cefr].en} (${qualifier})`} />

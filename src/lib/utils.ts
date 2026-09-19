@@ -9,6 +9,11 @@ export function formatDate(date: Date | string): string {
   return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 }
 
+/** Same as formatDate, wrapped in an LTR isolate so the day/month/year order survives inside RTL (Arabic) text. Use for on-screen text only. */
+export function formatDateLtr(date: Date | string): string {
+  return "⁦" + formatDate(date) + "⁩";
+}
+
 export function formatTimeRange(startTime: string, endTime: string): string {
   return `${startTime} – ${endTime}`;
 }

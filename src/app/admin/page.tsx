@@ -9,7 +9,7 @@ import {
   RevenueByMonthChart,
 } from "@/components/admin/dashboard-charts";
 import { Money } from "@/components/money";
-import { formatDate } from "@/lib/utils";
+import { formatDateLtr } from "@/lib/utils";
 import { getServerLocale } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
@@ -140,7 +140,7 @@ export default async function AdminDashboardPage() {
               <div key={s.id} className="flex items-center justify-between border-b border-ink-50 pb-3 last:border-0 last:pb-0 dark:border-ink-800">
                 <div>
                   <p className="text-sm font-semibold text-ink-800 dark:text-ink-100">{s.course.title}</p>
-                  <p className="text-xs text-ink-500 dark:text-ink-400">{formatDate(s.date)} &middot; {s.startTime}–{s.endTime} &middot; {s.course.instructor.fullName}</p>
+                  <p className="text-xs text-ink-500 dark:text-ink-400">{formatDateLtr(s.date)} &middot; {s.startTime}–{s.endTime} &middot; {s.course.instructor.fullName}</p>
                 </div>
                 <span className="text-xs text-ink-400">{s.seatsBooked}/{s.capacity} {isAr ? "مقعد" : "seats"}</span>
               </div>
