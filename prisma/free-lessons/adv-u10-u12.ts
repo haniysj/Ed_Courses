@@ -1,0 +1,388 @@
+import { annotated, compare, fill, list, match, mc, mist, order, passage, sa, structure, table, text, tf, tip, type SeedLesson } from "./dsl";
+import { A } from "./adv-common";
+
+// Advanced, Units 10-12. Topics follow the academy's syllabus; every text is ORIGINAL (people and products are fictional; scientific statements are widely accepted and hedged).
+
+const PLACEBO = "THE POWER OF PLACEBO\n\nA placebo is a treatment with no active ingredient, such as a sugar pill, given to patients who believe it may help. It is well established that a significant proportion of patients who receive a placebo report an improvement, a phenomenon known as the placebo effect. It has been reported that the effect is strongest for symptoms such as pain and anxiety, in which the patient's expectations seem to play a large role.\n\nThe finding has forced researchers to design drug trials carefully. In a typical trial, volunteers are divided into two groups: one receives the real drug, the other a placebo, and neither group knows which is which. Only if the drug performs significantly better than the placebo is it considered effective. Brain scans suggest that placebos may actually trigger the release of the body's natural painkillers, although the evidence is not yet conclusive.\n\nEven athletes appear to be affected. In some experiments, cyclists who were told that they had been given a performance-enhancing substance are believed to have ridden faster, although they had in fact received only a harmless drink. Such studies raise uncomfortable questions: if belief alone can change performance, where does the effect of the treatment end and the effect of the mind begin?";
+const GADGETS = "TOO MUCH SCIENCE?\n\n(A humorous feature)\n\nLast month, I bought a kettle. It was, the shop assistant assured me, “fully intelligent”. It connects to my phone, learns my tea-drinking habits and, according to the leaflet, will one day be able to “anticipate my emotional needs”. In the meantime, it has not yet managed to boil water without sending me a notification.\n\nThis is what engineers call function inflation: the tendency of every gadget to acquire more and more features, most of which nobody wants. My washing machine has forty programmes, of which I use two. My television, which was due to arrive with a simple remote control, came with a manual the length of a novel. At the moment, I am planning to spend the weekend trying to work out how to turn it off.\n\nBy this time next year, I shall no doubt have replaced the kettle with something even smarter. Until then, I am considering a radical alternative: a saucepan. It is rampant complexity's natural enemy: a simple tool that has been doing the same job, without complaint, for centuries.";
+const MARATHON = "THE DAY I COULDN'T STAND UP\n\n(A fictional first-person account)\n\nI was on kilometre thirty-eight of my first marathon when my legs simply stopped. I remember the sky tilting, and then nothing. When I came to, a stranger was kneeling beside me, holding a bottle of water and telling me, over and over, not to try to move.\n\nIn hospital, the doctors explained that my body had run out of the fluids and salts it needed. Had I stopped earlier, I would have been fine; had I ignored the warning signs a little longer, they said, the outcome might have been much worse. I had ignored the dizziness at kilometre thirty-two because I did not want to lose my pace.\n\nThat afternoon changed how I think about ambition. I still run, but I now listen to my body, having learnt that stubbornness is not the same as strength. Provided that I stay hydrated and stop when I should, I can go on for years. As the nurse told me, in case I forgot: “The finish line will still be there tomorrow.”";
+const TIME = "A SIDEWAYS LOOK AT TIME\n\nWe speak of time as if it were a river, a thief or a gift, and each metaphor quietly shapes how we live. To say that time is money encourages us to spend it, save it and waste it; to say that time flies suggests that it moves without our permission. Other cultures use very different images. In some languages, the past is imagined as lying in front of us, because we can see it, and the future behind us, because it is unseen: the opposite of the familiar English picture.\n\nPsychologists have found that our perception of time is far from constant. Time seems to slow down in moments of danger and to speed up when we are absorbed in pleasant activity, which is presumably why a boring lecture feels endless and a good holiday seems to be over in a day. Time is, in other words, less a fact of the world than a feature of the mind.\n\nThis does not stop us from trying to control it. We produce calendars, alarms and productivity systems, hoping that if we measure time carefully enough we shall never run out of it. The evidence suggests otherwise, but the hope, like time itself, refuses to go away.";
+const BIO_WEAK = "Nora Ellis was born in 1980. She went to school in Leeds. She studied law. She worked in London. She founded a charity. She won an award. She lives in Bristol.";
+
+export const ADV_U10_U12: SeedLesson[] = [
+  // ============================================================ UNIT 10
+  A("adv-grammar-distancing-the-facts", "GRAMMAR", "Distancing the Facts: Passive Reporting Structures and seem/appear", "Reporting structures", "CHALLENGING", 20, ["adv-grammar-discourse-markers"],
+    "Use It is said that…, subject + passive + to-infinitive, and seem/appear structures to report information with objective distance.",
+    ["grammar", "passive-reporting", "distancing", "academic-writing", "seem-appear"], "Distancing the facts (Unit 10)",
+    [
+      text("Academic and journalistic writing often **avoids stating claims as absolute truth**. Instead, it **reports** what is **said, believed or thought**. Two structures do this: **It is + participle + that-clause** and **subject + passive + to-infinitive**.", "Explanation"),
+      table("Passive reporting", ["Structure", "Example"], [
+        ["It is said / believed / thought / reported / claimed / known + that …", "It is believed that the drug reduces pain."],
+        ["Subject + is said / thought / believed / reported + to-infinitive", "The drug is believed to reduce pain."],
+        ["… + to have + participle (earlier time)", "The company is said to have lost millions."],
+        ["… + to be + -ing (in progress)", "The economy is thought to be recovering."],
+      ]),
+      table("Seem and appear", ["Structure", "Example"], [
+        ["seem / appear + to-infinitive", "The patients appear to respond well."],
+        ["seem / appear + to have + participle", "She seems to have forgotten."],
+        ["It seems / appears that …", "It appears that the trial was successful."],
+        ["there seems / appears to be …", "There seems to be a misunderstanding."],
+        ["seem / appear + as if / as though", "It seems as though nobody is listening."],
+      ]),
+      compare("Errors", [["It is believed the drug to reduce pain.", "It is believed that the drug reduces pain. / The drug is believed to reduce pain.", "Choose one structure."], ["He is said to be lost the money.", "He is said to have lost the money.", "Earlier action: to have + participle."]]),
+      tip("Distancing is not the same as being weak: it shows that you know the difference between evidence and assertion.", "Academic stance"),
+    ],
+    [
+      mc("The drug ___ to reduce pain, although further trials are needed.", ["is believed", "believes", "is believing"], 0, "Passive reporting."),
+      mc("The company ___ to have lost millions last year.", ["is said", "says", "is saying"], 0, "Passive + to have + participle."),
+      mist("Find the mistake.", ["He is said", "to be lost", "his savings."], 1, "to have lost", "Earlier action: to have + participle."),
+      fill("It ___ (appear) that the trial was successful.", [["appears", "seems"]], "It appears / seems that …"),
+      match("Structure?", [["It is reported that …", "impersonal it-structure"], ["The economy is thought to be recovering.", "subject + passive + to be -ing"], ["She seems to have forgotten.", "seem + perfect infinitive"]], "Match the structure."),
+      order("Put the words in the correct order.", ["The", "patients", "appear", "to", "respond", "well", "to", "treatment."], "word", "appear + to-infinitive."),
+    ]),
+
+  A("adv-vocab-body-verbs", "VOCABULARY", "Body Parts Used as Verbs and Idioms", "Body verbs", "CORE", 14, ["adv-vocab-rhyme-rhythm"],
+    "Understand and use verbs and idioms formed from body parts (shoulder, stomach, elbow, toe the line).",
+    ["vocabulary", "body", "verbs", "idioms", "conversion", "listening-support"], "Body parts as verbs (Unit 10)",
+    [
+      text("English can **convert** nouns into verbs: many **body-part nouns** have become **verbs** with **figurative** meanings."),
+      table("Body verbs", ["Verb", "Meaning", "Example"], [
+        ["shoulder", "accept responsibility or blame", "She shouldered the blame for the failure."],
+        ["stomach", "tolerate (usually negative)", "I can't stomach violence in films."],
+        ["elbow", "push aside with the elbow / force out", "He elbowed his way to the front."],
+        ["toe the line", "obey the rules", "Members were expected to toe the party line."],
+        ["cheek", "speak rudely to (informal)", "Don't cheek your teacher."],
+        ["hand (over)", "give", "Please hand in your work."],
+        ["thumb (a lift)", "hitch-hike", "They thumbed a lift to the coast."],
+        ["head (a team)", "lead", "She heads the research department."],
+        ["finger", "identify (informal)", "Witnesses fingered him as the thief."],
+        ["eyeball / eye", "look at closely", "He eyed the cake suspiciously."],
+      ]),
+      tip("Some of these are informal or slang. In academic writing, use accept responsibility, tolerate, lead instead.", "Register"),
+    ],
+    [
+      match("Match the body verb with its meaning.", [["shoulder", "accept responsibility"], ["stomach", "tolerate"], ["elbow", "push aside"], ["toe the line", "obey the rules"], ["head", "lead"]], "Learn each verb."),
+      mc("She ___ the blame for the failure of the project.", ["shouldered", "stomached", "elbowed"], 0, "shoulder = accept responsibility."),
+      fill("I can't ___ violence in films.", ["stomach"], "stomach = tolerate."),
+      mist("Find the mistake.", ["Members", "toe the party", "line."], 1, "were expected to toe the party line", "Correct form of the idiom (with expected to)."),
+      mc("Which is the most formal way to say ‘shoulder the blame’?", ["accept responsibility", "take it on the chin", "cheek it"], 0, "Formal equivalent."),
+      sa("“She ___ the research department.” (leads)", ["heads"], "head = lead.", { hint: "h _ _ _ s" }),
+    ]),
+
+  A("adv-vocab-health-compounds", "VOCABULARY", "Health and Medicine: Compound Nouns", "Health compounds", "CORE", 12, ["adv-vocab-body-verbs"],
+    "Understand and use compound nouns related to health, medicine and clinical research.",
+    ["vocabulary", "health", "compound-nouns", "medicine", "clinical-trials"], "Health compound nouns (Unit 10)",
+    [
+      text("Medical and scientific writing uses many **compound nouns**. They are usually written as **two words**, sometimes hyphenated."),
+      table("Compounds", ["Compound", "Meaning", "Example"], [
+        ["drug trial", "a study testing a new medicine", "The drug trial involved 500 volunteers."],
+        ["placebo effect", "improvement caused by belief in treatment", "The placebo effect is well documented."],
+        ["brain scan", "a picture of the brain made by a machine", "A brain scan showed increased activity."],
+        ["side effect", "an unwanted effect of a medicine", "Drowsiness is a common side effect."],
+        ["blood pressure", "the force of blood in the vessels", "High blood pressure can be dangerous."],
+        ["life expectancy", "average number of years a person may live", "Life expectancy has risen."],
+        ["health check", "a routine medical examination", "She has an annual health check."],
+        ["control group", "the group in a study that receives no treatment", "The control group received a sugar pill."],
+        ["clinical evidence", "evidence gathered by testing on patients", "There is little clinical evidence."],
+      ]),
+      tip("Word order in compounds: the first noun modifies the second (a drug trial is a kind of trial, not a kind of drug).", "Structure"),
+    ],
+    [
+      match("Match the compound with its meaning.", [["drug trial", "a study testing a medicine"], ["placebo effect", "improvement caused by belief"], ["side effect", "an unwanted effect of a medicine"], ["control group", "group that receives no treatment"], ["brain scan", "a picture of the brain"]], "Learn each compound."),
+      mc("The ___ received only a sugar pill.", ["control group", "brain scan", "side effect"], 0, "Control group."),
+      fill("Drowsiness is a common ___ effect of the medicine.", ["side"], "side effect."),
+      mist("Find the mistake.", ["The drug", "trials", "involved 500 volunteers."], 1, "trial", "The compound is a drug trial (singular)."),
+      mc("Which is a kind of trial?", ["a drug trial", "a trial drug", "a drugs trial group"], 0, "drug trial."),
+      sa("A study testing a new medicine is a drug ___", ["trial"], "drug trial.", { hint: "t _ _ _ l" }),
+    ]),
+
+  A("adv-reading-power-of-placebo", "READING", "Reading: The Power of Placebo", "Popular science", "CHALLENGING", 20, ["adv-reading-pianist-and-wolves"],
+    "Analyse a science feature, identify reported evidence, hedging and the writer's final question.",
+    ["reading", "science", "medicine", "hedging", "passive-reporting"], "The power of placebo (Unit 10)",
+    [
+      text("Science features use **distancing structures** (*it has been reported that*, *are believed to*) to signal that findings are **reported, not proven**. Identify **what is established**, **what is suggested** and **what is unknown**.", "Reading strategy"),
+      passage("Example", "The compound is thought to reduce inflammation, although the trial included only sixty patients, so the results are unlikely to be conclusive.", "Distancing + limitation"),
+      list("Guided practice", ["Reported claim → thought to reduce inflammation.", "Limitation → only sixty patients.", "Conclusion → not conclusive."]),
+    ],
+    [
+      mc("What is a placebo?", ["a treatment with no active ingredient", "a new drug", "a scan"], 0, "First sentence.", PLACEBO),
+      mc("For which symptoms is the effect said to be strongest?", ["pain and anxiety", "broken bones", "infections"], 0, "“strongest for symptoms such as pain and anxiety”.", PLACEBO),
+      mc("How do drug trials usually work?", ["Neither group knows which treatment it receives.", "Everyone receives the drug.", "Doctors choose the patients."], 0, "Paragraph 2.", PLACEBO),
+      mc("What do brain scans suggest?", ["Placebos may trigger natural painkillers.", "Placebos damage the brain.", "Scans are unreliable."], 0, "“although the evidence is not yet conclusive”.", PLACEBO),
+      mc("What is the effect of the cyclists study?", ["It suggests belief may change performance.", "It proves the substance works.", "It shows drinks are useless."], 0, "Paragraph 3.", PLACEBO),
+      tf("The writer says the brain-scan evidence is conclusive.", false, "“the evidence is not yet conclusive”.", PLACEBO),
+    ]),
+
+  A("adv-writing-debating-an-issue", "WRITING", "Debating an Issue: The For-and-Against Opinion Piece", "Opinion essay", "CHALLENGING", 24, ["adv-grammar-distancing-the-facts", "adv-writing-in-class-2-preparation"],
+    "Write a balanced for-and-against opinion piece using formal connectors, extreme adjectives and distancing structures.",
+    ["writing", "opinion-piece", "for-and-against", "formal-connectors", "distancing", "extreme-adjectives"], "Debating an issue (Unit 10, p. 121)",
+    [
+      text("A **for-and-against opinion piece** presents **both sides fairly**, then gives a **reasoned personal view**. At Advanced level, the writing should be **formally cohesive**, **objectively phrased** and **lexically varied**.", "Explanation"),
+      table("Structure (about 250 words)", ["Paragraph", "Content", "Language"], [
+        ["Introduction", "introduce the issue; hook; thesis", "It is widely believed that … Few issues are as controversial as …"],
+        ["For", "strongest arguments + evidence", "Proponents argue that … There appears to be strong evidence that …"],
+        ["Against", "opposing arguments + evidence", "Opponents, however, point out that … It has been claimed that …"],
+        ["Conclusion", "balanced summary + personal stance", "On balance, … In the final analysis, … I am inclined to conclude that …"],
+      ]),
+      table("Distancing and extreme adjectives", ["Feature", "Examples"], [["Distancing", "It is claimed that … · Critics are said to … · There seems to be …"], ["Extreme adjectives", "absolutely essential · utterly unacceptable · completely unrealistic · deeply troubling"], ["Formal connectors", "Furthermore · Nevertheless · Given that · Whereas · Consequently"]]),
+      annotated("Model paragraph", [["For", "Proponents argue that fewer working days would be absolutely beneficial for well-being."], ["Evidence", "Some pilot schemes are reported to have reduced absenteeism considerably."], ["Against", "Nevertheless, critics point out that certain sectors, such as healthcare, could hardly operate on such a basis."]]),
+    ],
+    [
+      order("Put the parts of the essay in order.", ["Introduction with thesis", "Arguments for", "Arguments against", "Conclusion with stance"], "paragraph", "A balanced essay."),
+      mc("Which sentence uses a distancing structure?", ["Some pilot schemes are reported to have reduced absenteeism.", "Absenteeism dropped.", "I think it works."], 0, "Reported to have + participle."),
+      mist("Find the mistake (register).", ["The proposal", "is totally bonkers", "and unrealistic."], 1, "is completely unrealistic", "Avoid slang; use an extreme adjective."),
+      fill("On ___, the arguments for the proposal seem stronger. (balance)", ["balance"], "On balance."),
+      match("Function?", [["Proponents argue that …", "presents the ‘for’ view"], ["Opponents, however, point out that …", "presents the ‘against’ view"], ["In the final analysis, …", "conclusion"]], "Match the phrase."),
+      mc("Which adjective is EXTREME?", ["essential", "important", "useful"], 0, "Essential is ungradable: absolutely essential."),
+    ]),
+
+  // ============================================================ UNIT 11
+  A("adv-grammar-future-forms-review", "GRAMMAR", "Future Forms Review: Continuous, Perfect and Future in the Past", "Future forms", "CHALLENGING", 20, ["adv-grammar-distancing-the-facts"],
+    "Use the full range of future forms, including future continuous, future perfect and future in the past.",
+    ["grammar", "future", "future-continuous", "future-perfect", "future-in-the-past"], "Future forms review (Unit 11)",
+    [
+      text("At Advanced level, distinguish **degrees of certainty** and **planning**, and use **future in the past** to describe **what was expected from a past viewpoint**.", "Explanation"),
+      table("Future forms", ["Form", "Meaning", "Example"], [
+        ["will", "prediction, spontaneous decision, promise", "I'll call you tomorrow. Prices will rise."],
+        ["be going to", "intention; prediction with evidence", "I'm going to resign. It's going to rain."],
+        ["Present Continuous", "arrangement", "I'm meeting the director at ten."],
+        ["Present Simple", "timetable; after time words", "The exam starts at nine. I'll call you when I arrive."],
+        ["will be + -ing", "in progress at a future moment; polite enquiry", "This time next week I'll be lying on a beach. Will you be using the car tonight?"],
+        ["will have + participle", "completed before a future time", "By 2030, the project will have been completed."],
+        ["be about to / be on the point of", "very near future", "The train is about to leave."],
+        ["be due to / be to", "scheduled / formal arrangement", "The report is due to be published. The minister is to visit Cairo."],
+      ]),
+      table("Future in the past", ["Form", "Example"], [["was/were going to", "I was going to call you, but I forgot."], ["was/were about to", "I was about to leave when the phone rang."], ["would", "She knew that she would never return."], ["was/were due to / was to", "The conference was due to start at nine."], ["Past Continuous (arrangement)", "I was meeting her that evening, but I had to cancel."]]),
+      compare("Errors", [["When I will arrive, I'll call.", "When I arrive, I'll call.", "No will after when."], ["By 2030 the project will be completed (already).", "By 2030 the project will have been completed.", "Completion before a time: future perfect."]]),
+    ],
+    [
+      mc("This time next week, I ___ on a beach in Salalah.", ["will be lying", "will lie", "will have lain"], 0, "In progress at a future time."),
+      mc("By 2030, the project ___.", ["will have been completed", "will complete", "is completing"], 0, "Future perfect passive."),
+      mc("I ___ to call you, but I forgot. (future in the past)", ["was going", "will go", "am going"], 0, "Unfulfilled plan in the past."),
+      mist("Find the mistake.", ["I'll call you", "when I will arrive", "at the station."], 1, "when I arrive", "No will after when."),
+      fill("The conference ___ (be due) to start at nine, but it was delayed.", ["was due"], "Future in the past: was due to."),
+      match("Meaning?", [["The train is about to leave.", "very near future"], ["I was about to leave.", "future in the past"], ["Will you be using the car tonight?", "polite enquiry"], ["It's going to rain.", "evidence-based prediction"]], "Match the form."),
+    ]),
+
+  A("adv-vocab-synonyms-antonyms", "VOCABULARY", "Synonyms and Antonyms: Expanding Range", "Synonyms and antonyms", "CHALLENGING", 14, ["adv-vocab-health-compounds"],
+    "Expand vocabulary range using antonyms and synonyms with attention to collocation and connotation.",
+    ["vocabulary", "synonyms", "antonyms", "range", "connotation"], "Synonyms and antonyms (Unit 11)",
+    [
+      text("Advanced learners need a **wide, flexible vocabulary**. Learn words in **pairs and sets**, and note **collocation** and **connotation**."),
+      table("Antonyms", ["Word", "Antonym", "Note"], [
+        ["rampant", "controlled / contained", "rampant: spreading without control (crime, disease, inflation)"],
+        ["complex", "simple / straightforward", "complex: made of many parts"],
+        ["tame", "wild / untamed", "tame: domesticated"],
+        ["scarce", "abundant / plentiful", "scarce resources"],
+        ["fragile", "sturdy / robust", "fragile economy"],
+        ["overt", "covert / concealed", "overt hostility vs covert operations"],
+        ["hostile", "welcoming / friendly", "hostile takeover"],
+      ]),
+      table("Synonym sets", ["Idea", "Words (weak → strong)"], [["rise in cost", "increase → rise → soar → skyrocket"], ["important", "significant → crucial → vital → paramount"], ["unclear", "vague → ambiguous → obscure → baffling"], ["harmful", "unhealthy → damaging → destructive → lethal"]]),
+      tip("Connotation: thrifty (positive), economical (neutral), stingy (negative) all describe careful spending.", "Connotation"),
+    ],
+    [
+      match("Match the word with its antonym.", [["rampant", "controlled"], ["complex", "simple"], ["tame", "wild"], ["scarce", "abundant"], ["fragile", "sturdy"]], "Learn the pairs."),
+      mc("Inflation was ___ during the crisis; prices doubled in a year.", ["rampant", "tame", "sturdy"], 0, "Rampant = out of control."),
+      mc("Which word has a NEGATIVE connotation?", ["stingy", "thrifty", "economical"], 0, "Stingy = unwilling to spend."),
+      mist("Find the mistake.", ["The instructions", "were very complex", "and simple to follow."], 1, "were clear", "Complex and simple are opposites."),
+      fill("Water is ___ (scarce / abundant) in the desert. (choose the right one)", ["scarce"], "Water is scarce in the desert."),
+      sa("The opposite of covert: ___", ["overt"], "overt.", { hint: "o _ _ _ t" }),
+    ]),
+
+  A("adv-reading-too-much-science", "READING", "Reading: Too Much Science?", "Humorous feature", "CORE", 16, ["adv-reading-power-of-placebo"],
+    "Identify humour, irony and the writer's serious point in a light feature about technology.",
+    ["reading", "humour", "irony", "technology", "feature-article", "tone"], "Function inflation (Unit 11)",
+    [
+      text("**Humorous features** use **exaggeration**, **understatement** and **irony** to make a **serious point**. Ask: **What is the writer really criticising?**", "Reading strategy"),
+      passage("Example", "The remote control has forty-two buttons, of which I recognise three, and one of those turns the television off.", "Exaggeration"),
+      list("Guided practice", ["Detail → forty-two buttons.", "Effect → comic exaggeration.", "Point → unnecessary complexity."]),
+    ],
+    [
+      mc("What does the writer say about the kettle?", ["It connects to a phone but cannot boil water quietly.", "It is very simple.", "It is cheap."], 0, "Humorous contradiction.", GADGETS),
+      mc("What is ‘function inflation’?", ["gadgets acquiring more and more features", "rising prices", "shrinking gadgets"], 0, "Paragraph 2.", GADGETS),
+      mc("Which detail is an example of exaggeration?", ["a manual the length of a novel", "a washing machine", "a radio"], 0, "Comic exaggeration.", GADGETS),
+      mc("What tense is used in ‘was due to arrive’?", ["future in the past", "present perfect", "future perfect"], 0, "The television was expected to arrive with a remote.", GADGETS),
+      mc("What alternative does the writer consider?", ["a saucepan", "a smart kettle", "a microwave"], 0, "Final paragraph.", GADGETS),
+      mc("What is the writer's serious point?", ["Technology is often more complicated than necessary.", "Kettles are useless.", "Phones are dangerous."], 0, "Function inflation.", GADGETS),
+    ]),
+
+  A("adv-writing-product-review", "WRITING", "Describing and Evaluating: An Online Product Review", "Evaluative writing", "CORE", 18, ["adv-vocab-synonyms-antonyms"],
+    "Write a balanced, vivid product review with descriptive and evaluative language and a clear recommendation.",
+    ["writing", "review", "evaluation", "product", "descriptive-language"], "Online product review (Unit 11, p. 122)",
+    [
+      text("A good **product review** is **specific**, **balanced** and **helpful** to readers. It describes the product, evaluates strengths and weaknesses, and gives a **verdict**.", "Explanation"),
+      table("Structure", ["Part", "Content", "Language"], [
+        ["Headline", "verdict in a phrase", "A superb kettle with one irritating flaw"],
+        ["Description", "what it is, how you used it", "I have been using it daily for a month."],
+        ["Strengths", "specific positive points", "excels in … · has a gorgeous feel · is remarkably quiet"],
+        ["Weaknesses", "specific criticisms", "is not quite there yet · falls short of … · could be improved"],
+        ["Verdict", "who should buy it", "Overall, … · Highly recommended for … · Worth it if …"],
+      ]),
+      table("Evaluative language", ["Positive", "Negative"], [["excels in, superb, sleek, reliable", "falls short, flimsy, clunky, overpriced"], ["a gorgeous feel", "not quite there yet"], ["good value for money", "a waste of money"]]),
+      annotated("Model review", [["Headline", "A sleek little kettle that nearly gets everything right"], ["Strength", "It excels in speed, boiling a litre in under two minutes, and it has a gorgeous feel in the hand."], ["Weakness", "The app, however, is not quite there yet: it crashed twice in the first week."], ["Verdict", "Overall, highly recommended for anyone who values speed over gadgets."]]),
+    ],
+    [
+      mc("Which sentence is the most specific?", ["It boils a litre in under two minutes.", "It's good.", "I liked it."], 0, "Specific evidence."),
+      mc("Which phrase criticises politely?", ["is not quite there yet", "is rubbish", "is pathetic"], 0, "Understatement."),
+      mist("Find the mistake (balance).", ["The kettle is", "perfect in every way", "and has no faults."], 1, "excels in speed but has a weak app", "A balanced review mentions weaknesses."),
+      fill("The kettle ___ (excel) in speed.", ["excels"], "excel + in."),
+      match("Positive or negative?", [["falls short", "negative"], ["a gorgeous feel", "positive"], ["clunky", "negative"], ["sleek", "positive"]], "Classify the phrases."),
+      order("Put the review parts in order.", ["Headline", "Description", "Strengths", "Weaknesses", "Verdict"], "paragraph", "A logical review order."),
+    ]),
+
+  // ============================================================ UNIT 12
+  A("adv-grammar-complex-linking-devices", "GRAMMAR", "Complex Linking Devices: Time, Addition, Contrast, Reason, Result, Purpose, Condition", "Linkers", "CHALLENGING", 22, ["adv-grammar-future-forms-review"],
+    "Choose and punctuate linking devices from seven functional categories in formal writing.",
+    ["grammar", "linkers", "cohesion", "formal-writing", "connectors"], "Complex linking devices (Unit 12)",
+    [
+      text("Linking devices connect **clauses within a sentence** and **ideas between sentences**. Choosing correctly depends on **function**, **grammar** (conjunction vs adverbial vs preposition) and **punctuation**.", "Explanation"),
+      table("Seven functions", ["Function", "Conjunction (clause)", "Preposition (+ noun/-ing)", "Adverbial (between sentences)"], [
+        ["Time", "as soon as, by the time, until, whenever", "prior to, following, during", "Subsequently, Meanwhile, Eventually"],
+        ["Addition", "—", "in addition to, as well as, apart from", "Furthermore, Moreover, In addition"],
+        ["Contrast", "whereas, although, while, even though", "despite, in spite of", "Nevertheless, However, In contrast"],
+        ["Reason", "because, since, seeing as, as", "owing to, due to, because of", "—"],
+        ["Result", "so that, with the result that", "—", "Therefore, Consequently, As a consequence, Thus"],
+        ["Purpose", "so that, in order that", "in order to, so as to, with a view to (+ -ing)", "—"],
+        ["Condition", "provided that, in case, as long as, unless", "but for, given", "Otherwise, In that case"],
+      ]),
+      list("Punctuation and grammar", ["**Conjunctions** join clauses: Although it rained, we went out.", "**Adverbials** start a new sentence (or follow a semicolon): It rained; nevertheless, we went out.", "**Prepositions** are followed by a **noun or -ing**: Despite the rain, … / Despite being tired, …", "**In case** = as a precaution: Take an umbrella in case it rains. (not if)"]),
+      compare("Errors", [["Despite it rained, we went out.", "Despite the rain, we went out. / Although it rained, we went out.", "Despite + noun/-ing."], ["Owing to he was ill, he stayed home.", "Owing to his illness, he stayed home. / Because he was ill, …", "Owing to + noun."], ["It rained, nevertheless we went out.", "It rained; nevertheless, we went out.", "Adverbial needs stronger punctuation."]]),
+    ],
+    [
+      mc("___ the heavy rain, the match continued.", ["Despite", "Although", "Nevertheless"], 0, "Despite + noun."),
+      mc("Take an umbrella ___ it rains. (as a precaution)", ["in case", "provided that", "unless"], 0, "in case = as a precaution."),
+      mist("Find the mistake.", ["It rained,", "nevertheless", "we went out."], 1, "; nevertheless,", "Adverbials need a semicolon or full stop."),
+      fill("___ to his illness, he stayed at home. (reason + noun)", [["Owing", "Due"]], "Owing/due to + noun."),
+      match("Function?", [["furthermore", "addition"], ["consequently", "result"], ["so as to", "purpose"], ["provided that", "condition"], ["subsequently", "time"]], "Match the linker."),
+      order("Put the words in the correct order.", ["Seeing", "as", "it", "was", "late,", "we", "decided", "to", "leave."], "word", "reason clause first."),
+    ]),
+
+  A("adv-vocab-metaphor-euphemism", "VOCABULARY", "Metaphorical Language and Euphemisms", "Metaphor and euphemism", "CHALLENGING", 14, ["adv-vocab-synonyms-antonyms"],
+    "Interpret and use metaphorical expressions and euphemisms appropriately.",
+    ["vocabulary", "metaphor", "euphemism", "idioms", "figurative-language"], "Metaphorical language (Unit 12)",
+    [
+      text("**Metaphorical language** describes one thing in terms of another (*snowed under with work*). **Euphemisms** replace an unpleasant or embarrassing word with a **softer** one (*pass away* for *die*)."),
+      table("Metaphorical expressions", ["Expression", "Meaning", "Example"], [
+        ["snowed under", "having too much work", "I'm snowed under with reports."],
+        ["slave away", "work very hard", "She slaved away for months on the project."],
+        ["tight-lipped", "refusing to give information", "The minister remained tight-lipped."],
+        ["time flies", "time passes quickly", "Time flies when you're enjoying yourself."],
+        ["a tidal wave (of)", "an overwhelming amount", "A tidal wave of complaints arrived."],
+        ["a bottleneck", "a place where progress slows", "The bridge is a bottleneck for traffic."],
+        ["a breath of fresh air", "something refreshingly new", "Her ideas were a breath of fresh air."],
+      ]),
+      table("Euphemisms", ["Direct", "Euphemism"], [["die", "pass away · pass on"], ["fire someone", "let someone go · make redundant"], ["old", "elderly · senior · advanced in years"], ["poor", "low-income · disadvantaged"], ["lie", "be economical with the truth"], ["toilet", "restroom · bathroom"], ["prison", "correctional facility"]]),
+      tip("Euphemism can be kind (pass away) or evasive (collateral damage). Good writers notice when a euphemism hides a harsh reality.", "Critical awareness"),
+    ],
+    [
+      match("Match the expression with its meaning.", [["snowed under", "too much work"], ["tight-lipped", "refusing to give information"], ["slave away", "work very hard"], ["time flies", "time passes quickly"], ["a bottleneck", "a place where progress slows"]], "Learn the metaphors."),
+      mc("The minister ___ about the scandal; she refused to comment.", ["remained tight-lipped", "was snowed under", "slaved away"], 0, "Tight-lipped = silent."),
+      mc("Which is a EUPHEMISM for ‘die’?", ["pass away", "slave away", "wear away"], 0, "Pass away."),
+      mist("Find the mistake.", ["The company", "let go of", "the truth about the loss of jobs."], 1, "was economical with", "The euphemism is be economical with the truth."),
+      fill("I'm completely ___ under with work this week.", ["snowed"], "snowed under."),
+      sa("Something refreshingly new is a breath of fresh ___", ["air"], "a breath of fresh air.", { hint: "a _ _" }),
+    ]),
+
+  A("adv-reading-life-changing-experiences", "READING", "Reading: The Day I Couldn't Stand Up", "First-person narrative", "CHALLENGING", 18, ["adv-reading-too-much-science"],
+    "Analyse a first-person survival narrative for sequence, causal reasoning and changes in attitude.",
+    ["reading", "narrative", "first-person", "attitude-change", "conditionals"], "Life-changing experiences (Unit 12)",
+    [
+      text("Life-changing narratives follow **event → consequence → reflection**. Notice **conditionals** and **linkers** that show cause and effect, and the **shift in attitude** between beginning and end.", "Reading strategy"),
+      passage("Example", "Had I taken the earlier flight, I would never have met her; provided that nothing else had changed, my life would have been quite different.", "Reflection with unreal conditionals"),
+      list("Guided practice", ["Event → the missed flight.", "Consequence → meeting her.", "Reflection → life quite different."]),
+    ],
+    [
+      mc("What happened at kilometre thirty-eight?", ["The narrator's legs stopped and they collapsed.", "The narrator won.", "The narrator got lost."], 0, "Opening.", MARATHON),
+      mc("What was the cause according to the doctors?", ["loss of fluids and salts", "a broken leg", "lack of training"], 0, "Paragraph 2.", MARATHON),
+      mc("What warning sign had the narrator ignored?", ["dizziness", "pain in the arm", "hunger"], 0, "“ignored the dizziness at kilometre thirty-two”.", MARATHON),
+      mc("What has changed in the narrator's attitude?", ["They now listen to their body.", "They gave up running.", "They became competitive."], 0, "Paragraph 3.", MARATHON),
+      mc("What is expressed by ‘Had I stopped earlier, I would have been fine’?", ["an unreal past condition", "a future plan", "a habit"], 0, "Third conditional with inversion.", MARATHON),
+      tf("The narrator believes that stubbornness equals strength.", false, "“stubbornness is not the same as strength”.", MARATHON),
+    ]),
+
+  A("adv-reading-sideways-look-at-time", "READING", "Reading: A Sideways Look at Time", "Reflective essay", "CHALLENGING", 20, ["adv-reading-life-changing-experiences"],
+    "Analyse a reflective essay: metaphor, cultural comparison, hedging and the writer's closing irony.",
+    ["reading", "essay", "metaphor", "time", "reflection", "irony"], "A sideways look at time (Unit 12)",
+    [
+      text("A reflective essay develops **one idea** through **several angles** (language, science, culture) and often ends with a **turn** or **irony**. Notice **metaphor** and how the writer signals **certainty** and **doubt**.", "Reading strategy"),
+      passage("Example", "We say that we ‘lose’ our tempers, as if temper were an object left on a train; the metaphor makes carelessness of anger.", "Metaphor analysed"),
+      list("Guided practice", ["Expression → lose our temper.", "Underlying metaphor → anger as object.", "Effect → suggests carelessness."]),
+    ],
+    [
+      mc("What does the writer say about metaphors for time?", ["They quietly shape how we live.", "They are useless.", "They are universal."], 0, "First sentence.", TIME),
+      mc("How is the past imagined in some languages?", ["in front of us", "behind us", "above us"], 0, "“the past is imagined as lying in front of us”.", TIME),
+      mc("According to psychologists, when does time seem to slow down?", ["in moments of danger", "in pleasant activity", "during sleep"], 0, "Paragraph 2.", TIME),
+      mc("What does ‘presumably’ indicate?", ["The writer is offering a likely explanation.", "The writer knows for sure.", "The writer is doubtful about everything."], 0, "Hedging.", TIME),
+      mc("What is the irony in the last paragraph?", ["We try to control time, yet the hope of never running out refuses to go away.", "Calendars work perfectly.", "Time stops."], 0, "Closing irony.", TIME),
+      tf("The writer concludes that time is only a fact of the world, not of the mind.", false, "“less a fact of the world than a feature of the mind”.", TIME),
+    ]),
+
+  A("adv-writing-biography-connecting-ideas", "WRITING", "Connecting Ideas: Bringing a Biography to Life", "Biographical writing", "CHALLENGING", 24, ["adv-grammar-complex-linking-devices", "adv-writing-product-review"],
+    "Turn a list of facts into a cohesive, engaging biography using complex sentences and advanced linking devices.",
+    ["writing", "biography", "linking-devices", "cohesion", "complex-sentences", "narrative"], "Writing a biography (Unit 12, p. 123)",
+    [
+      text("A biography that only **lists facts** is dull. Bring it to life by **connecting events** with **cause, contrast, time and purpose**, by selecting **telling details** and by adding a **theme**.", "Explanation"),
+      passage("Weak: a list of facts", BIO_WEAK, "Short, disconnected sentences"),
+      table("Improvement techniques", ["Technique", "Example"], [
+        ["Combine with time links", "After studying law in Leeds, she moved to London, where she worked for a firm until she founded a charity."],
+        ["Show cause and result", "Frustrated by the lack of legal support for refugees, she founded a charity in order to provide it."],
+        ["Add contrast", "Although she was offered a partnership, she chose to work full-time for the charity."],
+        ["Add a theme", "What has always driven her is the belief that justice should not depend on wealth."],
+        ["Telling detail", "She still writes to every client by hand."],
+      ]),
+      annotated("Improved version", [["Opening", "Born in 1980, Nora Ellis grew up in Leeds, where an early fascination with fairness led her to study law."], ["Development", "After qualifying, she joined a London firm, but frustrated by how many people could not afford legal help, she left to found a charity."], ["Achievement", "Within a decade, it had helped thousands, earning her a national award."], ["Theme", "Today, living in Bristol, she still insists that justice should never depend on wealth."]]),
+    ],
+    [
+      mc("Which sentence combines events with a clear cause?", ["Frustrated by the lack of legal help, she founded a charity in order to provide it.", "She founded a charity.", "She was frustrated. She founded a charity."], 0, "Participle clause + purpose."),
+      mc("Which version is better connected?", ["After studying law, she worked in London before founding a charity.", "She studied law and she worked in London and she founded a charity.", "She studied law. She worked in London. She founded a charity."], 0, "Time linkers and participle forms."),
+      fill("After ___ (qualify), she joined a London firm.", ["qualifying"], "After + -ing."),
+      match("Function?", [["Although she was offered a partnership, …", "contrast"], ["in order to provide it", "purpose"], ["Within a decade, …", "time"], ["What has always driven her is …", "theme (cleft)"]], "Match the device."),
+      order("Put the biography parts in order.", ["Opening with birth and background", "Development of career", "Achievements", "Present and theme"], "paragraph", "A chronological order."),
+      mc("What makes a biography ‘come to life’?", ["telling details and a theme", "more dates", "shorter sentences"], 0, "Selection and theme."),
+    ]),
+
+  A("adv-writing-final-exam-essay", "WRITING", "Final Exam Writing: A 200–250 Word Formal Academic Essay", "Final essay", "CHALLENGING", 26, ["adv-writing-biography-connecting-ideas", "adv-writing-debating-an-issue"],
+    "Produce a polished 200–250 word essay using the structures, register and accuracy techniques of the whole course.",
+    ["writing", "essay", "final-exam", "academic-writing", "assessment-practice", "250-words"], "Final examination essay (Units 1-12)",
+    [
+      text("Section D of the final exam is a **200–250 word essay**. It tests **task achievement**, **organisation**, **range of language** and **accuracy**.", "Explanation"),
+      table("Marking areas", ["Area", "What examiners look for"], [["Task", "answers the question; clear stance; relevant ideas"], ["Organisation", "introduction, body paragraphs with topic sentences, conclusion; complex linking"], ["Range", "conditionals, passive reporting, participles, emphasis, discourse markers, precise vocabulary"], ["Accuracy", "tenses, articles, prepositions, punctuation, spelling"]]),
+      table("50-minute plan", ["Stage", "Minutes", "Tasks"], [["Plan", "7", "position; 3 points; examples; linkers"], ["Write", "33", "4 paragraphs, 200–250 words"], ["Check", "10", "correction codes; word count; register"]]),
+      annotated("Language checklist", [["Distancing", "It is widely believed that … · … is said to …"], ["Unreal", "If governments were to …, … would …"], ["Emphasis", "What matters most is … · Never has … been more …"], ["Linking", "Given that … · Nevertheless, … · in order to …"], ["Participles", "Having weighed the arguments, …"]]),
+      tip("Use each structure only where it fits naturally. Range without accuracy loses marks; accuracy without range also loses marks.", "Balance"),
+    ],
+    [
+      order("Put the exam stages in order.", ["Plan", "Write", "Check"], "sentence", "Plan, write, check."),
+      mc("Which sentence uses distancing?", ["It is widely believed that technology has improved communication.", "Technology is good.", "I like technology."], 0, "Distancing structure."),
+      mist("Find the mistake (register).", ["The plan is", "totally crazy", "and impractical."], 1, "completely unrealistic", "Use formal vocabulary."),
+      fill("___ (weigh) the arguments, I conclude that the proposal is unwise.", [["Having weighed", "Weighing"]], "Participle clause."),
+      mc("What is the target length?", ["200–250 words", "50–80 words", "600–700 words"], 0, "200–250 words."),
+      match("Language feature?", [["What matters most is …", "emphasis"], ["Given that …", "reason"], ["If governments were to act, …", "unreal condition"]], "Match the feature."),
+    ]),
+
+  A("adv-grammar-final-review-units-1-12", "GRAMMAR", "Final Review: Grammar, Vocabulary and Reading for Units 1–12", "Assessment review", "CHALLENGING", 28, ["adv-writing-final-exam-essay", "adv-vocab-metaphor-euphemism", "adv-grammar-midterm-review-units-1-6"],
+    "Consolidate the course with mixed final-exam-style items across grammar, vocabulary and reading.",
+    ["grammar", "review", "assessment-practice", "final-exam", "revision"], "Final review (Units 1-12)",
+    [
+      text("The final exam covers **Units 1–12**: **Grammar**, **Vocabulary**, **Reading Comprehension** and a **200–250 word essay**. Use this lesson for **mixed** practice.", "Explanation"),
+      table("Revision map", ["Units", "Grammar", "Vocabulary"], [["1–3", "tense system, adverbs/adjectives, verb patterns", "synonyms, phrasal verbs, trends"], ["4–6", "modals, avoiding repetition, emphasis", "idiomatic collocations, compound nouns"], ["7–9", "conditionals, participles, discourse markers", "phrasal verbs, homographs, rhythm"], ["10–12", "distancing, future forms, linkers", "body verbs, synonyms, metaphor"]]),
+      tip("For every wrong answer, write the rule in one line and one new example sentence.", "Revision habit"),
+    ],
+    [
+      mc("The drug is ___ to reduce pain, although further trials are needed.", ["believed", "believing", "believes"], 0, "Passive reporting."),
+      mc("Had I known, I ___ .", ["would have called", "will call", "called"], 0, "Third conditional (inversion)."),
+      mc("___ the report, she sent it to the manager.", ["Having finished", "Finishing", "To finish"], 0, "Perfect participle."),
+      mc("By 2030, the project ___ .", ["will have been completed", "will complete", "completes"], 0, "Future perfect passive."),
+      mc("He hasn't replied; he ___ in a meeting.", ["must be", "can't be", "shouldn't"], 0, "Deduction."),
+      mc("___ the heavy rain, the match continued.", ["Despite", "Although", "However"], 0, "Despite + noun."),
+      mc("The minister remained ___ about the scandal.", ["tight-lipped", "snowed under", "slaved away"], 0, "Tight-lipped."),
+      mc("Inflation was ___ ; prices doubled in a year.", ["rampant", "tame", "sturdy"], 0, "Rampant = out of control."),
+      mc("Visitor numbers ___ from 71,000 to 9,000 in one year.", ["plummeted", "levelled off", "peaked"], 0, "Sharp fall."),
+      mc("“I wish he ___ interrupting me.”", ["would stop", "stopped", "had stopped"], 0, "Irritation."),
+      mc("Which is a homograph pair?", ["row (line) / row (argument)", "hoarse / horse", "coarse / course"], 0, "Same spelling, different sound."),
+      mc("Which word means ‘to accept responsibility’ (verb from a body part)?", ["shoulder", "stomach", "elbow"], 0, "Shoulder the blame."),
+    ]),
+];
+
+void [compare, list, sa, structure, tf, tip, text, passage, annotated, table];

@@ -1,3 +1,7 @@
+import { ADV_U1_U3 } from "./adv-u1-u3";
+import { ADV_U4_U6 } from "./adv-u4-u6";
+import { ADV_U7_U9 } from "./adv-u7-u9";
+import { ADV_U10_U12 } from "./adv-u10-u12";
 import { HW, CE, annotated, compare, examples, fill, list, match, mc, ms, mist, order, passage, sa, structure, text, tf, tip, vocab, type SeedLesson } from "./dsl";
 
 const REVIEW = "The company's much-publicised “revolutionary” app turned out to be a calendar with a new logo. Users were, understandably, underwhelmed.";
@@ -5,12 +9,12 @@ const FINDINGS = "The findings are, quite frankly, remarkable. For the first tim
 const COMMITTEE = "The committee met on Tuesday and approved the budget by eight votes to three. The chair said that a detailed report would be published in June.";
 const FOUR_DAY = "Proposals for a four-day working week are often dismissed as idealistic. Yet trials in several countries suggest that employees can maintain, and sometimes even increase, their productivity when the working week is shortened. The claim that shorter hours must mean lower output deserves closer examination.\n\nSupporters point to a simple mechanism: rested workers make fewer errors and waste less time. In one trial, companies reported that absence through illness fell by nearly a third, while staff turnover decreased.\n\nCritics, admittedly, raise a legitimate concern: some sectors, such as healthcare, cannot simply close for an extra day. But this objection applies to particular services, not to the principle itself, and several hospitals have already introduced flexible rotas that spread the benefits.";
 
-export const ADVANCED: SeedLesson[] = [
+export const ADVANCED_CORE: SeedLesson[] = [
   // ------------------------------------------------------------ GRAMMAR
   {
     slug: "adv-grammar-inversion",
     level: "ADVANCED", category: "GRAMMAR", title: "Inversion for Emphasis", topic: "Inversion",
-    difficulty: "CHALLENGING", minutes: 16, prereq: ["upper-grammar-relative-clauses"],
+    difficulty: "CHALLENGING", minutes: 16, prereq: ["adv-grammar-avoiding-repetition"],
     objective: "Use negative and restrictive adverbials followed by inverted word order to add emphasis in formal English.",
     tags: ["grammar", "inversion", "emphasis", "formal-english", "C1"],
     ref: { book: HW, level: "Advanced", area: "Grammar", topic: "Inversion and emphasis" },
@@ -201,5 +205,35 @@ export const ADVANCED: SeedLesson[] = [
     ],
   },
 ];
+
+
+// Teaching order (syllabus Units 1-12); existing core lessons are slotted into the unit they best support.
+const PLAN = [
+  // grammar
+  "adv-grammar-tense-review", "adv-grammar-reflexive-pronouns", "adv-grammar-adverbs-adjectives", "adv-grammar-adjective-order", "adv-grammar-verb-patterns",
+  "adv-grammar-modals-speculation", "adv-grammar-modal-meanings", "adv-grammar-avoiding-repetition", "adv-grammar-inversion", "adv-grammar-cleft-sentences",
+  "adv-grammar-emphatic-do", "adv-grammar-midterm-review-units-1-6", "adv-grammar-real-unreal-tenses", "adv-grammar-wish-if-only-would",
+  "adv-grammar-relatives-participles", "adv-grammar-discourse-markers", "adv-grammar-distancing-the-facts", "adv-grammar-future-forms-review",
+  "adv-grammar-complex-linking-devices", "adv-grammar-final-review-units-1-12",
+  // vocabulary
+  "adv-vocab-academic-register", "adv-vocab-synonyms-in-context", "adv-vocab-life-stages", "adv-vocab-informal-phrasal-verbs", "adv-vocab-word-idioms",
+  "adv-vocab-describing-trends", "adv-vocab-phrasal-up-down", "adv-vocab-idiomatic-collocations", "adv-vocab-deception-synonyms", "adv-vocab-nationalities-culture",
+  "adv-vocab-nuance-connotation", "adv-vocab-compound-nouns-phrasal", "adv-vocab-phrasal-on-off", "adv-vocab-homonyms-homographs", "adv-vocab-rhyme-rhythm",
+  "adv-vocab-body-verbs", "adv-vocab-health-compounds", "adv-vocab-synonyms-antonyms", "adv-vocab-metaphor-euphemism",
+  // reading
+  "adv-reading-what-makes-us-human", "adv-reading-tone-attitude", "adv-reading-speech-and-class", "adv-reading-modern-novel-extract", "adv-reading-generous-millionaire",
+  "adv-reading-limits-to-growth", "adv-reading-novelist-and-conjurer", "adv-reading-worlds-of-difference", "adv-reading-when-good-comes-from-bad",
+  "adv-reading-strategies-for-happiness", "adv-reading-jobs-for-boys-or-girls", "adv-reading-pianist-and-wolves", "adv-reading-power-of-placebo",
+  "adv-reading-too-much-science", "adv-reading-life-changing-experiences", "adv-reading-sideways-look-at-time", "adv-reading-argument-implicit",
+  // writing
+  "adv-writing-personal-profile", "adv-writing-narrative-genre-atmosphere", "adv-writing-report-graphs", "adv-writing-in-class-1-preparation",
+  "adv-writing-formal-email-opinion", "adv-writing-comparing-two-countries", "adv-writing-talk-history", "adv-writing-letter-to-younger-self",
+  "adv-writing-folk-tale-style", "adv-writing-in-class-2-preparation", "adv-writing-informal-opinion-post", "adv-writing-debating-an-issue",
+  "adv-writing-product-review", "adv-writing-biography-connecting-ideas", "adv-writing-cohesion", "adv-writing-balanced-paragraph", "adv-writing-final-exam-essay",
+];
+const rank = (slug: string) => (PLAN.indexOf(slug) === -1 ? 999 : PLAN.indexOf(slug));
+export const ADVANCED: SeedLesson[] = [...ADV_U1_U3, ...ADV_U4_U6, ...ADV_U7_U9, ...ADV_U10_U12, ...ADVANCED_CORE].sort(
+  (x, y) => rank(x.slug) - rank(y.slug)
+);
 
 void HW; void CE; void examples; void passage; void sa; void tip; void structure; void annotated; void compare;
