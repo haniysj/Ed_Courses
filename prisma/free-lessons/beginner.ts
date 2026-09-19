@@ -1,9 +1,13 @@
+import { BEGINNER_W1_W2 } from "./beginner-w1-w2";
+import { BEGINNER_W3_W5 } from "./beginner-w3-w5";
+import { BEGINNER_W6_W8 } from "./beginner-w6-w8";
+import { BEGINNER_W9_W10 } from "./beginner-w9-w10";
 import { HW, annotated, compare, examples, fill, list, match, mc, mist, order, passage, sa, structure, text, tf, tip, vocab, type SeedLesson } from "./dsl";
 
 const OMAR = "My name is Omar. I am twelve years old. I live in Salalah with my mother, my father and my sister, Huda. We have a small house near the sea. On Fridays, we eat lunch at my grandmother's house.";
 const LIBRARY = "CITY LIBRARY. Open: Sunday to Thursday, 9:00 am – 5:00 pm. Closed on Friday and Saturday. Students can borrow three books for two weeks.";
 
-export const BEGINNER: SeedLesson[] = [
+export const BEGINNER_CORE: SeedLesson[] = [
   // ------------------------------------------------------------ GRAMMAR
   {
     slug: "beginner-grammar-verb-to-be",
@@ -212,3 +216,36 @@ export const BEGINNER: SeedLesson[] = [
 
 // silence unused-import warnings for helpers only some levels need
 void annotated;
+
+// Teaching order (Units 1-14 plus revision), per category. Lessons not listed here go last.
+const PLAN = [
+  // grammar
+  "beginner-grammar-verb-to-be", "beginner-grammar-subject-pronouns", "beginner-grammar-possessive-adjectives", "beginner-grammar-be-negative",
+  "beginner-grammar-be-questions", "beginner-grammar-possessive-s-our-their", "beginner-grammar-have-has", "beginner-grammar-present-simple",
+  "beginner-grammar-present-simple-negative-questions", "beginner-grammar-adverbs-of-frequency", "beginner-grammar-does-doesnt",
+  "beginner-grammar-question-words-why-how-many-much", "beginner-grammar-object-pronouns", "beginner-grammar-this-that", "beginner-grammar-there-is-are",
+  "beginner-grammar-prepositions-of-place", "beginner-grammar-review-units-1-8", "beginner-grammar-was-were-born", "beginner-grammar-past-simple-regular",
+  "beginner-grammar-past-simple-irregular", "beginner-grammar-past-simple-did-didnt", "beginner-grammar-can-cant", "beginner-grammar-adverbs-of-manner",
+  "beginner-grammar-like-would-like", "beginner-grammar-some-any", "beginner-grammar-present-continuous", "beginner-grammar-present-simple-vs-continuous",
+  "beginner-grammar-going-to-future", "beginner-grammar-three-tenses", "beginner-grammar-final-review-units-1-14",
+  // vocabulary
+  "beginner-vocab-everyday-objects", "beginner-vocab-plural-nouns", "beginner-vocab-numbers-1-30", "beginner-vocab-countries-cities", "beginner-vocab-adjective-noun-order",
+  "beginner-vocab-jobs", "beginner-vocab-family-people", "beginner-vocab-family-more", "beginner-vocab-numbers-31-100-prices", "beginner-vocab-food-drink",
+  "beginner-vocab-sports-free-time", "beginner-vocab-languages-nationalities", "beginner-vocab-daily-routine-verbs", "beginner-vocab-days-prepositions-of-time",
+  "beginner-vocab-adjectives-opposites", "beginner-vocab-rooms-furniture", "beginner-vocab-places-in-town", "beginner-vocab-review-units-1-8",
+  "beginner-vocab-years-months-dates", "beginner-vocab-collocations-have-do-go", "beginner-vocab-holiday-words", "beginner-vocab-verb-noun-collocations",
+  "beginner-vocab-shops-cafe", "beginner-vocab-clothes-colours", "beginner-vocab-opposite-verbs", "beginner-vocab-transport", "beginner-vocab-rhymes-word-stress",
+  "beginner-vocab-final-review-units-1-14",
+  // reading
+  "beginner-reading-short-text", "beginner-reading-true-false", "beginner-reading-postcard-cairo", "beginner-reading-family-salalah", "beginner-reading-e-pal",
+  "beginner-reading-karims-life", "beginner-reading-bus-driver-day", "beginner-reading-email-salalah", "beginner-reading-favourite-city", "beginner-reading-mc-practice",
+  "beginner-reading-bad-luck-day", "beginner-reading-weekend-sur", "beginner-reading-my-phone", "beginner-reading-meals-world", "beginner-reading-not-usual-day",
+  "beginner-reading-life-big-events", "beginner-reading-final-review-strategies",
+  // writing
+  "beginner-writing-complete-sentence", "beginner-writing-and-but", "beginner-writing-capitals-forms", "beginner-writing-table-to-sentences",
+  "beginner-writing-table-to-paragraph-1", "beginner-writing-timetable-to-paragraph", "beginner-writing-describing-room", "beginner-writing-editing-agreement-prepositions",
+  "beginner-writing-past-event-paragraph", "beginner-writing-survey-to-paragraph", "beginner-writing-picture-1-setting-actions",
+  "beginner-writing-picture-2-appearance-clothing", "beginner-writing-picture-3-full-description", "beginner-writing-synthesis-past-present-future", "beginner-writing-mock-test-final",
+];
+const rank = (slug: string) => (PLAN.indexOf(slug) === -1 ? 999 : PLAN.indexOf(slug));
+export const BEGINNER: SeedLesson[] = [...BEGINNER_W1_W2, ...BEGINNER_W3_W5, ...BEGINNER_W6_W8, ...BEGINNER_W9_W10, ...BEGINNER_CORE].sort((a, b) => rank(a.slug) - rank(b.slug));
