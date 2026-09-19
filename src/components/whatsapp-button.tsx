@@ -38,13 +38,14 @@ export function WhatsAppButton({
 }
 
 /** A small round icon-only button, for inline use next to a phone number in a table or detail row. */
-export function WhatsAppIconButton({ phone, message, title = "Contact via WhatsApp" }: { phone: string; message?: string; title?: string }) {
+export function WhatsAppIconButton({ phone, message, country, title = "Contact via WhatsApp" }: { phone: string; message?: string; country?: string | null; title?: string }) {
   return (
     <a
-      href={whatsappLink(phone, message)}
+      href={whatsappLink(phone, message, country)}
       target="_blank"
       rel="noopener noreferrer"
       title={title}
+      aria-label={title}
       className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white hover:bg-[#1ebe57]"
     >
       <WhatsAppIcon className="h-3.5 w-3.5" />

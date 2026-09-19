@@ -4,6 +4,7 @@ import { BookingRowActions } from "@/components/admin/booking-row-actions";
 import { RescheduleForm } from "@/components/admin/reschedule-form";
 import { ApprovePaymentButton } from "@/components/admin/approve-payment-button";
 import { WhatsAppIconButton } from "@/components/whatsapp-button";
+import { learnerGreeting } from "@/lib/whatsapp";
 import { Money } from "@/components/money";
 import { formatTimeRange, formatDateLtr } from "@/lib/utils";
 
@@ -63,7 +64,7 @@ export default async function AdminBookingDetailPage({ params }: { params: { id:
             <p className="text-xs font-semibold uppercase text-ink-400">Phone</p>
             <div className="mt-1 flex items-center gap-2">
               <p className="text-sm font-medium text-ink-800 dark:text-ink-100">{booking.learnerPhone}</p>
-              <WhatsAppIconButton phone={booking.learnerPhone} />
+              <WhatsAppIconButton phone={booking.learnerPhone} country={booking.country} message={learnerGreeting(booking.learnerName, booking.bookingReference, booking.course.title)} />
             </div>
           </div>
           <Info label="Country" value={booking.country} />

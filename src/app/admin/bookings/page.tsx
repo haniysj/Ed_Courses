@@ -6,6 +6,7 @@ import { Money } from "@/components/money";
 import { formatDateLtr } from "@/lib/utils";
 import { BOOKING_STATUSES, BOOKING_STATUS_LABELS } from "@/lib/enums";
 import { WhatsAppIconButton } from "@/components/whatsapp-button";
+import { learnerGreeting } from "@/lib/whatsapp";
 
 export const dynamic = "force-dynamic";
 
@@ -100,7 +101,7 @@ export default async function AdminBookingsPage({
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
                     <span className="text-ink-600 dark:text-ink-300">{b.learnerPhone}</span>
-                    <WhatsAppIconButton phone={b.learnerPhone} />
+                    <WhatsAppIconButton phone={b.learnerPhone} country={b.country} message={learnerGreeting(b.learnerName, b.bookingReference, b.course.title)} />
                   </div>
                 </td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{b.course.title}</td>
