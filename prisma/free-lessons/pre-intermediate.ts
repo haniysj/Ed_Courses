@@ -1,10 +1,14 @@
+import { PRE_INT_U1_U3 } from "./pre-int-u1-u3";
+import { PRE_INT_U4_U6 } from "./pre-int-u4-u6";
+import { PRE_INT_U7_U9 } from "./pre-int-u7-u9";
+import { PRE_INT_U10_U12 } from "./pre-int-u10-u12";
 import { HW, CE, annotated, compare, examples, fill, list, match, mc, ms, mist, order, passage, sa, structure, text, tf, tip, vocab, type SeedLesson } from "./dsl";
 
 const SLEEP = "A. Some people love mornings. They get up at five, exercise and eat a big breakfast. Morning people say the quiet hours before work are the best time to think.\n\nB. Other people are night owls. They feel awake and creative late in the evening, and they often work best after nine o'clock. Being a night owl is not laziness: it is simply how their body clock works.\n\nC. Whatever your type, sleep is important. Adults need about seven or eight hours every night. Without enough sleep, everyone finds it hard to concentrate.";
 const REMOTE = "The village is remote. There are no shops, and the nearest town is three hours away by car. Because it is so far from everything, few tourists visit, and the villagers rely on farming and fishing to earn money.";
 const WALKING = "Walking is the easiest way to stay healthy. First of all, it is free: you do not need special clothes or a gym. Second, it is good for your heart, and even a thirty-minute walk each day helps. Finally, walking makes you feel calmer, so many people use it to relax after work. For these reasons, everyone should walk more.";
 
-export const PRE_INTERMEDIATE: SeedLesson[] = [
+export const PRE_INTERMEDIATE_CORE: SeedLesson[] = [
   // ------------------------------------------------------------ GRAMMAR
   {
     slug: "pre-int-grammar-present-perfect",
@@ -211,3 +215,35 @@ export const PRE_INTERMEDIATE: SeedLesson[] = [
 ];
 
 void HW; void annotated; void examples; void structure; void compare; void passage;
+
+// Teaching order (Units 1-12), per category. Lessons not listed here go last.
+const PLAN = [
+  // grammar
+  "pre-int-grammar-tense-review", "pre-int-grammar-question-forms", "pre-int-grammar-present-simple-vs-continuous", "pre-int-grammar-state-verbs",
+  "pre-int-grammar-have-have-got", "pre-int-grammar-past-simple-vs-continuous", "pre-int-grammar-past-forms-ed-irregular",
+  "pre-int-grammar-quantifiers", "pre-int-grammar-articles", "pre-int-grammar-verb-patterns", "pre-int-grammar-future-forms",
+  "pre-int-grammar-present-perfect", "pre-int-grammar-for-since-pp-vs-ps", "pre-int-grammar-comparatives-superlatives", "pre-int-grammar-as-as-what-like",
+  "pre-int-grammar-have-to", "pre-int-grammar-should-must", "pre-int-grammar-past-perfect", "pre-int-grammar-narrative-tenses-conjunctions",
+  "pre-int-grammar-passive-simple", "pre-int-grammar-passive-perfect-will", "pre-int-grammar-present-perfect-continuous", "pre-int-grammar-pp-simple-vs-continuous",
+  "pre-int-grammar-first-conditional-might", "pre-int-grammar-second-conditional",
+  // vocabulary
+  "pre-int-vocab-verb-pairs", "pre-int-vocab-adjective-collocations", "pre-int-vocab-two-meanings", "pre-int-vocab-free-time-lifestyle",
+  "pre-int-vocab-manner-adverbs", "pre-int-vocab-time-expressions", "pre-int-vocab-travel-transport", "pre-int-vocab-food-measures",
+  "pre-int-vocab-high-street-shops", "pre-int-vocab-phrasal-verbs-literal-idiomatic", "pre-int-vocab-word-building-stress", "pre-int-vocab-synonyms-antonyms",
+  "pre-int-vocab-body-protective-gear", "pre-int-vocab-health", "pre-int-vocab-feelings-adjectives", "pre-int-vocab-compound-nouns-collocations",
+  "pre-int-vocab-life-milestones", "pre-int-vocab-bring-take-come-go", "pre-int-vocab-prepositional-combinations",
+  // reading
+  "pre-int-reading-skimming-headings", "pre-int-reading-first-meeting", "pre-int-reading-lifestyle-quiz", "pre-int-reading-missing-painting",
+  "pre-int-reading-kitchen-accidents", "pre-int-reading-young-achievers", "pre-int-reading-family-history", "pre-int-reading-vocabulary-context",
+  "pre-int-reading-favourite-pictures", "pre-int-reading-stunt-performer", "pre-int-reading-bus-story", "pre-int-reading-famous-names",
+  "pre-int-reading-collectors", "pre-int-reading-risk-chance",
+  // writing
+  "pre-int-writing-word-order-forms", "pre-int-writing-paragraph-structure", "pre-int-writing-cohesion-100-words", "pre-int-writing-connectors",
+  "pre-int-writing-narrative-paragraph", "pre-int-writing-style-synonyms", "pre-int-writing-plans-ambitions", "pre-int-writing-chronological-biography",
+  "pre-int-writing-comparison-paragraph", "pre-int-writing-formal-informal-register", "pre-int-writing-book-film-review", "pre-int-writing-discursive-essay",
+  "pre-int-writing-notes-summary", "pre-int-writing-editing-proofreading",
+];
+const rank = (slug: string) => (PLAN.indexOf(slug) === -1 ? 999 : PLAN.indexOf(slug));
+export const PRE_INTERMEDIATE: SeedLesson[] = [...PRE_INT_U1_U3, ...PRE_INT_U4_U6, ...PRE_INT_U7_U9, ...PRE_INT_U10_U12, ...PRE_INTERMEDIATE_CORE].sort(
+  (a, b) => rank(a.slug) - rank(b.slug)
+);
