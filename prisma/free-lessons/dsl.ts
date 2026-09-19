@@ -39,6 +39,14 @@ export const text = (body: string, title?: string): Section => ({ type: "text", 
 export const list = (title: string, items: string[]): Section => ({ type: "list", title, items });
 export const structure = (title: string, formula: string, note?: string): Section => ({ type: "structure", title, formula, note });
 export const tip = (body: string, title?: string): Section => ({ type: "tip", title, body });
+export const table = (title: string, headers: string[], rows: string[][]): Section => ({ type: "table", title, headers, rows });
+/** Decision tree: steps = [question, result-if-yes][]; otherwise = result when every answer is no. */
+export const flow = (title: string, steps: [string, string][], otherwise: string): Section => ({
+  type: "flow",
+  title,
+  steps: steps.map(([question, yes]) => ({ question, yes })),
+  otherwise,
+});
 export const passage = (title: string, body: string, caption?: string): Section => ({ type: "passage", title, text: body, caption });
 export const annotated = (title: string, parts: [string, string][]): Section => ({
   type: "annotated",

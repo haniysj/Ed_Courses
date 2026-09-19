@@ -4,6 +4,8 @@
  *   npm run db:seed:lessons            -> creates lessons that don't exist yet (safe to re-run;
  *                                          lessons an admin has edited are left alone)
  *   npm run db:seed:lessons -- --force -> overwrites seeded lessons (and their exercises) by slug
+ *   npm run db:seed:lessons -- --only=slug-a,slug-b -> overwrites just those lessons
+ *   npm run db:seed:lessons -- --reorder -> re-applies curriculum order to existing lessons
  *
  * Every lesson is validated against the same schemas the admin editor uses.
  */
@@ -19,6 +21,10 @@ import type { SeedLesson } from "./free-lessons/dsl";
 
 const prisma = new PrismaClient();
 const force = process.argv.includes("--force");
+// --only=slug1,slug2  overwrite just these seeded lessons (content + exercises)
+const only = new Set((process.argv.find((a) => a.startsWith("--only="))?.slice(7) ?? "").split(",").filter(Boolean));
+// --reorder  re-apply the curriculum order to existing lessons (resets any manual reordering by an admin)
+const reorder = process.argv.includes("--reorder");
 
 const ALL: SeedLesson[] = [...BEGINNER, ...ELEMENTARY, ...PRE_INTERMEDIATE, ...INTERMEDIATE, ...UPPER_INTERMEDIATE, ...ADVANCED];
 
@@ -60,8 +66,11 @@ async function main() {
     counters.set(key, order);
 
     const existing = await prisma.freeLesson.findUnique({ where: { slug: lesson.slug } });
-    if (existing && !force) {
-      skipped++;
+    if (existing && !force && !only.has(lesson.slug)) {
+      if (reorder && existing.order !== order) {
+        await prisma.freeLesson.update({ where: { id: existing.id }, data: { order } });
+        updated++;
+      } else skipped++;
       continue;
     }
 

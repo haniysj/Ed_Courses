@@ -1,0 +1,13 @@
+Add Elementary Weeks 1-2 lessons (14 new) with table and decision-tree blocks
+
+- Unit 1 (Nice to meet you): verb to be, possessive adjectives, possessive s,
+  have/go/live/like, family members, opposite adjectives, student blog reading,
+  personal profile writing
+- Unit 2 (Work and family life): he/she/it spelling (visual decision tree),
+  subject/object pronouns, jobs, daily-life opposites, two-jobs reading,
+  pronoun cohesion writing; Present Simple questions lesson extended
+- New lesson block types: table and flow (decision tree), with admin editor support
+- Seed script: --only and --reorder options
+- All text and exercises are original; the weekly report was used as a topic outline only
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>

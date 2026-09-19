@@ -36,7 +36,7 @@ const opt = (s: string) => (s.trim() ? s.trim() : undefined);
 const BLOCK_TYPES: { type: string; label: string }[] = [
   { type: "text", label: "Text" }, { type: "list", label: "Bullet list" }, { type: "structure", label: "Structure / formula" },
   { type: "examples", label: "Examples" }, { type: "vocab", label: "Vocabulary cards" }, { type: "passage", label: "Reading passage" },
-  { type: "annotated", label: "Annotated paragraph" }, { type: "compare", label: "Right / wrong" }, { type: "tip", label: "Tip box" },
+  { type: "annotated", label: "Annotated paragraph" }, { type: "compare", label: "Right / wrong" }, { type: "table", label: "Table" }, { type: "flow", label: "Decision tree" }, { type: "tip", label: "Tip box" },
 ];
 
 const EMPTY_WORD = { word: "", pos: "noun", meaning: "", meaningAr: "", pronunciation: "", example: "", col: "", correct: "", incorrect: "", note: "", visual: "", imageUrl: "" };
@@ -46,6 +46,8 @@ function newBlock(type: string): Block {
   if (type === "text" || type === "tip") base.body = "";
   if (type === "list" || type === "examples" || type === "annotated" || type === "compare") base.text = "";
   if (type === "structure") Object.assign(base, { formula: "", note: "" });
+  if (type === "table") base.text = "";
+  if (type === "flow") Object.assign(base, { text: "", otherwise: "" });
   if (type === "passage") Object.assign(base, { text: "", caption: "" });
   if (type === "vocab") base.words = [{ ...EMPTY_WORD }];
   return { k: uid(), d: base };
@@ -64,6 +66,8 @@ function sectionToBlock(s: any): Block {
       d.words = (s.words ?? []).map((w: any) => ({ ...EMPTY_WORD, ...w, col: (w.collocations ?? []).join(", "), meaningAr: w.meaningAr ?? "", pronunciation: w.pronunciation ?? "", correct: w.correct ?? "", incorrect: w.incorrect ?? "", note: w.note ?? "", visual: w.visual ?? "", imageUrl: w.imageUrl ?? "" }));
       break;
     case "passage": d.text = s.text ?? ""; d.caption = s.caption ?? ""; break;
+    case "table": d.text = [(s.headers ?? []).join(" | "), ...(s.rows ?? []).map((r: string[]) => r.join(" | "))].join("\n"); break;
+    case "flow": d.text = (s.steps ?? []).map((st: any) => `${st.question} | ${st.yes}`).join("\n"); d.otherwise = s.otherwise ?? ""; break;
     case "annotated": d.text = (s.parts ?? []).map((p: any) => `${p.label} | ${p.text}`).join("\n"); break;
     case "compare": d.text = (s.rows ?? []).map((r: any) => [r.wrong, r.right, r.why].filter((x) => x !== undefined).join(" | ")).join("\n"); break;
   }
@@ -99,6 +103,8 @@ function blockToSection(b: Block): any {
         })),
       };
     case "passage": return { type: "passage", title: d.title, text: d.text, caption: opt(d.caption) };
+    case "table": { const [head, ...rows] = lines(d.text); return { type: "table", title: d.title, headers: bar(head ?? ""), rows: rows.map(bar) }; }
+    case "flow": return { type: "flow", title: d.title, steps: lines(d.text).map((l) => { const [question, ...rest] = bar(l); return { question, yes: rest.join(" | ") }; }), otherwise: d.otherwise };
     case "annotated": return { type: "annotated", title: d.title, parts: lines(d.text).map((l) => { const [label, ...rest] = bar(l); return { label, text: rest.join(" | ") }; }) };
     case "compare": return { type: "compare", title: d.title, rows: lines(d.text).map((l) => { const [wrong, right, why] = bar(l); return { wrong, right, why: opt(why ?? "") }; }) };
     default: return d;
@@ -196,6 +202,10 @@ function BlockForm({ block, onChange }: { block: Block; onChange: (d: Record<str
       return (<div className="space-y-3">{title}<Field label="Passage"><textarea rows={6} className="input" value={d.text} onChange={(e) => set({ text: e.target.value })} /></Field><Field label="Caption (optional)"><input className="input" value={d.caption} onChange={(e) => set({ caption: e.target.value })} /></Field></div>);
     case "annotated":
       return (<div className="space-y-3">{title}<Field label="Parts" hint="One per line: Label | sentence text"><textarea rows={6} className="input font-mono text-xs" value={d.text} onChange={(e) => set({ text: e.target.value })} /></Field></div>);
+    case "table":
+      return (<div className="space-y-3">{title}<Field label="Table" hint="First line = column headings. One row per line, cells separated by “ | ”."><textarea rows={6} className="input font-mono text-xs" value={d.text} onChange={(e) => set({ text: e.target.value })} /></Field></div>);
+    case "flow":
+      return (<div className="space-y-3">{title}<Field label="Questions in order" hint="One per line: question | what to do if the answer is yes"><textarea rows={5} className="input font-mono text-xs" value={d.text} onChange={(e) => set({ text: e.target.value })} /></Field><Field label="Otherwise (all answers were no)"><input className="input" value={d.otherwise} onChange={(e) => set({ otherwise: e.target.value })} /></Field></div>);
     case "compare":
       return (<div className="space-y-3">{title}<Field label="Rows" hint="One per line: wrong | right | why (why is optional)"><textarea rows={5} className="input font-mono text-xs" value={d.text} onChange={(e) => set({ text: e.target.value })} /></Field></div>);
     case "vocab":

@@ -52,6 +52,19 @@ export const sectionSchema = z.discriminatedUnion("type", [
     rows: z.array(z.object({ wrong: str.min(1), right: str.min(1), why: str.optional() })).min(1),
   }),
   z.object({ type: z.literal("tip"), title: str.optional(), body: str.min(1) }),
+  z.object({
+    type: z.literal("table"),
+    title: str.min(1),
+    headers: z.array(str.min(1)).min(2),
+    rows: z.array(z.array(str)).min(1),
+  }),
+  // Decision tree: ask each question in turn; the first "yes" gives the answer, otherwise fall through.
+  z.object({
+    type: z.literal("flow"),
+    title: str.min(1),
+    steps: z.array(z.object({ question: str.min(1), yes: str.min(1) })).min(1),
+    otherwise: str.min(1),
+  }),
 ]);
 export type Section = z.infer<typeof sectionSchema>;
 

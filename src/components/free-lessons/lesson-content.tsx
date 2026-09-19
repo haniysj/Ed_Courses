@@ -176,6 +176,48 @@ export function LessonContent({ sections, locale }: { sections: Section[]; local
                 </ul>
               </section>
             );
+          case "table":
+            return (
+              <section key={i} className="space-y-2">
+                <Heading>{s.title}</Heading>
+                <div className="overflow-x-auto rounded-xl border border-ink-100 dark:border-ink-800">
+                  <table className="min-w-full text-sm">
+                    <thead className="bg-brand-50 text-left text-xs font-bold uppercase tracking-wide text-brand-800 dark:bg-brand-950 dark:text-brand-200">
+                      <tr>{s.headers.map((h, j) => <th key={j} scope="col" className="px-3 py-2">{h}</th>)}</tr>
+                    </thead>
+                    <tbody className="divide-y divide-ink-100 dark:divide-ink-800">
+                      {s.rows.map((r, j) => (
+                        <tr key={j}>
+                          {r.map((c, k) => <td key={k} className={k === 0 ? "px-3 py-2 font-semibold text-ink-900 dark:text-white" : "px-3 py-2"}>{c}</td>)}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            );
+          case "flow":
+            return (
+              <section key={i} className="space-y-2">
+                <Heading>{s.title}</Heading>
+                <ol className="space-y-2">
+                  {s.steps.map((st, j) => (
+                    <li key={j}>
+                      <div className="rounded-xl border border-brand-200 bg-brand-50 p-3 dark:border-brand-900 dark:bg-brand-950">
+                        <p className="font-semibold text-brand-900 dark:text-brand-100"><span aria-hidden>{j + 1}. ❓ </span>{st.question}</p>
+                        <p className="mt-1.5 rounded-lg bg-white px-3 py-1.5 text-sm text-emerald-800 dark:bg-ink-900 dark:text-emerald-300">
+                          <span className="font-bold">✓ Yes → </span>{st.yes}
+                        </p>
+                      </div>
+                      <p className="py-1 ps-4 text-xs font-semibold text-ink-400" aria-hidden>✗ No ↓</p>
+                    </li>
+                  ))}
+                  <li className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-100">
+                    <span className="font-bold">Otherwise → </span>{s.otherwise}
+                  </li>
+                </ol>
+              </section>
+            );
           case "tip":
             return (
               <aside key={i} className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-100">

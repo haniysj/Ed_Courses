@@ -1,14 +1,15 @@
+import { ELEMENTARY_UNITS } from "./elementary-units";
 import { HW, annotated, compare, examples, fill, list, match, mc, mist, order, passage, sa, structure, text, tf, tip, vocab, type SeedLesson } from "./dsl";
 
 const BIKES = "Many people in our town ride bicycles. Bicycles are cheap and they don't need petrol. They are also good for your health. In the morning, you can see students, workers and even the postman on bicycles. Some streets now have special bicycle roads, so riding is safer.";
 const BOOKSHOP = "Fatima works at a bookshop. She likes it because it is quiet. The customers are kind. They often ask her questions in English. This helps her practise.";
 
-export const ELEMENTARY: SeedLesson[] = [
+export const ELEMENTARY_CORE: SeedLesson[] = [
   // ------------------------------------------------------------ GRAMMAR
   {
     slug: "elementary-grammar-present-simple-questions",
     level: "ELEMENTARY", category: "GRAMMAR", title: "Present Simple: Negatives and Questions", topic: "Present Simple",
-    difficulty: "BASIC", minutes: 12, prereq: ["beginner-grammar-present-simple"],
+    difficulty: "BASIC", minutes: 12, prereq: ["elementary-grammar-third-person-s"],
     objective: "Make Present Simple negatives and questions with do / does, and give short answers.",
     tags: ["grammar", "present-simple", "questions", "negatives", "daily-routines", "A2"],
     ref: { book: HW, level: "Elementary", area: "Grammar", topic: "Present Simple questions and negatives" },
@@ -21,6 +22,7 @@ export const ELEMENTARY: SeedLesson[] = [
         Negative: ["They don't play tennis on Sundays.", "She doesn't work in a bank. | not “works”"],
         Questions: ["Do they play tennis on Sundays?", "Does she work in a bank?", "Where does she work?"],
         "Short answers": ["Yes, they do. / No, they don't.", "Yes, she does. / No, she doesn't."],
+        "Asking about jobs": ["What does she do? | = What is her job?", "Where does he work?", "He doesn't work in Scotland. | not “works”"],
       }),
       tip("Only one verb takes the -s: does. So: Does she work…? (not Does she works…?)", "Watch out"),
     ],
@@ -30,6 +32,7 @@ export const ELEMENTARY: SeedLesson[] = [
       mist("Find the mistake.", ["Does she", "works", "here?"], 1, "work", "After does the main verb is in the base form: Does she work here?"),
       order("Put the words in order.", ["Where", "does", "he", "live?"], "word", "Wh-word + does + subject + base verb: Where does he live?"),
       sa("Make it negative: They play tennis on Sundays.", ["They don't play tennis on Sundays.", "They do not play tennis on Sundays."], "Use don't / do not before the base verb.", { hint: "They ___ play…" }),
+      mc("“What does your father do?” means…", ["What is your father's job?", "Where does your father live?", "Does your father like his job?"], 0, "What does he do? is the natural way to ask about someone's job."),
       mc("“Do you like pizza?” “No, ___.”", ["I don't", "I doesn't", "I'm not"], 0, "The short answer repeats the helper verb: No, I don't."),
     ],
   },
@@ -213,3 +216,15 @@ export const ELEMENTARY: SeedLesson[] = [
 ];
 
 void annotated;
+
+// Weeks 1-2 of the Elementary course first, then the rest, in teaching order per category.
+const PLAN = [
+  "elementary-grammar-be-contractions", "elementary-grammar-possessive-adjectives", "elementary-grammar-possessive-s",
+  "elementary-grammar-high-frequency-verbs", "elementary-grammar-third-person-s", "elementary-grammar-present-simple-questions",
+  "elementary-grammar-pronouns", "elementary-grammar-past-simple",
+  "elementary-vocab-family-members", "elementary-vocab-opposite-adjectives", "elementary-vocab-jobs", "elementary-vocab-opposite-verbs",
+  "elementary-vocab-places-in-town", "elementary-vocab-shopping-money",
+  "elementary-writing-personal-profile", "elementary-writing-pronouns-cohesion", "elementary-writing-punctuation", "elementary-writing-sequencing",
+  "elementary-reading-student-blog", "elementary-reading-two-jobs", "elementary-reading-main-idea", "elementary-reading-reference-words",
+];
+export const ELEMENTARY: SeedLesson[] = [...ELEMENTARY_UNITS, ...ELEMENTARY_CORE].sort((a, b) => PLAN.indexOf(a.slug) - PLAN.indexOf(b.slug));

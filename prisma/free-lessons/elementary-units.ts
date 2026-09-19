@@ -1,0 +1,431 @@
+import { HW, annotated, compare, examples, fill, flow, list, match, mc, ms, mist, order, passage, sa, structure, table, text, tf, tip, vocab, type SeedLesson } from "./dsl";
+
+// Elementary course: Teaching Week 1 (Unit 1 "Nice to meet you!") and Week 2 (Unit 2 "Work and family life").
+// Topics follow the academy's weekly teaching report. All texts and exercises below are ORIGINAL.
+
+const BLOG = "Hello, everyone! I'm Yusuf, an Omani student in Manchester, England. I'm here to study English for six months. My host family's name is Baker. Peter, the father, and Anna, the mother, have two children: Lucy (14) and Tom (19). They're very kind.\n\nToday is my first day at school. My school is in the city centre, and it's big and modern. My teacher's name is Mr Patel. He's friendly and very funny.\n\nI like Manchester! It's a busy city, but it isn't expensive. The museums are free, the parks are green, and the buses are cheap.";
+const TWO_JOBS = "Salim is a nurse. He works at a big hospital in Sohar. He gets up at five o'clock and starts work at seven. He looks after sick children and helps the doctors. He works 40 hours a week. In his free time, he plays volleyball and visits his grandmother. He doesn't like noisy places.\n\nNora is a marine biologist. She lives in Canada, near the sea, and works at an aquarium. She studies fish and teaches visitors about the ocean. She works long hours and earns about 3,000 dollars a month. In her free time, she paints pictures and walks her dog.";
+
+export const ELEMENTARY_UNITS: SeedLesson[] = [
+  // ============================================================ WEEK 1 · GRAMMAR
+  {
+    slug: "elementary-grammar-be-contractions",
+    level: "ELEMENTARY", category: "GRAMMAR", title: "Verb to be: Short Forms, Negatives and Short Answers", topic: "Verb to be",
+    difficulty: "BASIC", minutes: 12, prereq: ["beginner-grammar-verb-to-be"],
+    objective: "Use the verb to be in all its forms (positive, negative, questions, short answers) to give personal information.",
+    tags: ["grammar", "verb-to-be", "personal-information", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Grammar", topic: "Verb to be (Unit 1)" },
+    sections: [
+      text("We use **am, is and are** to say who people are and to give personal information: name, nationality, age, job and feelings. In speech and informal writing we usually use **short forms** (contractions).", "Explanation"),
+      list("When do we use it?", ["Identity and origin: I'm Yusuf. She's from Spain.", "Age and job: He's 25. They're teachers.", "Places and states: We're at school. It isn't far."]),
+      table("Positive, short form and negative", ["Subject", "Positive", "Short form", "Negative"], [
+        ["I", "I am", "I'm", "I'm not"],
+        ["He / She / It", "He is", "He's", "He isn't"],
+        ["We / You / They", "They are", "They're", "They aren't"],
+      ]),
+      structure("Questions and short answers", "Am I / Is he, she, it / Are you, we, they + …?\nYes, I am. / No, I'm not.   Yes, she is. / No, she isn't.", "In a POSITIVE short answer we never use the short form: Yes, I am. (not Yes, I'm.)"),
+      examples("Examples", {
+        Positive: ["I'm a student.", "She's from Oman.", "They're married."],
+        Negative: ["I'm not German.", "He isn't at home.", "We aren't late."],
+        Questions: ["Is he married?", "Are you from London?", "Where are they from?"],
+        "Short answers": ["Yes, he is. / No, he isn't.", "Yes, I am. / No, I'm not."],
+      }),
+    ],
+    exercises: [
+      mc("___ Karim from Oman?", ["Are", "Is", "Am"], 1, "Karim = he, so we use Is: Is Karim from Oman?"),
+      fill("Sara is Omani. She ___ German. (negative)", [["isn't", "is not"]], "For a negative with she we use isn't (or is not)."),
+      mist("Find the mistake.", ["“Are you a student?”", "“Yes,", "I'm.”"], 2, "I am", "We can't use the short form in a positive short answer: Yes, I am."),
+      match("Match the full form with the short form.", [["I am", "I'm"], ["she is", "she's"], ["they are", "they're"], ["is not", "isn't"]], "Short forms replace the first letter(s) of the verb with an apostrophe."),
+      sa("Write the negative short answer: “Are you from Spain?” — No, ___.", ["I'm not", "I am not"], "With I, the negative is I'm not (or I am not).", { hint: "two words" }),
+      order("Put the words in order.", ["They", "aren't", "from", "Canada."], "word", "Subject + aren't + from + place."),
+      tf("“Yes, he's.” is a correct short answer.", false, "Positive short answers use the full form: Yes, he is."),
+    ],
+  },
+  {
+    slug: "elementary-grammar-possessive-adjectives",
+    level: "ELEMENTARY", category: "GRAMMAR", title: "Possessive Adjectives: my, your, his, her, our, their", topic: "Possessive adjectives",
+    difficulty: "BASIC", minutes: 10, prereq: ["elementary-grammar-be-contractions"],
+    objective: "Use possessive adjectives before nouns to show who something belongs to.",
+    tags: ["grammar", "possessive-adjectives", "personal-information", "family", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Grammar", topic: "Possessive adjectives (Unit 1)" },
+    sections: [
+      text("A **possessive adjective** goes before a noun and shows who the noun belongs to or is related to: **my** name, **her** school, **their** teacher. It never changes for singular or plural nouns.", "Explanation"),
+      list("When do we use it?", ["To talk about our things: My phone is new.", "To talk about family and relationships: His sister is a nurse.", "To ask about names and details: What's your surname?"]),
+      table("Subject pronoun → possessive adjective", ["Subject", "Possessive adjective", "Example"], [
+        ["I", "my", "My name is Huda."],
+        ["you", "your", "What's your phone number?"],
+        ["he", "his", "His surname is Baker."],
+        ["she", "her", "Her school is in Muscat."],
+        ["it", "its", "The school has its own library."],
+        ["we", "our", "Our teacher is friendly."],
+        ["they", "their", "Their son is sixteen."],
+      ]),
+      structure("Structure", "possessive adjective + noun\nmy + brother · her + school · their + parents", "His or her depends on the OWNER (a man or a woman), not on the thing: Ali's sister = his sister."),
+      compare("Common mistakes", [["This is the my bag.", "This is my bag.", "Don't use “the” before a possessive adjective."], ["Sara is a nurse. His brother is a pilot.", "Sara is a nurse. Her brother is a pilot.", "Sara is a woman, so her."], ["It's name is Lulu.", "Its name is Lulu.", "its (no apostrophe) = belonging to it. It's = it is."]]),
+    ],
+    exercises: [
+      fill("Amal is from Salalah. ___ mother is a nurse.", ["Her"], "Amal is a woman, so we use her."),
+      mc("Omar and Sami are brothers. ___ father is a driver.", ["His", "Their", "Our"], 1, "The owners are two people (Omar and Sami), so we use their."),
+      fill("I'm Layla. ___ phone number is 555-0134.", ["My"], "Layla is speaking about herself: my."),
+      mist("Find the mistake.", ["He is Omar.", "Her", "brother is twelve."], 1, "His", "Omar is a man, so his brother."),
+      match("Match the subject pronoun with its possessive adjective.", [["I", "my"], ["we", "our"], ["they", "their"], ["you", "your"]], "Each pronoun has one possessive adjective."),
+      mc("Which sentence is correct?", ["This is the my bag.", "This is my bag.", "This is bag my."], 1, "A possessive adjective replaces the article: my bag."),
+      tf("“It's” (with an apostrophe) is a possessive adjective.", false, "It's = it is. The possessive adjective is its, with no apostrophe."),
+    ],
+  },
+  {
+    slug: "elementary-grammar-possessive-s",
+    level: "ELEMENTARY", category: "GRAMMAR", title: "'s: Possession or is?", topic: "Possessive 's",
+    difficulty: "CORE", minutes: 10, prereq: ["elementary-grammar-possessive-adjectives"],
+    objective: "Tell the difference between possessive 's and the short form of is.",
+    tags: ["grammar", "possessive-s", "verb-to-be", "family", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Grammar", topic: "Possessive 's (Unit 1)" },
+    sections: [
+      text("The ending **'s** has two different jobs in English. It can be the short form of **is**, or it can show **possession** (who something belongs to). The words after it tell you which one it is.", "Explanation"),
+      list("How to tell the difference", ["**'s = is** when it is followed by an adjective, a job, a place or a phrase like “from Egypt”: Sara's a nurse. He's tall.", "**'s = possession** when it is followed by a noun: Sara's phone. My uncle's car.", "Quick test: say “is” instead of 's. If the sentence still makes sense, it is is. If not, it is possession."]),
+      structure("Structure", "name / noun + 's + noun  →  belongs to (Ali's book)\nname / pronoun + 's + adjective / job / place  →  is (Ali's tall)"),
+      examples("Examples", {
+        "'s = is": ["My father's a lawyer.", "She's lovely.", "Hana's from Sur."],
+        "'s = possession": ["My sister's name is Noor.", "That's Maria's phone. (That's = That is; Maria's = belongs to Maria)", "Nasser's house is big."],
+      }),
+      tip("Sometimes both appear in one sentence: “Sara's happy and Sara's phone is new.”"),
+    ],
+    exercises: [
+      match("Does 's mean is or possession?", [["My uncle's a pilot.", "is"], ["My uncle's car is red.", "possession"], ["She's from Egypt.", "is"], ["Hana's brother is twelve.", "possession"]], "Test it: “My uncle is a pilot” works, but “My uncle is car” doesn't."),
+      mc("Which sentence has 's = possession?", ["Ali's tired.", "Ali's mother is a doctor.", "Ali's from Nizwa."], 1, "Ali's mother = the mother of Ali. The other two mean Ali is…"),
+      tf("In “Yusuf's happy”, 's shows possession.", false, "Yusuf's happy = Yusuf is happy. Happy isn't a noun, so this is is."),
+      sa("Rewrite with 's: the car of my father → ___", ["my father's car"], "For a possessor we write owner + 's + thing: my father's car.", { hint: "my father…" }),
+      mist("Find the mistake.", ["That is", "Ali is", "book."], 1, "Ali's", "To show that the book belongs to Ali, write Ali's book."),
+      fill("Nasser___ sister is a doctor. (add 's)", ["'s"], "Nasser's sister = the sister of Nasser."),
+    ],
+  },
+  {
+    slug: "elementary-grammar-high-frequency-verbs",
+    level: "ELEMENTARY", category: "GRAMMAR", title: "Have, Go, Live and Like: Talking About Yourself", topic: "Present Simple",
+    difficulty: "BASIC", minutes: 12, prereq: ["elementary-grammar-possessive-s"],
+    objective: "Use have, go, live and like in the Present Simple to give basic personal facts.",
+    tags: ["grammar", "present-simple", "personal-information", "daily-routines", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Grammar", topic: "have / go / live / like (Unit 1)" },
+    sections: [
+      text("With **I, you, we** and **they**, the Present Simple uses the plain verb. Four very common verbs help you introduce yourself: **have, go, live** and **like**. Each one needs the right small word (a preposition) or noun after it.", "Explanation"),
+      list("When do we use it?", ["Personal facts: I live in Sohar. I have two brothers.", "Where we go regularly: I go to the university on Sundays.", "Likes and dislikes: We like football. I don't like cold weather."]),
+      structure("Structure", "I / you / we / they + have / go / live / like + …\nNegative: I don't + verb   Question: Do you + verb …?", "have + noun · go to + place · live in + town or country · like + noun"),
+      examples("Examples", {
+        have: ["I have a brother and a sister.", "We have a small flat."],
+        go: ["I go to Nizwa College.", "They go to the gym on Fridays."],
+        live: ["I live in Muscat.", "My parents live in a village near Ibri."],
+        like: ["We like fish and rice.", "I don't like hot weather."],
+      }),
+      compare("Common mistakes", [["I live at Muscat.", "I live in Muscat.", "live + in + city."], ["I go in school every day.", "I go to school every day.", "go + to + place."], ["I am like tea.", "I like tea.", "like is already a verb: no am."]]),
+    ],
+    exercises: [
+      fill("I ___ two brothers and one sister. (have)", ["have"], "With I we use have."),
+      mc("I go ___ university every day.", ["in", "to", "at"], 1, "go + to + place: I go to university."),
+      mist("Find the mistake.", ["I", "am like", "coffee."], 1, "like", "Like is the verb, so we say I like coffee."),
+      sa("Make it negative: I like cold weather.", ["I don't like cold weather.", "I do not like cold weather."], "Negative: I don't + base verb.", { hint: "I don't …" }),
+      match("Match each verb with a natural ending.", [["live", "in a small town"], ["go", "to the gym"], ["have", "a sister"], ["like", "football"]], "Each verb has its own typical partner word."),
+      order("Put the words in order.", ["We", "live", "in", "a", "small", "house."], "word", "Subject + verb + in + place."),
+    ],
+  },
+
+  // ============================================================ WEEK 1 · VOCABULARY
+  {
+    slug: "elementary-vocab-family-members",
+    level: "ELEMENTARY", category: "VOCABULARY", title: "Family Members: Pairs and Plurals", topic: "Family",
+    difficulty: "BASIC", minutes: 12, prereq: ["beginner-vocab-family-people"],
+    objective: "Name the male and female family pairs and use the plurals parents, children and cousins.",
+    tags: ["vocabulary", "family", "personal-information", "listening-support", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Vocabulary", topic: "Family (Unit 1)" },
+    sections: [
+      text("Most family words come in **pairs**: one male, one female. A few are **plural** words (parents, children, cousins) that name a group."),
+      table("Male and female pairs", ["Male", "Female"], [
+        ["father", "mother"], ["husband", "wife"], ["son", "daughter"], ["brother", "sister"],
+        ["grandfather", "grandmother"], ["uncle", "aunt"], ["nephew", "niece"], ["boyfriend", "girlfriend"],
+      ]),
+      list("Group words", ["**parents** = father + mother", "**children** = sons + daughters (child → children)", "**cousins** = the children of your uncle or aunt (boys or girls)"]),
+      vocab([
+        { word: "husband", pos: "noun", meaning: "the man a woman is married to", ar: "زوج", pron: "/ˈhʌzbənd/", ex: "My sister's husband is a pilot.", col: ["a husband and wife"], right: "Her husband is a pilot.", wrong: "The husband of her is a pilot.", note: "The pair word is wife.", visual: "🤵" },
+        { word: "uncle", pos: "noun", meaning: "the brother of your father or mother", ar: "عم / خال", pron: "/ˈʌŋkl/", ex: "My uncle lives in Dubai.", col: ["my uncle and aunt"], note: "English uses one word, uncle, for both عم and خال. The female word is aunt.", visual: "👨" },
+        { word: "nephew", pos: "noun", meaning: "the son of your brother or sister", ar: "ابن الأخ / الأخت", pron: "/ˈnefjuː/", ex: "My nephew is five years old.", col: ["a nephew and a niece"], note: "The daughter of your brother or sister is your niece.", visual: "👦" },
+        { word: "children", pos: "noun (plural)", meaning: "sons and daughters; young people", ar: "أطفال / أولاد", pron: "/ˈtʃɪldrən/", ex: "They have three children.", col: ["two children", "the children"], right: "three children", wrong: "three childs", note: "Child is irregular: the plural is children.", visual: "🧒" },
+        { word: "parents", pos: "noun (plural)", meaning: "your mother and father", ar: "الوالدان", pron: "/ˈpeərənts/", ex: "My parents live in Sur.", col: ["my parents"], right: "My parents are teachers.", wrong: "My parent are teachers.", note: "Parents is always plural.", visual: "👫" },
+        { word: "cousin", pos: "noun", meaning: "the child of your uncle or aunt", ar: "ابن / ابنة العم أو الخال", pron: "/ˈkʌzn/", ex: "I have ten cousins.", col: ["my cousins"], note: "Cousin is used for both boys and girls.", visual: "🧑" },
+      ], "Key words"),
+    ],
+    exercises: [
+      match("Match the male word with the female word.", [["father", "mother"], ["husband", "wife"], ["uncle", "aunt"], ["nephew", "niece"], ["grandfather", "grandmother"]], "These are the male / female pairs from the table."),
+      mc("Your uncle's daughter is your ___.", ["cousin", "niece", "aunt"], 0, "The child of your uncle or aunt is your cousin."),
+      fill("My mother and father are my ___.", ["parents"], "Parents = mother + father."),
+      mist("Find the mistake.", ["I have", "three", "childs."], 2, "children", "Child has an irregular plural: children."),
+      mc("Your brother's son is your ___.", ["nephew", "uncle", "cousin"], 0, "The son of your brother or sister is your nephew."),
+      tf("“Cousin” can only be used for boys.", false, "Cousin is used for boys and girls."),
+    ],
+  },
+  {
+    slug: "elementary-vocab-opposite-adjectives",
+    level: "ELEMENTARY", category: "VOCABULARY", title: "Opposite Adjectives", topic: "Adjectives",
+    difficulty: "BASIC", minutes: 10, prereq: ["elementary-vocab-family-members"],
+    objective: "Learn common pairs of opposite adjectives and use them to describe people, places and things.",
+    tags: ["vocabulary", "adjectives", "opposites", "personal-information", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Vocabulary", topic: "Opposite adjectives (Unit 1)" },
+    sections: [
+      text("Adjectives describe nouns. Learning them in **opposite pairs** is a fast way to double your vocabulary: when you know **hot**, you also learn **cold**."),
+      table("Opposite pairs", ["Adjective", "Opposite", "Example"], [
+        ["good", "bad / horrible", "The food is good, but the coffee is horrible."],
+        ["hot", "cold", "It's hot in July and cold in January."],
+        ["cheap", "expensive", "This bag is cheap; that one is expensive."],
+        ["easy", "difficult", "The exam is easy, not difficult."],
+        ["big", "small", "It's a big school with small classes."],
+        ["old", "young", "My grandfather is old; my cousin is young."],
+        ["friendly", "unfriendly", "The teacher is friendly."],
+      ]),
+      vocab([
+        { word: "hot", pos: "adjective", meaning: "with a high temperature", ar: "حار", pron: "/hɒt/", ex: "The tea is very hot.", col: ["hot weather", "hot tea"], note: "Opposite: cold.", visual: "🔥" },
+        { word: "easy", pos: "adjective", meaning: "not difficult; you can do it without problems", ar: "سهل", pron: "/ˈiːzi/", ex: "The Underground is easy to use.", col: ["easy question", "easy to use"], note: "Opposite: difficult.", visual: "🧩" },
+        { word: "big", pos: "adjective", meaning: "large in size", ar: "كبير", pron: "/bɪɡ/", ex: "It's a big city.", col: ["a big house"], right: "This school is big.", wrong: "This school is much big.", note: "Use very big, not much big. Opposite: small.", visual: "🐘" },
+        { word: "old", pos: "adjective", meaning: "not young; having lived or existed for a long time", ar: "كبير في السن / قديم", pron: "/əʊld/", ex: "My grandfather is 80: he's old.", col: ["an old man", "an old car"], right: "My brother is young.", wrong: "My brother is new.", note: "For people the opposite is young; for things it is new.", visual: "👴" },
+        { word: "friendly", pos: "adjective", meaning: "kind and pleasant to other people", ar: "ودود", pron: "/ˈfrendli/", ex: "My neighbours are very friendly.", col: ["a friendly teacher"], note: "Opposite: unfriendly.", visual: "😊" },
+        { word: "horrible", pos: "adjective", meaning: "very bad", ar: "فظيع", pron: "/ˈhɒrəbl/", ex: "The weather is horrible today.", col: ["horrible weather", "a horrible smell"], note: "Horrible is stronger than bad.", visual: "🤢" },
+      ], "Key words"),
+    ],
+    exercises: [
+      match("Match each adjective with its opposite.", [["hot", "cold"], ["cheap", "expensive"], ["easy", "difficult"], ["big", "small"], ["old", "young"]], "Each pair has opposite meanings."),
+      fill("The test isn't easy. It's ___.", ["difficult"], "The opposite of easy is difficult."),
+      mc("My grandfather is old, but my baby cousin is ___.", ["new", "young", "big"], 1, "For people, the opposite of old is young."),
+      mc("Which pair is NOT a pair of opposites?", ["hot – cold", "big – small", "easy – friendly", "old – young"], 2, "Easy and friendly have different meanings; the opposite of friendly is unfriendly."),
+      mist("Find the mistake.", ["This phone is very old", "and this one is", "young."], 2, "new", "For things (not people), the opposite of old is new."),
+      sa("The opposite of friendly is ___.", ["unfriendly"], "Add un- to make the opposite: unfriendly."),
+    ],
+  },
+
+  // ============================================================ WEEK 1 · READING
+  {
+    slug: "elementary-reading-student-blog",
+    level: "ELEMENTARY", category: "READING", title: "Reading: A Student's Blog", topic: "Personal information texts",
+    difficulty: "BASIC", minutes: 14, prereq: ["beginner-reading-true-false"],
+    objective: "Find personal details (who, where, how old, how long) in a short first-person text.",
+    tags: ["reading", "reading-details", "reading-comprehension", "reading-scanning", "personal-information", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Reading", topic: "A student's blog (Unit 1)" },
+    sections: [
+      text("A **blog** is a personal text on the internet. It uses **I** and short, simple sentences, and it often gives personal information: name, age, place, family and opinions. To answer questions, look for the **question word** (who, where, how old, how long) and find the same idea in the text.", "Reading strategy"),
+      passage("Example", "Hello! I'm Dina, a student in Muscat. I'm 19. I live with my parents and my two sisters. My father's a teacher, and my mother's a nurse.", "A short blog opening"),
+      list("Guided practice", ["Who is Dina? → a student in Muscat.", "How old is she? → 19 (look for a number).", "Who does she live with? → her parents and her two sisters.", "What's her father's job? → he's a teacher."]),
+      tip("Numbers, names and places are easy to find: scan for capital letters and digits first.", "Scanning"),
+    ],
+    exercises: [
+      mc("Where is Yusuf from?", ["England", "Oman", "Manchester"], 1, "The first sentence says: “an Omani student”. He is from Oman.", BLOG),
+      mc("How long is Yusuf in England?", ["six months", "six weeks", "one year"], 0, "“I'm here to study English for six months.”", BLOG),
+      sa("How old is Tom? (write a number)", ["19", "nineteen"], "“Lucy (14) and Tom (19)”.", { context: BLOG }),
+      tf("Yusuf's teacher is unfriendly.", false, "The blog says: “He's friendly and very funny.”", BLOG),
+      tf("Manchester is expensive.", false, "The text says: “it isn't expensive”.", BLOG),
+      mc("Where is Yusuf's school?", ["in the city centre", "near the sea", "in a village"], 0, "“My school is in the city centre.”", BLOG),
+      ms("Select TWO good things about Manchester in the blog.", ["The museums are free.", "The weather is warm.", "The buses are cheap.", "The school is small."], [0, 2], "The blog says the museums are free and the buses are cheap.", BLOG),
+    ],
+  },
+
+  // ============================================================ WEEK 1 · WRITING
+  {
+    slug: "elementary-writing-personal-profile",
+    level: "ELEMENTARY", category: "WRITING", title: "Writing a Personal Profile", topic: "Personal profile",
+    difficulty: "BASIC", minutes: 15, prereq: ["beginner-writing-complete-sentence"],
+    objective: "Write a three-paragraph personal profile (introduction, family, school) using correct capital letters.",
+    tags: ["writing", "writing-paragraph", "punctuation", "personal-information", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Writing", topic: "A personal profile / blog entry (Unit 1)" },
+    sections: [
+      text("A **personal profile** tells the reader who you are. It is short and clear: **three small paragraphs**, each with one idea. Use the verbs you know: **am, have, go, live, like**.", "Explanation"),
+      list("Capital letters: always use them for", ["The word **I**: I live in Sohar.", "Names of people and places: Huda, Sohar, Oman.", "Countries, nationalities and languages: Oman, Omani, English.", "Days of the week: Sunday, Tuesday."]),
+      annotated("Model profile", [
+        ["Paragraph 1: Introduction", "Hello! My name is Huda. I am seventeen years old and I am Omani. I live in Sohar."],
+        ["Paragraph 2: Family", "I have two brothers and one sister. My father is a driver, and my mother is a nurse. My sister's name is Aisha."],
+        ["Paragraph 3: School", "I go to Sohar College. My classes are on Sunday and Tuesday. My English teacher is Mr Ali."],
+      ]),
+      tip("Start each paragraph on a new line, and finish every sentence with a full stop."),
+    ],
+    exercises: [
+      order("Put the sentences in order to make the introduction paragraph.", ["Hello! My name is Omar.", "I am sixteen years old.", "I am from Nizwa.", "I am a student at Nizwa College."], "paragraph", "Greeting and name first, then age, place and school."),
+      sa("Add capital letters: i go to college on monday in salalah.", ["I go to college on Monday in Salalah."], "Capital letters: I, Monday, Salalah (and the first word).", { strict: true }),
+      mc("Which sentence belongs in the FAMILY paragraph?", ["I have a brother and a sister.", "I go to Nizwa College.", "I am sixteen years old."], 0, "Family paragraph: family members and their jobs."),
+      mc("Which sentence belongs in the SCHOOL paragraph?", ["My mother is a nurse.", "My classes are on Sunday and Tuesday.", "Hello! My name is Salim."], 1, "The school paragraph talks about classes, teachers and college."),
+      mist("Find the mistake.", ["my", "name is Salim", "."], 0, "My", "A sentence starts with a capital letter: My name is Salim."),
+      tf("Days of the week need a capital letter in English.", true, "Sunday, Monday, Tuesday… always start with a capital letter."),
+    ],
+  },
+
+  // ============================================================ WEEK 2 · GRAMMAR
+  {
+    slug: "elementary-grammar-third-person-s",
+    level: "ELEMENTARY", category: "GRAMMAR", title: "Present Simple: he / she / it (Spelling Rules)", topic: "Present Simple",
+    difficulty: "BASIC", minutes: 14, prereq: ["elementary-grammar-high-frequency-verbs"],
+    objective: "Spell the he / she / it form of Present Simple verbs correctly (-s, -es, -ies and irregular verbs).",
+    tags: ["grammar", "present-simple", "third-person-s", "daily-routines", "work", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Grammar", topic: "Present Simple: he / she / it (Unit 2)" },
+    sections: [
+      text("We use the **Present Simple** for permanent facts, general truths, habits and daily routines. With **he, she and it**, the verb changes: it takes **-s** or **-es**, or it changes its spelling. The verb-ending rules follow a simple order.", "Explanation"),
+      list("When do we use it?", ["Permanent facts: Salim works in a hospital.", "General truths: The sun rises in the east.", "Habits and routines: She gets up at six and walks to work."]),
+      flow("How do I spell the he / she / it form?", [
+        ["Is the verb have, go or do?", "Irregular: have → has, go → goes, do → does."],
+        ["Does the verb end in -ch, -sh, -ss or -x?", "Add -es: watch → watches, finish → finishes, teach → teaches, fix → fixes."],
+        ["Does the verb end in a consonant + y?", "Change y to -ies: study → studies, fly → flies, carry → carries."],
+      ], "Just add -s: work → works, live → lives, drive → drives, play → plays (a vowel + y just adds -s)."),
+      structure("Structure", "He / She / It + verb + s / es / ies\nI / You / We / They + base verb", "Only he, she and it (and singular nouns such as “my brother”) get the special ending."),
+      examples("Examples", {
+        "-s": ["He works in a bank.", "She lives near the sea."],
+        "-es": ["She watches the news every night.", "He teaches English."],
+        "-ies": ["My sister studies medicine.", "The bird flies south in winter."],
+        Irregular: ["My father has a small shop.", "She goes to work by bus.", "He does his homework at night."],
+      }),
+    ],
+    exercises: [
+      sa("Write the he / she / it form of “wash”: She ___ her car on Fridays.", ["washes"], "Wash ends in -sh, so we add -es: washes.", { hint: "add -es" }),
+      fill("My uncle ___ (carry) heavy boxes.", ["carries"], "Consonant + y: change y to -ies: carries."),
+      mc("My brother ___ football on Fridays.", ["play", "plays", "playes"], 1, "Play ends in a vowel + y, so we just add -s: plays."),
+      match("Match each verb with its he / she / it form.", [["fix", "fixes"], ["fly", "flies"], ["drive", "drives"], ["have", "has"]], "Follow the tree: fix ends in -x (-es); fly = consonant + y (-ies); drive adds -s; have is irregular."),
+      mist("Find the mistake.", ["Sara", "studys", "English at night."], 1, "studies", "Study ends in a consonant + y, so y changes to -ies: studies."),
+      mc("Which sentence is correct?", ["He goes to work by bus.", "He gos to work by bus.", "He go to work by bus."], 0, "Go is irregular: he goes."),
+      mc("Which verb takes -es with he / she / it?", ["drive", "teach", "play"], 1, "Teach ends in -ch, so it takes -es: teaches."),
+    ],
+  },
+  {
+    slug: "elementary-grammar-pronouns",
+    level: "ELEMENTARY", category: "GRAMMAR", title: "Subject Pronouns, Object Pronouns and Possessive Adjectives", topic: "Pronouns",
+    difficulty: "CORE", minutes: 14, prereq: ["elementary-grammar-third-person-s"],
+    objective: "Choose the right pronoun form: subject (before a verb), object (after a verb or preposition) and possessive adjective (before a noun).",
+    tags: ["grammar", "pronouns", "possessive-adjectives", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Grammar", topic: "Pronouns and possessive adjectives (Unit 2)" },
+    sections: [
+      text("English has three sets of words that replace or point to nouns. The **position** in the sentence tells you which one to use: **subject pronouns** come before verbs, **object pronouns** come after verbs and prepositions, and **possessive adjectives** come before nouns.", "Explanation"),
+      list("When do we use them?", ["Subject pronoun: who does the action: She works in a bank.", "Object pronoun: who receives the action: I like her. Give it to them.", "Possessive adjective: whose noun it is: Her sister is a doctor."]),
+      table("The three sets", ["Subject", "Object", "Possessive adjective"], [
+        ["I", "me", "my"], ["you", "you", "your"], ["he", "him", "his"], ["she", "her", "her"],
+        ["it", "it", "its"], ["we", "us", "our"], ["they", "them", "their"],
+      ]),
+      structure("Structure", "Subject + verb + object\nShe + likes + them.      Her + brother + is + my friend."),
+      compare("Common mistakes", [["Him is my brother.", "He is my brother.", "Before a verb we need a subject pronoun."], ["I like she.", "I like her.", "After a verb we need an object pronoun."], ["Give the book to I.", "Give the book to me.", "After a preposition (to, with, for) use an object pronoun."]]),
+    ],
+    exercises: [
+      mc("Sara is my sister. I like ___ a lot.", ["she", "her", "hers"], 1, "After the verb like we need an object pronoun: her."),
+      fill("Ali and Omar are friends. ___ play football and I play with ___.", ["They", "them"], "They is the subject of play; with + object pronoun: them."),
+      mist("Find the mistake.", ["Give the keys", "to", "I."], 2, "me", "After a preposition use an object pronoun: to me."),
+      match("Match each subject pronoun with its object pronoun.", [["he", "him"], ["we", "us"], ["they", "them"], ["she", "her"]], "Subject pronouns change form when they become objects."),
+      mc("This is my sister. ___ name is Amal.", ["Her", "She", "Hers"], 0, "Before a noun (name) we need a possessive adjective: her."),
+      sa("Replace the words in brackets: I see (Nora and Sami) every day. → I see ___ every day.", ["them"], "Nora and Sami = they; as an object: them.", { hint: "object pronoun" }),
+      tf("“Us” is a subject pronoun.", false, "Us is an object pronoun. The subject pronoun is we."),
+    ],
+  },
+
+  // ============================================================ WEEK 2 · VOCABULARY
+  {
+    slug: "elementary-vocab-jobs",
+    level: "ELEMENTARY", category: "VOCABULARY", title: "Jobs and What They Do", topic: "Work",
+    difficulty: "BASIC", minutes: 14, prereq: ["elementary-vocab-opposite-adjectives"],
+    objective: "Name common jobs and say what people do using the right verb + noun partners.",
+    tags: ["vocabulary", "work", "workplaces", "jobs", "collocations", "listening-support", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Vocabulary", topic: "Jobs (Unit 2)" },
+    sections: [
+      text("To talk about work you need two things: the **name of the job** and a **verb + noun** that says what the person does. Remember to use **a / an** with jobs: She is **a** nurse. He is **an** architect."),
+      examples("What do they do? (verb + noun)", { "": ["A hairdresser cuts hair.", "A pilot flies planes.", "An architect designs buildings.", "A dentist looks after teeth.", "A journalist writes news stories.", "A lawyer earns money by giving legal advice."] }),
+      vocab([
+        { word: "architect", pos: "noun", meaning: "a person who designs buildings", ar: "مهندس معماري", pron: "/ˈɑːkɪtekt/", ex: "My uncle is an architect.", col: ["design buildings"], right: "He is an architect.", wrong: "He is architect.", note: "Use an before a vowel sound.", visual: "📐" },
+        { word: "dentist", pos: "noun", meaning: "a person who looks after your teeth", ar: "طبيب أسنان", pron: "/ˈdentɪst/", ex: "The dentist works in a clinic.", col: ["look after teeth"], visual: "🦷" },
+        { word: "nurse", pos: "noun", meaning: "a person who looks after sick people, often in a hospital", ar: "ممرض / ممرضة", pron: "/nɜːs/", ex: "My aunt is a nurse.", col: ["work in a hospital"], right: "She is a nurse.", wrong: "She is nurse.", note: "The same word is used for men and women.", visual: "🩺" },
+        { word: "pilot", pos: "noun", meaning: "a person who flies planes", ar: "طيار", pron: "/ˈpaɪlət/", ex: "He is a pilot for an international airline.", col: ["fly planes"], visual: "✈️" },
+        { word: "journalist", pos: "noun", meaning: "a person who writes news stories", ar: "صحفي", pron: "/ˈdʒɜːnəlɪst/", ex: "She's a journalist for a newspaper.", col: ["write news stories"], visual: "📰" },
+        { word: "lawyer", pos: "noun", meaning: "a person who works for a law firm and gives advice about the law", ar: "محامي", pron: "/ˈlɔːjə/", ex: "My father's a lawyer.", col: ["work for a law firm"], visual: "⚖️" },
+        { word: "receptionist", pos: "noun", meaning: "a person who welcomes visitors in a hotel or an office", ar: "موظف استقبال", pron: "/rɪˈsepʃənɪst/", ex: "The receptionist gives you your key.", col: ["work in a hotel"], visual: "🛎️" },
+        { word: "zoologist", pos: "noun", meaning: "a person who studies animals", ar: "عالم حيوان", pron: "/zuːˈɒlədʒɪst/", ex: "A zoologist studies wolves.", col: ["study animals"], visual: "🐾" },
+        { word: "firefighter", pos: "noun", meaning: "a person who drives fire engines and puts out fires (also: fireman)", ar: "رجل إطفاء", pron: "/ˈfaɪəfaɪtə/", ex: "The firefighter drives a big red truck.", col: ["put out fires", "drive fire engines"], visual: "🚒" },
+      ], "Jobs"),
+    ],
+    exercises: [
+      match("What does the person do? Match the job with the description.", [["architect", "designs buildings"], ["dentist", "looks after teeth"], ["nurse", "looks after sick people"], ["pilot", "flies planes"], ["journalist", "writes news stories"], ["zoologist", "studies animals"]], "Each job has a typical activity."),
+      mc("A dentist looks after ___.", ["teeth", "planes", "animals"], 0, "A dentist looks after your teeth."),
+      fill("An architect ___ buildings.", ["designs"], "He / she / it takes -s: designs."),
+      mist("Find the mistake.", ["My aunt is", "nurse", "in a hospital."], 1, "a nurse", "Use a / an with a job: a nurse."),
+      mc("He is ___ architect.", ["a", "an"], 1, "Architect starts with a vowel sound, so we use an."),
+      sa("A person who studies animals is a ___.", ["zoologist"], "A zoologist studies animals.", { hint: "z _ _ _ _ _ _ _ _" }),
+    ],
+  },
+  {
+    slug: "elementary-vocab-opposite-verbs",
+    level: "ELEMENTARY", category: "VOCABULARY", title: "Opposites in Daily Life", topic: "Daily routines",
+    difficulty: "BASIC", minutes: 10, prereq: ["elementary-vocab-jobs"],
+    objective: "Use opposite verbs and adjectives to talk about daily routines and school.",
+    tags: ["vocabulary", "daily-routines", "opposites", "education", "listening-support", "A1", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Vocabulary", topic: "Opposite verbs and adjectives (Unit 2)" },
+    sections: [
+      text("Some opposites describe **time** (early / late) and some describe **actions** in a routine (get up / go to bed, start / stop, teach / learn). They are useful for talking about your day."),
+      table("Opposite pairs", ["Word", "Opposite", "Example"], [
+        ["early", "late", "I get up early, but my brother gets up late."],
+        ["get up", "go to bed", "I get up at six and go to bed at ten."],
+        ["start", "stop", "The lesson starts at eight and stops at nine."],
+        ["teach", "learn", "A teacher teaches; a student learns."],
+      ]),
+      vocab([
+        { word: "early", pos: "adjective / adverb", meaning: "before the usual or planned time", ar: "مبكرًا", pron: "/ˈɜːli/", ex: "I get up early on school days.", col: ["get up early", "early morning"], note: "Opposite: late.", visual: "🌅" },
+        { word: "get up", pos: "phrasal verb", meaning: "to leave your bed in the morning", ar: "يستيقظ", pron: "/ɡet ʌp/", ex: "She gets up at half past five.", col: ["get up early", "get up late"], note: "Opposite: go to bed.", visual: "⏰" },
+        { word: "start", pos: "verb", meaning: "to begin", ar: "يبدأ", pron: "/stɑːt/", ex: "The film starts at seven.", col: ["start work", "start school"], note: "Opposite: stop.", visual: "▶️" },
+        { word: "teach", pos: "verb", meaning: "to give lessons and help someone to learn", ar: "يُعلِّم", pron: "/tiːtʃ/", ex: "My mother teaches English.", col: ["teach English", "teach children"], right: "I teach English.", wrong: "I learn English to my students.", note: "Teach = give knowledge. Learn = receive knowledge.", visual: "👩‍🏫" },
+        { word: "learn", pos: "verb", meaning: "to get knowledge or a new skill", ar: "يتعلَّم", pron: "/lɜːn/", ex: "The children learn English at school.", col: ["learn a language", "learn to swim"], note: "Opposite: teach.", visual: "📚" },
+      ], "Key words"),
+    ],
+    exercises: [
+      match("Match each word with its opposite.", [["early", "late"], ["get up", "go to bed"], ["start", "stop"], ["teach", "learn"]], "Each pair describes opposite times or actions."),
+      fill("My mother is a teacher. She ___ English at a primary school.", ["teaches"], "She takes -es with teach: teaches."),
+      fill("The lesson ___ at 8:00 and stops at 9:00.", ["starts"], "Start + -s for he / she / it (the lesson): starts."),
+      mist("Find the mistake.", ["I learn", "English", "to my students."], 0, "I teach", "You teach your students; students learn."),
+      mc("The opposite of “get up” is…", ["go to bed", "wake up", "start"], 0, "You get up in the morning and go to bed at night."),
+      tf("“Early” is the opposite of “late”.", true, "Yes: before the usual time = early; after the usual time = late."),
+    ],
+  },
+
+  // ============================================================ WEEK 2 · READING
+  {
+    slug: "elementary-reading-two-jobs",
+    level: "ELEMENTARY", category: "READING", title: "Reading: Two Different Jobs", topic: "Jobs and routines",
+    difficulty: "CORE", minutes: 14, prereq: ["elementary-reading-student-blog"],
+    objective: "Find details about what people do, where they work and how they spend their free time in a Present Simple text.",
+    tags: ["reading", "reading-details", "reading-comprehension", "work", "daily-routines", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Reading", topic: "Worlds apart: two jobs (Unit 2)" },
+    sections: [
+      text("Texts about people's work often use the **Present Simple** with he / she. To find the answer, match the **question word** with the right information: **What** does he do? (a job) · **Where** does she work? (a place) · **How many hours…?** (a number) · **What does she do in her free time?** (hobbies).", "Reading strategy"),
+      passage("Example", "Faisal is a chef. He works in a hotel in Salalah. He starts work at ten and finishes at eight. In his free time, he swims and cooks for his friends.", "Example text"),
+      list("Guided practice", ["What does Faisal do? → He is a chef.", "Where does he work? → in a hotel in Salalah.", "When does he finish work? → at eight.", "What does he do in his free time? → He swims and cooks for his friends."]),
+      tip("Notice the -s verbs in the text (works, starts, swims): they tell you the text is about one person.", "Clue"),
+    ],
+    exercises: [
+      mc("Where does Salim work?", ["at a school", "at a big hospital in Sohar", "at an aquarium"], 1, "“He works at a big hospital in Sohar.”", TWO_JOBS),
+      mc("What does Nora study?", ["fish", "planes", "children"], 0, "“She studies fish and teaches visitors about the ocean.”", TWO_JOBS),
+      tf("Salim starts work at five o'clock.", false, "He gets up at five; he starts work at seven.", TWO_JOBS),
+      sa("How many hours a week does Salim work? (write a number)", ["40", "forty"], "“He works 40 hours a week.”", { context: TWO_JOBS }),
+      tf("Nora lives in Oman.", false, "Nora lives in Canada, near the sea.", TWO_JOBS),
+      mc("What does Nora do in her free time?", ["She paints pictures and walks her dog.", "She plays volleyball.", "She visits her grandmother."], 0, "Playing volleyball and visiting a grandmother are Salim's hobbies.", TWO_JOBS),
+      mc("Which sentence is about Salim?", ["He doesn't like noisy places.", "She earns about 3,000 dollars a month.", "She works at an aquarium."], 0, "The other two sentences are about Nora (she).", TWO_JOBS),
+    ],
+  },
+
+  // ============================================================ WEEK 2 · WRITING
+  {
+    slug: "elementary-writing-pronouns-cohesion",
+    level: "ELEMENTARY", category: "WRITING", title: "Writing Style: Using Pronouns to Avoid Repetition", topic: "Cohesion",
+    difficulty: "CORE", minutes: 12, prereq: ["elementary-grammar-pronouns", "elementary-writing-personal-profile"],
+    objective: "Improve a short paragraph by replacing repeated names with subject pronouns, object pronouns and possessive adjectives.",
+    tags: ["writing", "writing-paragraph", "cohesion", "pronouns", "A2"],
+    ref: { book: HW, level: "Elementary", area: "Writing", topic: "Pronouns and text cohesion (Unit 2)" },
+    sections: [
+      text("When you repeat the same name again and again, your writing sounds boring and unnatural. Good writers use **pronouns** to link their sentences. This makes a paragraph **smooth** (cohesive).", "Explanation"),
+      passage("Before: repetitive", "Dr Huda Al Riyami is a doctor. Dr Huda Al Riyami works in Muscat. Dr Huda Al Riyami's husband is a pilot. Dr Huda Al Riyami loves Dr Huda Al Riyami's job.", "Too much repetition"),
+      passage("After: cohesive", "Dr Huda Al Riyami is a doctor. She works in Muscat. Her husband is a pilot. She loves her job.", "Better style"),
+      list("Rules", ["Use a **subject pronoun** (he, she, it, they) instead of the name before a verb.", "Use an **object pronoun** (him, her, them) after a verb or preposition.", "Use a **possessive adjective** (his, her, their) before a noun.", "Make sure the reader knows who the pronoun means. If two women are in the text, “she” can be confusing."]),
+    ],
+    exercises: [
+      fill("Salim is a nurse. ___ works in Sohar. ___ hospital is big.", ["He", "His"], "First blank: subject pronoun (He works). Second blank: possessive adjective before hospital (His)."),
+      mc("Which version has the best style?", ["Nora has a dog. Nora walks Nora's dog every day.", "Nora has a dog. She walks her dog every day.", "Nora has a dog. She walks she's dog every day."], 1, "She replaces the subject and her replaces Nora's."),
+      mist("Find the mistake.", ["Ali and Sami are cousins.", "Them", "play football on Fridays."], 1, "They", "Before a verb we need a subject pronoun: They play."),
+      order("Put the sentences in the correct order.", ["Amal is a dentist.", "She works in a small clinic.", "Her clinic is near the beach.", "She loves her job."], "paragraph", "Introduce Amal first, then use She / Her to continue."),
+      fill("My parents live in Ibri. I visit ___ every weekend.", ["them"], "My parents = they; as the object of visit: them."),
+      tf("It is good to use “she” many times when two women are in the paragraph.", false, "Then the reader can't tell who “she” means. Use the name again when it is unclear."),
+    ],
+  },
+];
+
+void [annotated, compare, ms, tip];
