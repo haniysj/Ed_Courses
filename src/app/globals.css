@@ -61,6 +61,25 @@
     @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-soft;
   }
 
+  /* Course cards: the hovered card lifts, gains a brand ring and stronger shadow; the others fade back a little.
+     Everything returns to normal as soon as the pointer leaves the card. */
+  .course-card {
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out, opacity 0.3s ease-out, filter 0.3s ease-out;
+  }
+  @media (hover: hover) {
+    .course-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: theme("colors.brand.400");
+      box-shadow: 0 0 0 2px theme("colors.brand.500 / 45%"), 0 24px 48px -12px rgb(25 59 143 / 0.28);
+      z-index: 5;
+      position: relative;
+    }
+    body:has(.course-card:hover) .course-card:not(:hover) {
+      opacity: 0.72;
+      filter: saturate(0.85);
+    }
+  }
+
   .reveal {
     opacity: 0;
     transform: translateY(16px);
@@ -90,7 +109,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .animate-float, .animate-fade-in, .hover-lift {
+  .reveal, .animate-float, .animate-fade-in, .hover-lift, .course-card {
     animation: none !important;
     transition: none !important;
     opacity: 1 !important;

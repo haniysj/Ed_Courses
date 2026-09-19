@@ -5,10 +5,14 @@ import { Money } from "@/components/money";
 import { useI18n } from "@/components/i18n-provider";
 import { formatDateLtr } from "@/lib/utils";
 
+/** Soft sand-coloured pill that sits behind the price only (not the whole row). */
+const PILL =
+  "inline-flex items-center rounded-full border border-[#dcc28a] bg-[#f8ecd2] font-bold text-[#6f4a10] dark:border-amber-700/50 dark:bg-amber-900/30 dark:text-amber-200";
+
 /** The original price, struck through with a diagonal line that also crosses the currency symbol. */
 function StruckMoney({ amount, currency, className = "" }: { amount: number; currency: string; className?: string }) {
   return (
-    <span className={`relative inline-block opacity-80 after:absolute after:inset-x-[-2px] after:top-1/2 after:h-[1.5px] after:-rotate-6 after:rounded-full after:bg-current ${className}`}>
+    <span className={`relative inline-block text-ink-400 after:absolute after:inset-x-[-2px] after:top-1/2 after:h-[1.5px] after:-rotate-6 after:rounded-full after:bg-current dark:text-ink-500 ${className}`}>
       <Money amount={amount} currency={currency} weight="medium" />
     </span>
   );
@@ -31,73 +35,68 @@ export function PriceBreakdown({
   const { t } = useI18n();
   const p = getCoursePricing(hourlyRate, durationHours, { discountType, discountValue, discountEndsAt });
 
-  const ends = p.active && p.endsAt ? (
-    <span className="inline-flex items-center gap-1">
-      {t("courses.offerEndsOn")}: <strong className="font-semibold">{formatDateLtr(p.endsAt)}</strong>
+  const ends =
+    p.active && p.endsAt ? (
+      <span className="text-amber-700 dark:text-amber-300">
+        {t("courses.offerEndsOn")}: <strong className="font-semibold">{formatDateLtr(p.endsAt)}</strong>
+      </span>
+    ) : null;
+
+  const percentBadge = p.active ? (
+    <span className="rounded-full bg-rose-600 px-2 py-0.5 text-[11px] font-extrabold text-white" dir="ltr">
+      -{p.percentOff}%
     </span>
   ) : null;
 
   if (size === "sm") {
     return (
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 px-4 py-2.5 text-white shadow-md shadow-brand-900/20 ring-1 ring-white/10">
-        <span aria-hidden className="pointer-events-none absolute -end-6 -top-8 h-20 w-20 rounded-full bg-white/10" />
-        <span aria-hidden className="pointer-events-none absolute -bottom-10 start-10 h-16 w-16 rounded-full bg-white/5" />
-        <div className="relative flex items-center justify-between gap-3">
-          <div className="min-w-0">
-            <p className="text-[11px] font-medium leading-tight text-white/75">{t("courses.totalPrice")}</p>
-            {p.active && (
-              <p className="mt-0.5 text-[11px] text-white/70">
-                <StruckMoney amount={p.original} currency={currency} />
-              </p>
-            )}
-          </div>
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-xs text-ink-500 dark:text-ink-400">{t("courses.totalPrice")}</span>
           <div className="flex items-center gap-2">
-            {p.active && (
-              <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-extrabold text-amber-950" dir="ltr">
-                -{p.percentOff}%
-              </span>
-            )}
-            <span className="text-base font-bold leading-none">
+            {p.active && <StruckMoney amount={p.original} currency={currency} className="text-xs" />}
+            <span className={`${PILL} px-3 py-1 text-sm`}>
               <Money amount={p.final} currency={currency} weight="bold" />
             </span>
           </div>
         </div>
-        {ends && <p className="relative mt-1.5 border-t border-white/15 pt-1.5 text-[11px] text-amber-200">{ends}</p>}
+        {p.active && (
+          <div className="flex items-center justify-between gap-2 text-[11px]">
+            <span>{ends}</span>
+            {percentBadge}
+          </div>
+        )}
       </div>
     );
   }
 
-  const amountClass = size === "lg" ? "text-3xl font-extrabold" : "text-2xl font-extrabold";
+  const pillClass = size === "lg" ? "px-5 py-2 text-2xl" : "px-4 py-1.5 text-xl";
 
   return (
-    <div className="relative overflow-hidden rounded-xl2 bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 p-5 text-white shadow-lg shadow-brand-900/25 ring-1 ring-white/10">
-      <span aria-hidden className="pointer-events-none absolute -end-10 -top-12 h-36 w-36 rounded-full bg-white/10" />
-      <span aria-hidden className="pointer-events-none absolute -bottom-14 start-6 h-28 w-28 rounded-full bg-white/5" />
-      <div className="relative">
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-white/75">{t("courses.totalPrice")}</p>
-          {p.active && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-2.5 py-0.5 text-xs font-extrabold text-amber-950">
-              <span>{t("courses.specialOffer")}</span>
-              <span dir="ltr">-{p.percentOff}%</span>
-            </span>
-          )}
-        </div>
+    <div className="rounded-xl2 border border-ink-100 bg-white p-5 shadow-card dark:border-ink-800 dark:bg-ink-900">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400">{t("courses.totalPrice")}</p>
         {p.active && (
-          <div className="mt-3 text-base text-white/80">
-            <StruckMoney amount={p.original} currency={currency} />
-          </div>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-2.5 py-0.5 text-xs font-extrabold text-white">
+            <span>{t("courses.specialOffer")}</span>
+            <span dir="ltr">-{p.percentOff}%</span>
+          </span>
         )}
-        <div className={`${p.active ? "mt-1" : "mt-2"} ${amountClass}`}>
+      </div>
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+        <span className={`${PILL} ${pillClass}`}>
           <Money amount={p.final} currency={currency} weight="bold" />
-        </div>
-        {p.active && (
-          <p className="mt-2 text-sm text-emerald-200">
+        </span>
+        {p.active && <StruckMoney amount={p.original} currency={currency} className="text-base" />}
+      </div>
+      {p.active && (
+        <div className="mt-3 space-y-1 text-sm">
+          <p className="text-emerald-700 dark:text-emerald-400">
             {t("courses.youSave")} <Money amount={p.savings} currency={currency} weight="medium" />
           </p>
-        )}
-        {ends && <p className="mt-3 border-t border-white/15 pt-3 text-sm text-amber-200">{ends}</p>}
-      </div>
+          {ends && <p>{ends}</p>}
+        </div>
+      )}
     </div>
   );
 }

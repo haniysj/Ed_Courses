@@ -15,14 +15,14 @@ export function CourseCard({ course }: { course: CourseCardData }) {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   return (
-    <div className="card hover-lift flex flex-col overflow-hidden">
+    <div className="card course-card group flex flex-col overflow-hidden">
       <div className="relative h-44 w-full overflow-hidden bg-ink-100 dark:bg-ink-800">
         {course.imageUrl && (
           <Image
             src={course.imageUrl}
             alt={course.title}
             fill
-            className="object-cover transition-transform duration-500 hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         )}
