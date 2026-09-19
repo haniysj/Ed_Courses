@@ -12,7 +12,8 @@ import {
   SCHEDULE_STATUSES,
 } from "@/lib/enums";
 
-export const courseInputSchema = z.object({
+export const courseInputSchema = z
+  .object({
   title: z.string().trim().min(3, "Course title must be at least 3 characters"),
   code: z.string().trim().min(2, "Course code is required"),
   description: z.string().trim().min(10, "Description must be at least 10 characters"),
@@ -24,6 +25,10 @@ export const courseInputSchema = z.object({
   sessionsCount: z.coerce.number().int().positive("Sessions must be at least 1"),
   hourlyRate: z.coerce.number().positive("Hourly rate must be greater than zero"),
   maxLearners: z.coerce.number().int().positive("Capacity must be at least 1"),
+  discountType: z.enum(["NONE", "PERCENT", "AMOUNT"]).default("NONE"),
+  discountValue: z.coerce.number().min(0, "Discount cannot be negative").default(0),
+  // YYYY-MM-DD; the offer is valid through the end of that day (Oman time). Empty = no end date.
+  discountEndsAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use a valid date").optional().or(z.literal("")),
   status: z.enum(COURSE_STATUSES),
   categoryId: z.string().min(1, "Category is required"),
   instructorId: z.string().min(1, "Instructor is required"),
@@ -35,7 +40,21 @@ export const courseInputSchema = z.object({
       })
     )
     .default([]),
-});
+  })
+  .superRefine((d, ctx) => {
+    if (d.discountType === "NONE") return;
+    const total = d.hourlyRate * d.durationHours;
+    if (!(d.discountValue > 0)) {
+      ctx.addIssue({ code: "custom", path: ["discountValue"], message: "Enter a discount value greater than zero" });
+    } else if (d.discountType === "PERCENT" && d.discountValue > 95) {
+      ctx.addIssue({ code: "custom", path: ["discountValue"], message: "Percentage discount cannot exceed 95%" });
+    } else if (d.discountType === "AMOUNT" && d.discountValue >= total) {
+      ctx.addIssue({ code: "custom", path: ["discountValue"], message: "Discount amount must be less than the course total" });
+    }
+    if (d.discountEndsAt && new Date(d.discountEndsAt + "T23:59:59.999+04:00").getTime() < Date.now()) {
+      ctx.addIssue({ code: "custom", path: ["discountEndsAt"], message: "The offer end date cannot be in the past" });
+    }
+  });
 
 export const instructorInputSchema = z.object({
   fullName: z.string().trim().min(2, "Full name is required"),

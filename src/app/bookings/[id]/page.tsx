@@ -47,7 +47,16 @@ export default async function BookingStatusPage({ params }: { params: { id: stri
           <Row label={t.courses.duration} value={`${booking.durationHoursSnapshot} ${t.common.hours}`} />
           <Row
             label={t.courses.totalPrice}
-            value={<span className="text-lg font-extrabold text-brand-700 dark:text-brand-400"><Money amount={booking.totalPriceSnapshot} currency={booking.currencySnapshot} weight="bold" /></span>}
+            value={
+              <span className="flex flex-col items-end">
+                {booking.discountSnapshot > 0 && (
+                  <span className="relative inline-block text-sm font-medium text-ink-400 after:absolute after:inset-x-[-2px] after:top-1/2 after:h-[1.5px] after:-rotate-6 after:bg-current">
+                    <Money amount={booking.totalPriceSnapshot + booking.discountSnapshot} currency={booking.currencySnapshot} weight="medium" />
+                  </span>
+                )}
+                <span className="text-lg font-extrabold text-brand-700 dark:text-brand-400"><Money amount={booking.totalPriceSnapshot} currency={booking.currencySnapshot} weight="bold" /></span>
+              </span>
+            }
           />
           <Row label={t.booking.fullName} value={booking.learnerName} />
           <Row label={t.booking.email} value={booking.learnerEmail} />

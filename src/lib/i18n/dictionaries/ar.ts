@@ -101,6 +101,10 @@ const ar: Dictionary = {
     nextAvailable: "أقرب موعد متاح",
     noUpcoming: "لا توجد مواعيد قادمة",
     totalPrice: "السعر الإجمالي للدورة",
+    offerEndsOn: "العرض ساري حتى",
+    discountOff: "خصم",
+    specialOffer: "عرض خاص",
+    youSave: "توفّر",
     viewCourse: "عرض الدورة",
   },
   courseDetail: {

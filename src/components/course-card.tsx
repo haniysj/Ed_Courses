@@ -54,7 +54,7 @@ export function CourseCard({ course }: { course: CourseCardData }) {
           </span>
         </div>
 
-        <PriceBreakdown hourlyRate={course.hourlyRate} durationHours={course.durationHours} currency={course.currency} size="sm" />
+        <PriceBreakdown hourlyRate={course.hourlyRate} durationHours={course.durationHours} currency={course.currency} size="sm" discountType={course.discountType} discountValue={course.discountValue} discountEndsAt={course.discountEndsAt} />
 
         <div className="text-xs text-ink-500 dark:text-ink-400">
           {upcoming.length > 0 ? (

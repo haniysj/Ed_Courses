@@ -84,6 +84,14 @@ model Course {
   currency      String   @default("OMR")
   categoryId    String
   instructorId  String
+
+  // Optional time-limited discount. discountType: NONE | PERCENT | AMOUNT
+  // (AMOUNT = a fixed amount off the total course price). The offer stops
+  // applying automatically once discountEndsAt has passed.
+  discountType    String    @default("NONE")
+  discountValue   Float     @default(0)
+  discountEndsAt  DateTime?
+
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -148,6 +156,8 @@ model Booking {
   durationHoursSnapshot Float
   totalPriceSnapshot    Float
   currencySnapshot      String @default("OMR")
+  // Discount applied at booking time (amount off the original total). totalPriceSnapshot is the price actually charged.
+  discountSnapshot      Float  @default(0)
 
   status        String @default("PENDING")
   paymentStatus String @default("UNPAID")

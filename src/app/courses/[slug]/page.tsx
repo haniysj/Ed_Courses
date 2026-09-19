@@ -158,7 +158,7 @@ export default async function CourseDetailsPage({ params }: { params: { slug: st
         </div>
 
         <aside className="lg:sticky lg:top-24 lg:h-fit">
-          <PriceBreakdown hourlyRate={course.hourlyRate} durationHours={course.durationHours} currency={course.currency} size="lg" />
+          <PriceBreakdown hourlyRate={course.hourlyRate} durationHours={course.durationHours} currency={course.currency} size="lg" discountType={course.discountType} discountValue={course.discountValue} discountEndsAt={course.discountEndsAt} />
           <div className="mt-6">
             {course.status === "PUBLISHED" ? (
               <BookingForm
@@ -166,6 +166,9 @@ export default async function CourseDetailsPage({ params }: { params: { slug: st
                 hourlyRate={course.hourlyRate}
                 durationHours={course.durationHours}
                 currency={course.currency}
+                discountType={course.discountType}
+                discountValue={course.discountValue}
+                discountEndsAt={course.discountEndsAt}
                 schedules={course.schedules}
               />
             ) : (

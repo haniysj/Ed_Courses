@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { calculateTotalPrice } from "@/lib/pricing";
+import { getCoursePricing } from "@/lib/pricing";
 import { Money } from "@/components/money";
 import { formatTimeRange, formatDateLtr } from "@/lib/utils";
 import { CONTACT_METHODS } from "@/lib/enums";
@@ -26,12 +26,18 @@ export function BookingForm({
   hourlyRate,
   durationHours,
   currency,
+  discountType,
+  discountValue,
+  discountEndsAt,
   schedules,
 }: {
   courseId: string;
   hourlyRate: number;
   durationHours: number;
   currency: string;
+  discountType?: string | null;
+  discountValue?: number | null;
+  discountEndsAt?: Date | string | null;
   schedules: ScheduleOption[];
 }) {
   const router = useRouter();
@@ -50,7 +56,8 @@ export function BookingForm({
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ id: string } | null>(null);
 
-  const total = calculateTotalPrice(hourlyRate, durationHours);
+  const pricing = getCoursePricing(hourlyRate, durationHours, { discountType, discountValue, discountEndsAt });
+  const total = pricing.final;
   const availableSchedules = schedules.filter((s) => s.status === "OPEN" && s.seatsBooked < s.capacity);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -139,7 +146,14 @@ export function BookingForm({
         <h3 className="font-bold text-ink-900 dark:text-white">{t("booking.priceSection")}</h3>
         <div className="mt-2 flex items-center justify-between text-sm text-ink-600 dark:text-ink-300">
           <span>{t("courses.totalPrice")}</span>
-          <span className="text-xl font-extrabold text-brand-700 dark:text-brand-400"><Money amount={total} currency={currency} weight="bold" /></span>
+          <span className="flex flex-col items-end">
+            {pricing.active && (
+              <span className="relative inline-block text-sm font-medium text-ink-400 after:absolute after:inset-x-[-2px] after:top-1/2 after:h-[1.5px] after:-rotate-6 after:bg-current">
+                <Money amount={pricing.original} currency={currency} weight="medium" />
+              </span>
+            )}
+            <span className="text-xl font-extrabold text-brand-700 dark:text-brand-400"><Money amount={total} currency={currency} weight="bold" /></span>
+          </span>
         </div>
       </div>
 

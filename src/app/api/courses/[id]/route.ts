@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { discountColumns } from "@/lib/discount";
 import { prisma } from "@/lib/prisma";
 import { requireAdminApi } from "@/lib/require-admin";
 import { courseInputSchema } from "@/lib/validation";
@@ -50,6 +51,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         durationHours: data.durationHours,
         sessionsCount: data.sessionsCount,
         hourlyRate: data.hourlyRate,
+        ...discountColumns(data),
         maxLearners: data.maxLearners,
         status: data.status,
         categoryId: data.categoryId,

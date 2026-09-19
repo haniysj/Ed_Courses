@@ -23,12 +23,12 @@ export function OmrSymbol({ weight = "medium", className }: { weight?: OmrWeight
  * their code. Direction is forced LTR so "symbol amount" reads the same in
  * Arabic and English layouts.
  */
-export function Money({ amount, currency = "OMR", weight = "medium" }: { amount: number; currency?: string; weight?: OmrWeight }) {
+export function Money({ amount, currency = "OMR", weight = "medium", className = "" }: { amount: number; currency?: string; weight?: OmrWeight; className?: string }) {
   if (currency !== "OMR") {
-    return <span dir="ltr" className="whitespace-nowrap">{currency} {amount.toFixed(2)}</span>;
+    return <span dir="ltr" className={`whitespace-nowrap ${className}`}>{currency} {amount.toFixed(2)}</span>;
   }
   return (
-    <span dir="ltr" className="inline-flex items-baseline gap-[0.3em] whitespace-nowrap">
+    <span dir="ltr" className={`inline-flex items-baseline gap-[0.3em] whitespace-nowrap ${className}`}>
       <span className="sr-only">OMR </span>
       <OmrSymbol weight={weight} />
       <span>{amount.toFixed(3)}</span>

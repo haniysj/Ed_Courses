@@ -99,6 +99,10 @@ const en = {
     nextAvailable: "Next available",
     noUpcoming: "No upcoming dates",
     totalPrice: "Total Course Price",
+    offerEndsOn: "Offer ends",
+    discountOff: "OFF",
+    specialOffer: "Special offer",
+    youSave: "You save",
     viewCourse: "View Course",
   },
   courseDetail: {

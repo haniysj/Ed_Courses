@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { bookingInputSchema } from "@/lib/validation";
-import { calculateTotalPrice } from "@/lib/pricing";
+import { getCoursePricing } from "@/lib/pricing";
 import { generateBookingReference } from "@/lib/booking-reference";
 
 export async function GET(req: NextRequest) {
@@ -56,7 +56,9 @@ export async function POST(req: NextRequest) {
         throw new Error("Cannot book a session in the past");
       }
 
-      const totalPrice = calculateTotalPrice(course.hourlyRate, course.durationHours);
+      // Discount is evaluated server-side at the moment of booking, so an expired offer can never be honoured.
+      const pricing = getCoursePricing(course.hourlyRate, course.durationHours, course);
+      const totalPrice = pricing.final;
       const bookingReference = await generateBookingReference(tx);
 
       const newBooking = await tx.booking.create({
@@ -75,6 +77,7 @@ export async function POST(req: NextRequest) {
           hourlyRateSnapshot: course.hourlyRate,
           durationHoursSnapshot: course.durationHours,
           totalPriceSnapshot: totalPrice,
+          discountSnapshot: pricing.savings,
           currencySnapshot: course.currency,
           status: "PENDING",
           paymentStatus: "UNPAID",

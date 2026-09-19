@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { omanDateInputValue } from "@/lib/pricing";
 import { prisma } from "@/lib/prisma";
 import { CourseForm } from "@/components/admin/course-form";
 
@@ -36,6 +37,9 @@ export default async function EditCoursePage({ params }: { params: { id: string 
             sessionsCount: course.sessionsCount,
             hourlyRate: course.hourlyRate,
             maxLearners: course.maxLearners,
+            discountType: course.discountType,
+            discountValue: course.discountValue,
+            discountEndsAt: omanDateInputValue(course.discountEndsAt),
             status: course.status,
             categoryId: course.categoryId,
             instructorId: course.instructorId,

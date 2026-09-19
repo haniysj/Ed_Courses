@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { COURSE_FORMATS, COURSE_LEVELS, COURSE_STATUSES, FORMAT_LABELS, LEVEL_LABELS, COURSE_STATUS_LABELS } from "@/lib/enums";
-import { calculateTotalPrice } from "@/lib/pricing";
+import { calculateTotalPrice, getCoursePricing, endOfDayOman } from "@/lib/pricing";
 import { Money, OmrSymbol } from "@/components/money";
 
 type Option = { id: string; name: string };
@@ -20,6 +20,9 @@ type CourseFormValues = {
   sessionsCount: number;
   hourlyRate: number;
   maxLearners: number;
+  discountType: string;
+  discountValue: number;
+  discountEndsAt: string;
   status: string;
   categoryId: string;
   instructorId: string;
@@ -38,6 +41,9 @@ const EMPTY: CourseFormValues = {
   sessionsCount: 5,
   hourlyRate: 10,
   maxLearners: 15,
+  discountType: "NONE",
+  discountValue: 0,
+  discountEndsAt: "",
   status: "DRAFT",
   categoryId: "",
   instructorId: "",
@@ -66,6 +72,13 @@ export function CourseForm({
   const [submitting, setSubmitting] = useState(false);
 
   const total = calculateTotalPrice(Number(form.hourlyRate) || 0, Number(form.durationHours) || 0);
+
+  const preview = getCoursePricing(Number(form.hourlyRate) || 0, Number(form.durationHours) || 0, {
+    discountType: form.discountType,
+    discountValue: Number(form.discountValue) || 0,
+    discountEndsAt: form.discountEndsAt ? endOfDayOman(form.discountEndsAt) : null,
+  });
+  const expired = form.discountType !== "NONE" && Number(form.discountValue) > 0 && !!form.discountEndsAt && endOfDayOman(form.discountEndsAt).getTime() < Date.now();
 
   function updateObjective(index: number, value: string) {
     const next = [...form.objectives];
@@ -198,6 +211,66 @@ export function CourseForm({
             <span className="text-2xl font-extrabold text-brand-700"><Money amount={total} weight="bold" /></span>
           </div>
           <p className="mt-1 text-xs text-ink-500 dark:text-ink-400">Total price cannot be edited directly — it always follows the formula.</p>
+        </div>
+
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/50 dark:bg-amber-950/30">
+          <p className="text-xs font-semibold uppercase text-amber-700 dark:text-amber-400">Discount / Special Offer</p>
+          <div className="mt-3 grid gap-4 sm:grid-cols-3">
+            <div>
+              <label className="label">Discount type</label>
+              <select
+                className="input"
+                value={form.discountType}
+                onChange={(e) => setForm({ ...form, discountType: e.target.value, discountValue: e.target.value === "NONE" ? 0 : form.discountValue })}
+              >
+                <option value="NONE">No discount</option>
+                <option value="PERCENT">Percentage (%) off</option>
+                <option value="AMOUNT">Fixed amount off total</option>
+              </select>
+            </div>
+            {form.discountType !== "NONE" && (
+              <>
+                <div>
+                  <label className="label">{form.discountType === "PERCENT" ? "Discount (%)" : "Amount off (OMR)"}</label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={form.discountType === "PERCENT" ? 1 : 0.5}
+                    max={form.discountType === "PERCENT" ? 95 : undefined}
+                    required
+                    className="input"
+                    value={form.discountValue}
+                    onChange={(e) => setForm({ ...form, discountValue: Number(e.target.value) })}
+                  />
+                </div>
+                <div>
+                  <label className="label">Valid until</label>
+                  <input
+                    type="date"
+                    className="input"
+                    value={form.discountEndsAt}
+                    onChange={(e) => setForm({ ...form, discountEndsAt: e.target.value })}
+                  />
+                  <p className="mt-1 text-xs text-ink-500 dark:text-ink-400">Includes the whole of this day. Leave empty for no end date.</p>
+                </div>
+              </>
+            )}
+          </div>
+          {form.discountType !== "NONE" && (
+            <div className="mt-3 text-sm">
+              {expired ? (
+                <p className="font-medium text-red-600">This offer has already ended, so no discount will be shown or applied.</p>
+              ) : preview.active ? (
+                <p className="flex flex-wrap items-baseline gap-x-3 text-ink-700 dark:text-ink-200">
+                  <span className="text-ink-400 line-through"><Money amount={preview.original} weight="medium" /></span>
+                  <span className="text-xl font-extrabold text-emerald-700 dark:text-emerald-400"><Money amount={preview.final} weight="bold" /></span>
+                  <span className="rounded-full bg-amber-400 px-2 py-0.5 text-xs font-bold text-amber-950">-{preview.percentOff}%</span>
+                </p>
+              ) : (
+                <p className="text-ink-500">Enter a discount value to preview the offer.</p>
+              )}
+            </div>
+          )}
         </div>
 
         <div>

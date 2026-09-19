@@ -42,6 +42,9 @@ export default async function AdminBookingDetailPage({ params }: { params: { id:
           <Info label="Session Time" value={formatTimeRange(booking.schedule.startTime, booking.schedule.endTime)} />
           <Info label="Duration (snapshot)" value={`${booking.durationHoursSnapshot} hours`} />
           <Info label="Hourly Rate (snapshot)" value=<Money amount={booking.hourlyRateSnapshot} currency={booking.currencySnapshot} weight="medium" /> />
+          {booking.discountSnapshot > 0 && (
+            <Info label="Discount applied" value=<Money amount={booking.discountSnapshot} currency={booking.currencySnapshot} weight="medium" /> />
+          )}
           <Info label="Total Price (snapshot)" value=<Money amount={booking.totalPriceSnapshot} currency={booking.currencySnapshot} weight="medium" /> />
           <Info label="Booked On" value={formatDateLtr(booking.createdAt)} />
         </div>
