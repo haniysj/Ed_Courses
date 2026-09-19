@@ -1,13 +1,7 @@
-Add Elementary Weeks 3-10 lessons (51 new, Units 3-12)
+Use the official Omani rial symbol for prices
 
-Grammar, vocabulary, reading and writing for Present Simple plural, adverbs of
-frequency, like+ing, there is/are, quantifiers, can/could, was/were, past
-questions, prepositions of time, countable nouns, comparatives, superlatives,
-have got, present continuous, going to, present perfect; house, town, food,
-weather, clothes, collocation vocabulary; readings and writing tasks (form
-filling, formal email, biography, story, formal vs informal, holiday email).
-Past Simple lesson extended with spelling and irregular-verb tables.
-
-All texts and exercises are original; the weekly report was used as a topic outline.
+Add OmrSymbol/Money components (three weights extracted from the supplied
+artwork) and replace the "OMR 000.000" text with the symbol across the
+catalogue, course page, booking flow, my bookings and admin views.
 
 Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { formatCurrency, calculateTotalPrice } from "@/lib/pricing";
+import { calculateTotalPrice } from "@/lib/pricing";
+import { Money } from "@/components/money";
 import { formatDate, formatTimeRange } from "@/lib/utils";
 import { CONTACT_METHODS } from "@/lib/enums";
 import { useI18n } from "@/components/i18n-provider";
@@ -138,7 +139,7 @@ export function BookingForm({
         <h3 className="font-bold text-ink-900 dark:text-white">{t("booking.priceSection")}</h3>
         <div className="mt-2 flex items-center justify-between text-sm text-ink-600 dark:text-ink-300">
           <span>{t("courses.totalPrice")}</span>
-          <span className="text-xl font-extrabold text-brand-700 dark:text-brand-400">{formatCurrency(total, currency)}</span>
+          <span className="text-xl font-extrabold text-brand-700 dark:text-brand-400"><Money amount={total} currency={currency} weight="bold" /></span>
         </div>
       </div>
 

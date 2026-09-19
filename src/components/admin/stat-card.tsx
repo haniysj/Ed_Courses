@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export function StatCard({ label, value, hint, href }: { label: string; value: string; hint?: string; href?: string }) {
+export function StatCard({ label, value, hint, href }: { label: string; value: React.ReactNode; hint?: string; href?: string }) {
   const content = (
     <>
       <p className="text-xs font-medium uppercase tracking-wide text-ink-400">{label}</p>

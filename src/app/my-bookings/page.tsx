@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { StatusBadge } from "@/components/status-badge";
-import { formatCurrency } from "@/lib/pricing";
+import { Money } from "@/components/money";
 import { formatDate, formatTimeRange } from "@/lib/utils";
 import { getServerLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -61,7 +61,7 @@ export default async function MyBookingsPage() {
               <p className="text-sm text-ink-500 dark:text-ink-400">
                 {formatDate(b.schedule.date)} &middot; {formatTimeRange(b.schedule.startTime, b.schedule.endTime)} &middot; {b.instructor.fullName}
               </p>
-              <p className="mt-1 text-sm font-semibold text-brand-700 dark:text-brand-400">{formatCurrency(b.totalPriceSnapshot, b.currencySnapshot)}</p>
+              <p className="mt-1 text-sm font-semibold text-brand-700 dark:text-brand-400"><Money amount={b.totalPriceSnapshot} currency={b.currencySnapshot} weight="bold" /></p>
             </div>
             <div className="flex items-center gap-3">
               <StatusBadge status={b.status} />

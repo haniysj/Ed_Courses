@@ -2,7 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { StatusBadge } from "@/components/status-badge";
 import { CourseRowActions } from "@/components/admin/course-row-actions";
-import { formatCurrency, calculateTotalPrice } from "@/lib/pricing";
+import { calculateTotalPrice } from "@/lib/pricing";
+import { Money } from "@/components/money";
 
 export const dynamic = "force-dynamic";
 
@@ -45,9 +46,9 @@ export default async function AdminCoursesPage() {
                 </td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{c.instructor.fullName}</td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{c.durationHours}h</td>
-                <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{formatCurrency(c.hourlyRate, c.currency)}</td>
+                <td className="px-4 py-3 text-ink-600 dark:text-ink-300"><Money amount={c.hourlyRate} currency={c.currency} weight="medium" /></td>
                 <td className="px-4 py-3 font-semibold text-brand-700">
-                  {formatCurrency(calculateTotalPrice(c.hourlyRate, c.durationHours), c.currency)}
+                  <Money amount={calculateTotalPrice(c.hourlyRate, c.durationHours)} currency={c.currency} weight="bold" />
                 </td>
                 <td className="px-4 py-3 text-ink-600 dark:text-ink-300">{c._count.bookings}</td>
                 <td className="px-4 py-3"><StatusBadge status={c.status} /></td>

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { COURSE_FORMATS, COURSE_LEVELS, COURSE_STATUSES, FORMAT_LABELS, LEVEL_LABELS, COURSE_STATUS_LABELS } from "@/lib/enums";
-import { calculateTotalPrice, formatCurrency } from "@/lib/pricing";
+import { calculateTotalPrice } from "@/lib/pricing";
+import { Money, OmrSymbol } from "@/components/money";
 
 type Option = { id: string; name: string };
 
@@ -181,7 +182,7 @@ export function CourseForm({
             <input type="number" min={1} required className="input" value={form.sessionsCount} onChange={(e) => setForm({ ...form, sessionsCount: Number(e.target.value) })} />
           </div>
           <div>
-            <label className="label">Hourly Rate (OMR)</label>
+            <label className="label">Hourly Rate (<OmrSymbol />)</label>
             <input type="number" min={0.01} step={0.01} required className="input" value={form.hourlyRate} onChange={(e) => setForm({ ...form, hourlyRate: Number(e.target.value) })} />
           </div>
           <div>
@@ -193,8 +194,8 @@ export function CourseForm({
         <div className="rounded-lg border border-brand-100 bg-brand-50 p-4">
           <p className="text-xs font-semibold uppercase text-brand-600">Automatically Calculated</p>
           <div className="mt-1 flex items-baseline gap-2 text-sm text-ink-600 dark:text-ink-300">
-            <span>{formatCurrency(Number(form.hourlyRate) || 0)} &times; {form.durationHours || 0}h =</span>
-            <span className="text-2xl font-extrabold text-brand-700">{formatCurrency(total)}</span>
+            <span><Money amount={Number(form.hourlyRate) || 0} weight="medium" /> &times; {form.durationHours || 0}h =</span>
+            <span className="text-2xl font-extrabold text-brand-700"><Money amount={total} weight="bold" /></span>
           </div>
           <p className="mt-1 text-xs text-ink-500 dark:text-ink-400">Total price cannot be edited directly — it always follows the formula.</p>
         </div>

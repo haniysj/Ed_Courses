@@ -8,7 +8,7 @@ import {
   PopularCoursesChart,
   RevenueByMonthChart,
 } from "@/components/admin/dashboard-charts";
-import { formatCurrency } from "@/lib/pricing";
+import { Money } from "@/components/money";
 import { formatDate } from "@/lib/utils";
 import { getServerLocale } from "@/lib/i18n/server";
 
@@ -98,7 +98,7 @@ export default async function AdminDashboardPage() {
         <StatCard label={isAr ? "إجمالي الدورات" : "Total Courses"} value={String(totalCourses)} hint={isAr ? `${activeCourses} منشورة` : `${activeCourses} published`} />
         <StatCard label={isAr ? "إجمالي المدربين" : "Total Instructors"} value={String(totalInstructors)} />
         <StatCard label={isAr ? "إجمالي المتعلمين" : "Total Learners"} value={String(totalLearners)} />
-        <StatCard label={isAr ? "إجمالي الإيرادات" : "Total Revenue"} value={formatCurrency(totalRevenue)} hint={isAr ? "مؤكدة + مكتملة" : "Confirmed + Completed"} />
+        <StatCard label={isAr ? "إجمالي الإيرادات" : "Total Revenue"} value=<Money amount={totalRevenue} weight="bold" /> hint={isAr ? "مؤكدة + مكتملة" : "Confirmed + Completed"} />
         <StatCard label={isAr ? "حجوزات قيد الانتظار" : "Pending Bookings"} value={String(pendingBookings)} />
         <StatCard label={isAr ? "حجوزات مؤكدة" : "Confirmed Bookings"} value={String(confirmedBookings)} />
         <StatCard label={isAr ? "دورات مكتملة" : "Completed Courses"} value={String(completedBookings)} />

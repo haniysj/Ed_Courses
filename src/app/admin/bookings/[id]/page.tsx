@@ -4,7 +4,7 @@ import { BookingRowActions } from "@/components/admin/booking-row-actions";
 import { RescheduleForm } from "@/components/admin/reschedule-form";
 import { ApprovePaymentButton } from "@/components/admin/approve-payment-button";
 import { WhatsAppIconButton } from "@/components/whatsapp-button";
-import { formatCurrency } from "@/lib/pricing";
+import { Money } from "@/components/money";
 import { formatDate, formatTimeRange } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -41,8 +41,8 @@ export default async function AdminBookingDetailPage({ params }: { params: { id:
           <Info label="Session Date" value={formatDate(booking.schedule.date)} />
           <Info label="Session Time" value={formatTimeRange(booking.schedule.startTime, booking.schedule.endTime)} />
           <Info label="Duration (snapshot)" value={`${booking.durationHoursSnapshot} hours`} />
-          <Info label="Hourly Rate (snapshot)" value={formatCurrency(booking.hourlyRateSnapshot, booking.currencySnapshot)} />
-          <Info label="Total Price (snapshot)" value={formatCurrency(booking.totalPriceSnapshot, booking.currencySnapshot)} />
+          <Info label="Hourly Rate (snapshot)" value=<Money amount={booking.hourlyRateSnapshot} currency={booking.currencySnapshot} weight="medium" /> />
+          <Info label="Total Price (snapshot)" value=<Money amount={booking.totalPriceSnapshot} currency={booking.currencySnapshot} weight="medium" /> />
           <Info label="Booked On" value={formatDate(booking.createdAt)} />
         </div>
 
@@ -102,7 +102,7 @@ export default async function AdminBookingDetailPage({ params }: { params: { id:
   );
 }
 
-function Info({ label, value }: { label: string; value: string }) {
+function Info({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div>
       <p className="text-xs font-semibold uppercase text-ink-400">{label}</p>

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { StatusBadge } from "@/components/status-badge";
-import { formatCurrency } from "@/lib/pricing";
+import { Money } from "@/components/money";
 import { formatDate, formatTimeRange } from "@/lib/utils";
 import { getServerLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -47,7 +47,7 @@ export default async function BookingStatusPage({ params }: { params: { id: stri
           <Row label={t.courses.duration} value={`${booking.durationHoursSnapshot} ${t.common.hours}`} />
           <Row
             label={t.courses.totalPrice}
-            value={<span className="text-lg font-extrabold text-brand-700 dark:text-brand-400">{formatCurrency(booking.totalPriceSnapshot, booking.currencySnapshot)}</span>}
+            value={<span className="text-lg font-extrabold text-brand-700 dark:text-brand-400"><Money amount={booking.totalPriceSnapshot} currency={booking.currencySnapshot} weight="bold" /></span>}
           />
           <Row label={t.booking.fullName} value={booking.learnerName} />
           <Row label={t.booking.email} value={booking.learnerEmail} />
